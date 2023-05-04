@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header>
+    <header style={{ color: "white" }}>
       <div className="img">
         <div className="title">지진알리미</div>
       </div>

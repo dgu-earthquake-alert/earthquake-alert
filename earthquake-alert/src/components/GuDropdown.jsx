@@ -1,6 +1,5 @@
 import React from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import Select from "react-select";
 
 const GuDropdown = ({ gu, setGu, setDong }) => {
   const guList = [
@@ -32,30 +31,43 @@ const GuDropdown = ({ gu, setGu, setDong }) => {
     "중랑구",
   ];
 
-  const handleGuChange = (selectedGu) => {
-    setGu(selectedGu);
+  const options = guList.map((guItem) => ({
+    value: guItem,
+    label: guItem,
+  }));
+
+  const handleChange = (selectedOption) => {
+    setGu(selectedOption.value);
     setDong("-");
   };
 
+  const selectedValue = options.find((option) => option.value === gu);
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: "#084298",
+      width: "110px",
+      marginTop: "10px",
+      marginBottom: "10px",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "white",
+    }),
+    option: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
+
   return (
-    <Dropdown style={{ marginTop: "10px", width: "110px" }}>
-      <DropdownButton
-        id="gu-dropdown"
-        title={gu}
-        onSelect={(e) => handleGuChange(e)}
-        style={{
-          height: "250px",
-          overflowY: "auto",
-          overflowX: "hidden",
-        }}
-      >
-        {guList.map((guItem) => (
-          <Dropdown.Item key={guItem} eventKey={guItem}>
-            {guItem}
-          </Dropdown.Item>
-        ))}
-      </DropdownButton>
-    </Dropdown>
+    <Select
+      styles={customStyles}
+      value={selectedValue}
+      options={options}
+      onChange={handleChange}
+    />
   );
 };
 

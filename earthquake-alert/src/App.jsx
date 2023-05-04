@@ -8,7 +8,6 @@ import ShelterTable from "./components/ShelterTable";
 import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-//66524245416c736239334a75697446 <- API KE
 import { fetchShelterData } from "./api";
 
 //http://openapi.seoul.go.kr:8088/66524245416c736239334a75697446/json/TbEqkShelter/1/10
@@ -19,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchShelterData(gu, dong === "-" ? "" : dong);
+      const data = await fetchShelterData(gu, dong);
       setShelterData(data);
     };
     fetchData();

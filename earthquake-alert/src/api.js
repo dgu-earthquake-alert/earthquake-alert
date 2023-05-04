@@ -12,8 +12,11 @@ export const fetchShelterData = async (gu, dong) => {
 
     if (data.TlEtqkP.RESULT && data.TlEtqkP.RESULT.CODE === "INFO-000") {
       const filteredData = data.TlEtqkP.row.filter((shelter) => {
-        const inSelectedGu = gu === "-" || gu === shelter.SIGUN_NM;
-        const inSelectedDong = dong === "-" || dong === shelter.ADMDNG_NM;
+        const inSelectedGu = gu === "-" || gu === shelter.SGG_NM;
+
+        let substringAddress = shelter.LOC_SFPR_A.substring(8); //includes 함수 효율을 위해 10번째 문자부터 반환합니다.
+
+        const inSelectedDong = dong === "-" || substringAddress.includes(dong);
         return inSelectedGu && inSelectedDong;
       });
       return filteredData;

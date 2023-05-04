@@ -1,0 +1,9 @@
+.thead_th {
+  min-width: 60px;
+  color: white;
+}
+
+.tbody_black th,
+.tbody_black td {
+  color: rgb(75, 74, 74);
+}
