@@ -6,9 +6,11 @@ const BASE_URL = "http://openapi.seoul.go.kr:8088/";
 export const fetchShelterData = async (gu, dong) => {
   try {
     const response = await axios.get(
+      //"http://openapi.seoul.go.kr:8088/66524245416c736239334a75697446/json/TlEtqkP/1/1000/"
       `${BASE_URL}${API_KEY}/json/TlEtqkP/1/1000/`
     );
     const data = response.data;
+    console.log(data);
 
     if (data.TlEtqkP.RESULT && data.TlEtqkP.RESULT.CODE === "INFO-000") {
       const filteredData = data.TlEtqkP.row.filter((shelter) => {
@@ -25,6 +27,7 @@ export const fetchShelterData = async (gu, dong) => {
       return [];
     }
   } catch (error) {
+    console.error(error.message);
     alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
     return [];
   }
