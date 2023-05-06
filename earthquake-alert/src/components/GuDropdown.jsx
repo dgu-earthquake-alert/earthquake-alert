@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 
-const GuDropdown = ({ gu, setGu, setDong }) => {
+const GuDropdown = ({ gu, setGu, setDong, handlePageChange }) => {
   const guList = [
     "-",
     "강남구",
@@ -39,6 +39,7 @@ const GuDropdown = ({ gu, setGu, setDong }) => {
   const handleChange = (selectedOption) => {
     setGu(selectedOption.value);
     setDong("-");
+    handlePageChange(1);
   };
 
   const selectedValue = options.find((option) => option.value === gu);

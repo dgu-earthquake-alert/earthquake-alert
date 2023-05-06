@@ -5,7 +5,7 @@ import Select from "react-select";
 //import Dropdown from "react-bootstrap/Dropdown";
 //import DropdownButton from "react-bootstrap/DropdownButton";
 
-const DongDropdown = ({ gu, dong, setDong }) => {
+const DongDropdown = ({ gu, dong, setDong, handlePageChange }) => {
   const dongList = {
     "-": ["-"],
 
@@ -315,7 +315,6 @@ const DongDropdown = ({ gu, dong, setDong }) => {
       "-",
       "개포동",
       "논현동",
-      "논현동",
       "대치동",
       "도곡동",
       "삼성동",
@@ -367,6 +366,7 @@ const DongDropdown = ({ gu, dong, setDong }) => {
 
   const handleChange = (selectedOption) => {
     setDong(selectedOption.value);
+    handlePageChange(1);
   };
 
   const selectedValue = options.find((option) => option.value === dong);

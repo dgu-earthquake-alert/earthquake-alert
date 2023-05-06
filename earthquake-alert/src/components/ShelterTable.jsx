@@ -1,27 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import "../styles/shelter_table.css";
 
-const ShelterTable = ({ shelterData }) => {
+const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
   const itemsPerPage = 10;
-  const [activePage, setActivePage] = useState(1);
   const totalPages = Math.ceil(shelterData.length / itemsPerPage);
-  const handlePageChange = (pageNumber) => {
-    setActivePage(pageNumber);
-  };
 
   const renderTableRows = () => {
     const startIndex = (activePage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const paginatedData = shelterData.slice(startIndex, endIndex);
-
+    //예상수용인원 계산 면적(평수) * 안전계수(대부분 오픈된 장소이므로 0.8) / 인당 사용 가능 평수(1평, 여유있게 1.5평으로 해도 되겠습니다.)
     return paginatedData.map((shelter, index) => (
       <tr className="tbody_black" key={"shelter" + index}>
         <td>{startIndex + index + 1}</td>
         <td>{shelter.EQUP_NM}</td>
         <td>{shelter.LOC_SFPR_A}</td>
-        <td>{shelter.SECT_EQUP}</td>
+        <td>{parseInt(shelter.SECT_EQUP).toLocaleString()}</td>
+        <td>{parseInt(shelter.SECT_EQUP * 0.8).toLocaleString()}명</td>
       </tr>
     ));
   };
@@ -79,8 +76,8 @@ const ShelterTable = ({ shelterData }) => {
   };
 
   return (
-    <div>
-      <Table striped bordered hover responsive>
+    <div className="table_wrapper">
+      <Table style={{ width: "100%" }} striped bordered hover responsive>
         <thead>
           <tr className="bg_color_blue">
             <th
@@ -98,14 +95,17 @@ const ShelterTable = ({ shelterData }) => {
             <th className="thead_th" scope="col">
               상세주소
             </th>
+            <th className="thead_th" scope="col">
+              면적(평수)
+            </th>
             <th
               className="thead_th"
+              scope="col"
               style={{
                 borderTopRightRadius: "10px",
               }}
-              scope="col"
             >
-              면적
+              예상수용가능인원
             </th>
           </tr>
         </thead>

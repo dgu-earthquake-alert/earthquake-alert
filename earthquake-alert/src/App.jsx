@@ -15,6 +15,7 @@ const App = () => {
   const [gu, setGu] = useState("-");
   const [dong, setDong] = useState("-");
   const [shelterData, setShelterData] = useState([]);
+  const [activePage, setActivePage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,17 +25,35 @@ const App = () => {
     fetchData();
   }, [gu, dong]);
 
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+  };
+
   return (
     <div className="root">
       <Header />
       <main>
         <div className="offset-2 column-4 d-flex justify-content-start gap-2 p-0">
-          <GuDropdown gu={gu} setGu={setGu} setDong={setDong} />
-          <DongDropdown gu={gu} dong={dong} setDong={setDong} />
+          <GuDropdown
+            gu={gu}
+            setGu={setGu}
+            setDong={setDong}
+            handlePageChange={handlePageChange}
+          />
+          <DongDropdown
+            gu={gu}
+            dong={dong}
+            setDong={setDong}
+            handlePageChange={handlePageChange}
+          />
         </div>
       </main>
 
-      <ShelterTable shelterData={shelterData} />
+      <ShelterTable
+        shelterData={shelterData}
+        activePage={activePage}
+        handlePageChange={handlePageChange}
+      />
       <Footer />
     </div>
   );
