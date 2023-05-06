@@ -1,10 +1,14 @@
+nav.nav.open {
+  width: calc(100vw - 250px);
+}
+
 main.main {
   width: 100vw;
   transition: width 0.5s ease-in-out;
 }
 
 main.main.open {
-  width: 80vw;
+  width: calc(100vw - 250px);
 }
 
 .bookmark_button {
@@ -25,17 +29,17 @@ main.main.open {
 }
 
 .bookmark_button.open {
-  transform: translateX(-20vw);
+  transform: translateX(-250px);
 }
 
 .sidebar {
   position: fixed;
   top: 0;
   right: 0;
-  width: 20vw;
+  width: 250px;
   height: 100%;
   background-color: #084298;
-  transform: translateX(20vw);
+  transform: translateX(250px);
   transition: transform 0.5s ease-in-out;
 }
 

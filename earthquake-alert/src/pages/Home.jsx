@@ -19,7 +19,7 @@ function App() {
   return (
     <div>
       <div className="root">
-        <Header />
+        <Header isOpen={isOpen} />
         <button
           className={`bookmark_button ${isOpen ? "open" : ""}`}
           onClick={toggleSidebar}

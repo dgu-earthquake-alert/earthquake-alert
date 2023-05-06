@@ -1,13 +1,14 @@
 import React from "react";
-import "../styles/App.css"
+import "../styles/App.css";
+import "../styles/Sidebar.css";
 
-const Header = () => {
+const Header = ({ isOpen }) => {
   return (
     <header style={{ color: "white" }}>
       {/* <div className="img">
         <div className="title">지진알리미</div>
       </div> */}
-      <nav className="nav">
+      <nav className={`nav ${isOpen ? "open" : ""}`}>
         <ul className="nav_list">
           <li className="nav_item nav_title">지진알리미</li>
           <li className="nav_item">지진대피소 조회</li>
