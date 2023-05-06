@@ -1,1 +1,1 @@
-# earthquake-alert
+# 지진알리미
