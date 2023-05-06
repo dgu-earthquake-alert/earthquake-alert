@@ -2,9 +2,6 @@
 import React from "react";
 import Select from "react-select";
 
-//import Dropdown from "react-bootstrap/Dropdown";
-//import DropdownButton from "react-bootstrap/DropdownButton";
-
 const DongDropdown = ({ gu, dong, setDong, handlePageChange }) => {
   const dongList = {
     "-": ["-"],

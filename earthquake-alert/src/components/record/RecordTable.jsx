@@ -1,28 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import "../styles/shelter_table.css";
+import "../../styles/shelter/shelter_table.css";
 
-const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
+const RecordTable = ({ recordData = [] }) => {
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(shelterData.length / itemsPerPage);
+  const [activePage, setActivePage] = useState(1);
+  const totalPages = Math.ceil(recordData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+  };
 
   const renderTableRows = () => {
     const startIndex = (activePage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const paginatedData = shelterData.slice(startIndex, endIndex);
-    //예상수용인원 계산 면적(평수) * 안전계수(대부분 오픈된 장소이므로 0.8) / 인당 사용 가능 평수(1평, 여유있게 1.5평으로 해도 되겠습니다.)
-    return paginatedData.map((shelter, index) => (
-      <tr className="tbody_black" key={"shelter" + index}>
+    const paginatedData = recordData.slice(startIndex, endIndex);
+
+    return paginatedData.map((record, index) => (
+      <tr className="tbody_black" key={"record" + index}>
         <td>{startIndex + index + 1}</td>
-        <td>{shelter.EQUP_NM}</td>
-        <td>{shelter.LOC_SFPR_A}</td>
-        <td>{parseInt(shelter.SECT_EQUP).toLocaleString()}</td>
-        <td>{parseInt(shelter.SECT_EQUP * 0.8).toLocaleString()}명</td>
+        <td>{record.REGDATE.substring(0, 10)}</td>
+        <td>{record.LOCUS}</td>
+        <td>{record.MAGNI}</td>
       </tr>
     ));
   };
-
   const renderPagination = () => {
     let items = [];
     const startPage = Math.max(1, activePage - 1);
@@ -82,30 +85,23 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
           <tr className="bg_color_blue">
             <th
               className="thead_th"
-              style={{
-                borderTopLeftRadius: "10px",
-              }}
+              style={{ borderTopLeftRadius: "10px" }}
               scope="col"
             >
               연번
             </th>
             <th className="thead_th" scope="col">
-              시설명
+              발생일자
             </th>
             <th className="thead_th" scope="col">
-              상세주소
-            </th>
-            <th className="thead_th" scope="col">
-              면적
+              위치
             </th>
             <th
               className="thead_th"
+              style={{ borderTopRightRadius: "10px" }}
               scope="col"
-              style={{
-                borderTopRightRadius: "10px",
-              }}
             >
-              예상대피가능인원
+              규모
             </th>
           </tr>
         </thead>
@@ -116,4 +112,4 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
   );
 };
 
-export default ShelterTable;
+export default RecordTable;
