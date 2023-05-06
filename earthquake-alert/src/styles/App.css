@@ -208,14 +208,15 @@ body {
   margin-top: 1rem;
 }
 
-.map{
-  display:flex;
+.map {
+  display: flex;
   justify-content: center;
   padding: 50px;
+  margin-bottom: 50px;
 }
 
-.map_title{
-  display:flex;
+.map_title {
+  display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 70px;
