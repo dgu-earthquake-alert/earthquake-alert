@@ -1,4 +1,4 @@
-import { districtData } from "./DistrictData";
+import { districtData } from "../utils/districtData";
 import { useState } from "react";
 import "../styles/App.css";
 
