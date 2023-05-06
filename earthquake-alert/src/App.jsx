@@ -6,6 +6,7 @@ import DongDropdown from "./components/DongDropdown";
 import ShelterTable from "./components/ShelterTable";
 
 import "./styles/App.css";
+import "./styles/dropdown.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { fetchShelterData } from "./api";
@@ -32,8 +33,9 @@ const App = () => {
   return (
     <div className="root">
       <Header />
-      <main>
-        <div className="offset-2 column-4 d-flex justify-content-start gap-2 p-0">
+      <main className="main">
+        <h1 className="main_title">지진대피소 상세 정보를 조회해 보세요.</h1>
+        <div className="dropdown_wrapper">
           <GuDropdown
             gu={gu}
             setGu={setGu}

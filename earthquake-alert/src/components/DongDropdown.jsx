@@ -375,8 +375,7 @@ const DongDropdown = ({ gu, dong, setDong, handlePageChange }) => {
       ...provided,
       backgroundColor: "#084298",
       width: "110px",
-      marginTop: "10px",
-      marginBottom: "10px",
+      borderRadius: "10px",
     }),
     singleValue: (provided) => ({
       ...provided,

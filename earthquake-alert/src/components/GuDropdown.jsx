@@ -48,8 +48,8 @@ const GuDropdown = ({ gu, setGu, setDong, handlePageChange }) => {
       ...provided,
       backgroundColor: "#084298",
       width: "110px",
-      marginTop: "10px",
-      marginBottom: "10px",
+      marginRight: "10px",
+      borderRadius: "10px",
     }),
     singleValue: (provided) => ({
       ...provided,
