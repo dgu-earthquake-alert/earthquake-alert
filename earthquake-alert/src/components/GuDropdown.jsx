@@ -43,8 +43,7 @@ const GuDropdown = ({ gu, setGu, setDong, handlePageChange }) => {
   };
 
   const selectedValue = options.find((option) => option.value === gu);
-
-  const customStyles = {
+  const dropdownStyles = {
     control: (provided) => ({
       ...provided,
       backgroundColor: "#084298",
@@ -61,13 +60,12 @@ const GuDropdown = ({ gu, setGu, setDong, handlePageChange }) => {
       color: "black",
     }),
   };
-
   return (
     <Select
-      styles={customStyles}
       value={selectedValue}
       options={options}
       onChange={handleChange}
+      styles={dropdownStyles}
     />
   );
 };

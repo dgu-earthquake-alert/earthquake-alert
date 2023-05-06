@@ -96,7 +96,7 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
               상세주소
             </th>
             <th className="thead_th" scope="col">
-              면적(평수)
+              면적
             </th>
             <th
               className="thead_th"
@@ -105,7 +105,7 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
                 borderTopRightRadius: "10px",
               }}
             >
-              예상수용가능인원
+              예상대피가능인원
             </th>
           </tr>
         </thead>
