@@ -21,8 +21,8 @@ const DistrictSelector = ({ map }) => {
   };
 
   return (
-    <div>
-      <select className="btn btn-secondary dropdown-toggle color_blue" onChange={handleDistrictChange}>
+    <div style={{marginBottom: "5px"}}>
+      <select className="btn btn-secondary dropdown-toggle color_blue" style={{marginRight: "5px"}} onChange={handleDistrictChange}>
         {districtData.map((d) => (
           <option key={d.name} value={d.name}>
             {d.name}
