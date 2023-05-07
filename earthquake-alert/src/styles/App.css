@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   font-family: "Noto Sans KR", sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
 }
 
@@ -34,12 +34,12 @@
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
 }
 
-.color_white:hover {
+/* .color_white:hover {
   background-color: #e9ecef;
   color: #052c65;
   border: none;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
-}
+} */
 
 body {
   margin: 0;
@@ -77,6 +77,7 @@ body {
   justify-content: center;
   align-items: center;
   transition: width 0.3s ease-in-out;
+  float: right;
 }
 
 .nav_list {
@@ -198,6 +199,7 @@ body {
   width: 100vw;
   background-color: #e9ecef;
   height: 300px;
+  clear: both;
 }
 
 .footer_container {

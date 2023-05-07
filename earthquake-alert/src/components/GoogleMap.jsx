@@ -21,7 +21,7 @@ const GoogleMap = () => {
   window.initMap = () => {
     const newMap = new window.google.maps.Map(ref.current, {
       center: { lat: 37.569227, lng: 126.9777256 },
-      zoom: 16
+      zoom: 16,
     });
     setMap(newMap);
   };
@@ -29,7 +29,7 @@ const GoogleMap = () => {
   return (
     <div className="google_map_container">
       <DistrictSelector map={map} />
-      <div ref={ref} id="map" data-testid="google-map"/>
+      <div ref={ref} id="map" data-testid="google-map" />
     </div>
   );
 };

@@ -1,26 +1,29 @@
 nav.nav.open {
   width: calc(100vw - 250px);
+  float: right;
 }
 
 main.main {
   width: 100vw;
   transition: width 0.3s ease-in-out;
+  float: right;
 }
 
 main.main.open {
   width: calc(100vw - 250px);
+  float: right;
 }
 
 .bookmark_button {
   all: unset;
   position: fixed;
-  right: 0;
+  left: 0;
   top: 120px;
   width: 50px;
   height: 45px;
   background-color: #084298;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   text-align: center;
   font-size: 22px;
   z-index: 1000;
@@ -34,17 +37,17 @@ main.main.open {
 
 .bookmark_button.open {
   background-color: #084298;
-  transform: translateX(-248px);
+  transform: translateX(248px);
 }
 
 .sidebar {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   width: 250px;
   height: 100%;
   background-color: #084298;
-  transform: translateX(250px);
+  transform: translateX(-250px);
   transition: transform 0.3s ease-in-out;
 }
 
@@ -57,7 +60,7 @@ main.main.open {
 .bookmark_add {
   position: fixed;
   top: 5px;
-  right: 215px;
+  left: 215px;
   font-size: 30px;
   color: #fff;
   transform: translateX(0px);
@@ -68,7 +71,7 @@ main.main.open {
 .bookmark_remove {
   position: fixed;
   top: 5px;
-  right: 190px;
+  left: 190px;
   font-size: 30px;
   color: #fff;
   transform: translateX(0px);
