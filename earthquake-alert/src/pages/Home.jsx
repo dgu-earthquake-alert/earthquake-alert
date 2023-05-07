@@ -26,7 +26,10 @@ function App() {
         >
           ⭐
         </button>
-        <div className={`sidebar ${isOpen ? "open" : ""}`}></div>
+        <div className={`sidebar ${isOpen ? "open" : ""}`}>
+          {/* <div className="bookmark_add">+</div>
+          <div className="bookmark_remove">-</div> */}
+        </div>
         <main className={`main ${isOpen ? "open" : ""}`}>
           <div className="map_title">내 주변 대피소를 찾아보세요</div>
           <div className="map">
