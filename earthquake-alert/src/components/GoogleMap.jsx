@@ -33,7 +33,13 @@ const GoogleMap = () => {
         const marker = new window.google.maps.Marker({
           position: { lat: shelter.lat, lng: shelter.lng },
           map: newMap,
-          title: shelter.name
+          title: shelter.name,
+          icon: {
+            url: process.env.PUBLIC_URL + "/marker.png",
+            scaledSize: new window.google.maps.Size(40, 40),
+            origin: new window.google.maps.Point(0, 0),
+            anchor: new window.google.maps.Point(25, 50)
+          }
         });
       });
     } catch (error) {
