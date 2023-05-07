@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "../styles/App.css";
 import DistrictSelector from "./DistrictSelector";
-import { fetchShelterData } from "../api";
+import { fetchShelterData } from "../utils/api";
 
 const GoogleMap = () => {
   const [map, setMap] = useState(null);
@@ -35,7 +35,7 @@ const GoogleMap = () => {
           map: newMap,
           title: shelter.name,
           icon: {
-            url: process.env.PUBLIC_URL + "/marker.png",
+            url: process.env.PUBLIC_URL + "/images/marker.png",
             scaledSize: new window.google.maps.Size(40, 40),
             origin: new window.google.maps.Point(0, 0),
             anchor: new window.google.maps.Point(25, 50)
