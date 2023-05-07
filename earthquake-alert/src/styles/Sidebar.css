@@ -1,16 +1,13 @@
-nav.nav.open {
-  width: calc(100vw - 250px);
-  float: right;
-}
-
 main.main {
   width: 100vw;
   transition: width 0.3s ease-in-out;
   float: right;
 }
 
-main.main.open {
-  width: calc(100vw - 250px);
+nav.nav.open,
+main.main.open,
+footer.footer.open {
+  width: calc(100vw - 20vw);
   float: right;
 }
 
@@ -18,15 +15,15 @@ main.main.open {
   all: unset;
   position: fixed;
   left: 0;
-  top: 120px;
+  top: 134px;
   width: 50px;
-  height: 45px;
+  height: 50px;
   background-color: #084298;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   text-align: center;
   font-size: 22px;
-  z-index: 1000;
+  z-index: 10;
   transform: translateX(0);
   transition: all 0.3s ease-in-out;
 }
@@ -37,17 +34,17 @@ main.main.open {
 
 .bookmark_button.open {
   background-color: #084298;
-  transform: translateX(248px);
+  transform: translateX(19.5vw);
 }
 
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 250px;
+  width: 20vw;
   height: 100%;
   background-color: #084298;
-  transform: translateX(-250px);
+  transform: translateX(-20vw);
   transition: transform 0.3s ease-in-out;
 }
 
@@ -59,8 +56,8 @@ main.main.open {
 
 .bookmark_add {
   position: fixed;
-  top: 5px;
-  left: 215px;
+  top: 7px;
+  left: 15vw;
   font-size: 30px;
   color: #fff;
   transform: translateX(0px);
@@ -70,11 +67,34 @@ main.main.open {
 
 .bookmark_remove {
   position: fixed;
-  top: 5px;
-  left: 190px;
+  top: 7px;
+  left: 17.5vw;
   font-size: 30px;
   color: #fff;
   transform: translateX(0px);
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
+}
+
+.my_location_title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.my_location {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20vw;
+  height: 70px;
+  padding: 0 15px;
+  font-size: 16px;
+  color: #fff;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+  background-color: #052c65;
 }

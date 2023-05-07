@@ -5,7 +5,7 @@ import GoogleMap from "../components/GoogleMap";
 import "../styles/App.css";
 import "../styles/Sidebar.css";
 
-function App() {
+function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [location, setLocation] = useState("");
   const [lat, setLat] = useState(37.569227); // 위도
@@ -68,8 +68,12 @@ function App() {
           ⭐
         </button>
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
-          {/* <div className="bookmark_add">+</div>
-          <div className="bookmark_remove">-</div> */}
+          <div className="bookmark_add">+</div>
+          <div className="bookmark_remove">-</div>
+          <ul className="my_location">
+            <span className="my_location_title">현재 위치</span>
+            {location != "" ? location.slice(5) : "위치 정보 없음"}
+          </ul>
         </div>
         <main className={`main ${isOpen ? "open" : ""}`}>
           <div className="map_title">내 주변 대피소를 찾아보세요</div>
@@ -78,9 +82,9 @@ function App() {
           </div>
         </main>
       </div>
-      <Footer />
+      <Footer isOpen={isOpen} />
     </div>
   );
 }
 
-export default App;
+export default Home;
