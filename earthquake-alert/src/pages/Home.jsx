@@ -12,6 +12,10 @@ function App() {
   const [lng, setLng] = useState(126.9777256); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
+  const saveLocation = () => {
+    localStorage.setItem("location", location);
+  };
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -30,12 +34,14 @@ function App() {
   };
 
   useEffect(() => {
-    getMyLocation(); // 위치 정보를 받아옴
+    localStorage.getItem("location");
+    getMyLocation(); // 최초에 위치 정보를 받아옴
     setInterval(() => {
       getMyLocation();
-    }, 10000); // 30초마다 위치 정보를 받아옴
+    }, 10000); // 10초마다 위치 정보를 받아옴
   }, []);
 
+  // 위치 정보가 바뀌면 location을 업데이트
   useEffect(() => {
     let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`;
     fetch(url)
@@ -45,6 +51,11 @@ function App() {
       });
     console.log(location);
   }, [lat, lng]);
+
+  // location이 바뀌면 localStorage에 새로 저장
+  useEffect(() => {
+    saveLocation();
+  }, [location]);
 
   return (
     <div>
