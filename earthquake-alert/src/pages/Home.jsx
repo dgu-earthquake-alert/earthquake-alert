@@ -12,6 +12,9 @@ function Home() {
   const [lng, setLng] = useState(126.9777256); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
+  let shelterNumber = 1; // css position 계산용
+  const top = 64 + 70 * shelterNumber; // css position 계산용
+
   const saveLocation = () => {
     localStorage.setItem("location", location);
   };
@@ -70,10 +73,21 @@ function Home() {
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
           <div className="bookmark_add">+</div>
           <div className="bookmark_remove">-</div>
-          <ul className="my_location">
+          <div className="my_location">
             <span className="my_location_title">현재 위치</span>
             {location != "" ? location.slice(5) : "위치 정보 없음"}
-          </ul>
+          </div>
+          <div className="my_location_item" style={{ top: `${top}px` }}>
+            대피소 {shelterNumber++}
+          </div>
+          <div className="my_location_item" style={{ top: `${top}px` }}>
+            대피소 {shelterNumber++}
+          </div>
+          <div className="my_location_item" style={{ top: `${top}px` }}>
+            대피소 {shelterNumber++}
+          </div>
+
+          <div className="sticky_note"></div>
         </div>
         <main className={`main ${isOpen ? "open" : ""}`}>
           <div className="map_title">내 주변 대피소를 찾아보세요</div>
