@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import "../../styles/shelter/shelter_table.css";
+import "../../styles/table.css";
 
-const RecordTable = ({ recordData = [] }) => {
+const RecordTable = ({ recordData = [], activePage, handlePageChange }) => {
   const itemsPerPage = 10;
-  const [activePage, setActivePage] = useState(1);
   const totalPages = Math.ceil(recordData.length / itemsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    setActivePage(pageNumber);
-  };
 
   const renderTableRows = () => {
     const startIndex = (activePage - 1) * itemsPerPage;
@@ -21,8 +16,9 @@ const RecordTable = ({ recordData = [] }) => {
       <tr className="tbody_black" key={"record" + index}>
         <td>{startIndex + index + 1}</td>
         <td>{record.REGDATE.substring(0, 10)}</td>
-        <td>{record.LOCUS}</td>
-        <td>{record.MAGNI}</td>
+        <td>{record.ORIGIN_AREA}</td>
+        <td>{record.MAG}</td>
+        <td>{record.NOTE1}</td>
       </tr>
     ));
   };
@@ -96,12 +92,15 @@ const RecordTable = ({ recordData = [] }) => {
             <th className="thead_th" scope="col">
               위치
             </th>
+            <th className="thead_th" scope="col">
+              규모
+            </th>
             <th
               className="thead_th"
               style={{ borderTopRightRadius: "10px" }}
               scope="col"
             >
-              규모
+              비고
             </th>
           </tr>
         </thead>

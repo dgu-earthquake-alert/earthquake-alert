@@ -14,11 +14,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const App = () => {
   return (
     <div className="root">
-      <Header />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/shelter" element={<Shelter />} />
-          <Route path="/" element={<Record />} />
+          <Route path="/record" element={<Record />} />
         </Routes>
       </BrowserRouter>
       <Footer />

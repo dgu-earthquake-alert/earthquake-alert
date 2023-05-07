@@ -1,7 +1,7 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import "../../styles/shelter/shelter_table.css";
+import "../../styles/table.css";
 
 const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
   const itemsPerPage = 10;

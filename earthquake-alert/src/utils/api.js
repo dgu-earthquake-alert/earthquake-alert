@@ -30,13 +30,12 @@ export const fetchShelterData = async (gu, dong) => {
     return [];
   }
 };
-export const fetchRecordData = async (startDate, endDate) => {
+export const fetchRecordData = async (si, startDate, endDate) => {
   try {
     const response = await axios.get(
       `${BASE_URL}${API_KEY}/json/TbEqkKenvinfo/1/1000/`
     );
     const data = response.data;
-    console.log(data);
     if (
       data.TbEqkKenvinfo.RESULT &&
       data.TbEqkKenvinfo.RESULT.CODE === "INFO-000"
@@ -55,7 +54,12 @@ export const fetchRecordData = async (startDate, endDate) => {
         // 국외 발생한 지진을 제외하고 필터링합니다.
         const isDomestic = record.DITC_NM !== "국외지진";
 
-        return isInDateRange && isDomestic;
+        const isNotNorthKorea = record.ORIGIN_AREA.substring(0, 2) !== "북한";
+
+        // SiDropdown에서 선택한 시에 해당하는 row들만 조회합니다.
+        const isSelectedSi = si === "-" || record.ORIGIN_AREA.startsWith(si);
+
+        return isInDateRange && isDomestic && isNotNorthKorea && isSelectedSi;
       });
       return filteredData;
     } else {

@@ -1,5 +1,6 @@
-.dropdown_wrapper {
+.dropdown_container {
   display: flex;
   margin-bottom: 10px;
-  width: 55%;
+
+  width: 60%;
 }
