@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import GoogleMap from "../components/GoogleMap";
 import "../styles/App.css";
@@ -10,11 +11,7 @@ function Home() {
   const [location, setLocation] = useState("위치정보없음");
   const [lat, setLat] = useState(37.569227); // 위도
   const [lng, setLng] = useState(126.9777256); // 경도
-  const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-  let shelterNumber = 1; // css position 계산용
-  const top = 64 + 70 * shelterNumber; // css position 계산용
 
   const saveLocation = () => {
     localStorage.setItem("location", location);
@@ -33,14 +30,6 @@ function Home() {
       setLocation("위치정보없음");
     }
     navigator.geolocation.getCurrentPosition(onGeoOK, onGeoError);
-  };
-
-  const refresh = () => {
-    setIsRotated(true);
-    getMyLocation();
-    setTimeout(() => {
-      setIsRotated(false);
-    }, 500);
   };
 
   useEffect(() => {
@@ -74,35 +63,12 @@ function Home() {
     <div>
       <div className="root">
         <Header isOpen={isOpen} />
-        <button
-          className={`bookmark_button ${isOpen ? "open" : ""}`}
-          onClick={toggleSidebar}
-        >
-          ⭐
-        </button>
-        <div className={`sidebar ${isOpen ? "open" : ""}`}>
-          <div
-            className={`bookmark_refresh ${isRotated ? "rotate" : ""}`}
-            onClick={refresh}
-          ></div>
-          <div className="bookmark_add"></div>
-          <div className="bookmark_remove"></div>
-          <div className="my_location">
-            <span className="my_location_title">현재 위치</span>
-            {location}
-          </div>
-          <div className="my_location_item" style={{ top: `${top}px` }}>
-            대피소 {shelterNumber++}
-          </div>
-          <div className="my_location_item" style={{ top: `${top}px` }}>
-            대피소 {shelterNumber++}
-          </div>
-          <div className="my_location_item" style={{ top: `${top}px` }}>
-            대피소 {shelterNumber++}
-          </div>
-
-          <div className="sticky_note"></div>
-        </div>
+        <Sidebar
+          isOpen={isOpen}
+          toggleSidebar={toggleSidebar}
+          location={location}
+          getMyLocation={getMyLocation}
+        />
         <main className={`main ${isOpen ? "open" : ""}`}>
           <div className="map_title">내 주변 대피소를 찾아보세요</div>
           <div className="map">
