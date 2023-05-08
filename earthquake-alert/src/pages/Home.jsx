@@ -8,8 +8,8 @@ import "../styles/Sidebar.css";
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [location, setLocation] = useState("");
-  const [lat, setLat] = useState(0); // 위도
-  const [lng, setLng] = useState(0); // 경도
+  const [lat, setLat] = useState(37.569227); // 위도
+  const [lng, setLng] = useState(126.9777256); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   let shelterNumber = 1; // css position 계산용
@@ -31,8 +31,12 @@ function Home() {
   };
 
   useEffect(() => {
-    localStorage.getItem("location");
+    if (localStorage.getItem("location") !== null) {
+      localStorage.getItem("location");
+      setLocation(localStorage.getItem("location"));
+    }
     getMyLocation(); // 최초에 위치 정보를 받아옴
+
     setInterval(() => {
       getMyLocation();
     }, 10000); // 10초마다 위치 정보를 받아옴
@@ -44,9 +48,8 @@ function Home() {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        setLocation(data.results[0].formatted_address);
+        setLocation(data.results[0].formatted_address.slice(5));
       });
-    console.log(location);
   }, [lat, lng]);
 
   // location이 바뀌면 localStorage에 새로 저장
@@ -69,8 +72,8 @@ function Home() {
           <div className="bookmark_remove">-</div>
           <div className="my_location">
             <span className="my_location_title">현재 위치</span>
-            {location !== "" || (lat !== 0 && lng !== 0)
-              ? location.slice(5)
+            {location !== "" || (lat !== 37.569227 && lng !== 126.9777256)
+              ? location
               : "위치 정보 없음"}
           </div>
           <div className="my_location_item" style={{ top: `${top}px` }}>
