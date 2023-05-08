@@ -24,16 +24,10 @@ function Home() {
   };
 
   const getMyLocation = () => {
-    function onGeoOk(position) {
+    navigator.geolocation.getCurrentPosition((position) => {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
-    }
-
-    function onGeoError() {
-      alert("위치를 찾을 수 없습니다.");
-    }
-
-    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
+    });
   };
 
   useEffect(() => {
