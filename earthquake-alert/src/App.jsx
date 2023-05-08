@@ -19,13 +19,6 @@ const App = () => {
           <Route path="/record" element={<Record />} />
         </Routes>
       </BrowserRouter>
-      <main>
-        <div className="map_title">내 주변 대피소를 찾아보세요</div>
-        <div className="map">
-        <GoogleMap />
-        </div>
-      </main>
-
       <Footer />
     </div>
   );

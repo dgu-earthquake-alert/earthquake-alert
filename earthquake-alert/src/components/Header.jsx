@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "../styles/App.css"
+import "../styles/App.css";
+import "../styles/Sidebar.css";
 
-const Header = () => {
+const Header = ({ isOpen }) => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
 
@@ -12,19 +13,13 @@ const Header = () => {
 
   return (
     <header style={{ color: "white" }}>
-      <div className="img">
+      {/* <div className="img">
         <div className="title">지진알리미</div>
-      </div>
-      <nav className="nav">
+      </div> */}
+      <nav className={`nav ${isOpen ? "open" : ""}`}>
         <ul className="nav_list">
           <Link to="/">
-            <li
-              className={`nav_item${
-                selectedItem === "/" ? " nav_item_select" : ""
-              }`}
-            >
-              홈
-            </li>
+            <li className="nav_item nav_title">지진알리미</li>
           </Link>
           <Link to="/shelter">
             <li
