@@ -1,4 +1,4 @@
-import { districtData } from "../utils/istrictData";
+import { districtData } from "../utils/districtData";
 import { useState } from "react";
 import "../styles/App.css";
 
@@ -22,14 +22,20 @@ const DistrictSelector = ({ map }) => {
 
   return (
     <div>
-      <select className="btn btn-secondary dropdown-toggle color_blue" onChange={handleDistrictChange}>
+      <select
+        className="btn btn-secondary dropdown-toggle color_blue"
+        onChange={handleDistrictChange}
+      >
         {districtData.map((d) => (
           <option key={d.name} value={d.name}>
             {d.name}
           </option>
         ))}
       </select>
-      <select className="btn btn-secondary dropdown-toggle color_blue" onChange={handleDongChange}>
+      <select
+        className="btn btn-secondary dropdown-toggle color_blue"
+        onChange={handleDongChange}
+      >
         {selectedDistrict.dong.map((d) => (
           <option key={d.name} value={d.name}>
             {d.name}
