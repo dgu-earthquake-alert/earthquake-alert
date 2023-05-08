@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 
-const GuDropdown = ({ gu, setGu, setDong }) => {
+const GuDropdown = ({ gu, setGu, setDong, handlePageChange }) => {
   const guList = [
     "-",
     "강남구",
@@ -39,17 +39,17 @@ const GuDropdown = ({ gu, setGu, setDong }) => {
   const handleChange = (selectedOption) => {
     setGu(selectedOption.value);
     setDong("-");
+    handlePageChange(1);
   };
 
   const selectedValue = options.find((option) => option.value === gu);
-
-  const customStyles = {
+  const dropdownStyles = {
     control: (provided) => ({
       ...provided,
       backgroundColor: "#084298",
       width: "110px",
-      marginTop: "10px",
-      marginBottom: "10px",
+      marginRight: "10px",
+      borderRadius: "20px",
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -60,13 +60,12 @@ const GuDropdown = ({ gu, setGu, setDong }) => {
       color: "black",
     }),
   };
-
   return (
     <Select
-      styles={customStyles}
       value={selectedValue}
       options={options}
       onChange={handleChange}
+      styles={dropdownStyles}
     />
   );
 };
