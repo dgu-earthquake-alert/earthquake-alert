@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "../styles/App.css"
 
 const Header = () => {
+  const location = useLocation();
+  const [selectedItem, setSelectedItem] = useState("");
+
+  useEffect(() => {
+    setSelectedItem(location.pathname);
+  }, [location]);
+
   return (
     <header style={{ color: "white" }}>
       <div className="img">
@@ -9,9 +17,33 @@ const Header = () => {
       </div>
       <nav className="nav">
         <ul className="nav_list">
-          <li className="nav_item nav_item_select">홈</li>
-          <li className="nav_item">지진대피소 조회</li>
-          <li className="nav_item">지진발생 이력</li>
+          <Link to="/">
+            <li
+              className={`nav_item${
+                selectedItem === "/" ? " nav_item_select" : ""
+              }`}
+            >
+              홈
+            </li>
+          </Link>
+          <Link to="/shelter">
+            <li
+              className={`nav_item${
+                selectedItem === "/shelter" ? " nav_item_select" : ""
+              }`}
+            >
+              지진대피소 조회
+            </li>
+          </Link>
+          <Link to="/record">
+            <li
+              className={`nav_item${
+                selectedItem === "/record" ? " nav_item_select" : ""
+              }`}
+            >
+              지진발생 이력
+            </li>
+          </Link>
           <li className="nav_item">행동요령</li>
         </ul>
       </nav>
