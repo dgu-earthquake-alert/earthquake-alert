@@ -8,8 +8,8 @@ import "../styles/Sidebar.css";
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [location, setLocation] = useState("");
-  const [lat, setLat] = useState(37.569227); // 위도
-  const [lng, setLng] = useState(126.9777256); // 경도
+  const [lat, setLat] = useState(0); // 위도
+  const [lng, setLng] = useState(0); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   let shelterNumber = 1; // css position 계산용
@@ -69,7 +69,9 @@ function Home() {
           <div className="bookmark_remove">-</div>
           <div className="my_location">
             <span className="my_location_title">현재 위치</span>
-            {location != "" ? location.slice(5) : "위치 정보 없음"}
+            {location !== "" || (lat !== 0 && lng !== 0)
+              ? location.slice(5)
+              : "위치 정보 없음"}
           </div>
           <div className="my_location_item" style={{ top: `${top}px` }}>
             대피소 {shelterNumber++}
