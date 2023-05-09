@@ -66,7 +66,7 @@ function Home() {
           location={location}
           getMyLocation={getMyLocation}
         />
-        <main className={`main ${isSidebarOpen ? "open" : ""}`}>
+        <main className={`sidebar main ${isSidebarOpen ? "open" : ""}`}>
           <div className="map_title">내 주변 대피소를 찾아보세요</div>
           <div className="map">
             <GoogleMap lat={lat} lng={lng} />

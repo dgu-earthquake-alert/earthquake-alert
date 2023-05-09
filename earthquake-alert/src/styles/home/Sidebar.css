@@ -1,7 +1,7 @@
-main.main {
+.sidebar.main {
   width: 100vw;
   transition: width 0.3s ease-in-out;
-  /*float: right; 해당 라인으로 인해 shelter table의 main도 float:right되고, home 페이지에서도 큰 변동사항 보이지 않아 주석처리했습니다. */
+  float: right;
 }
 
 nav.nav.open,
