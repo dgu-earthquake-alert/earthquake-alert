@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+// App.jsx
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import "./styles/App.css";
+import Shelter from "./pages/Shelter";
+import Record from "./pages/Record";
+import Home from "./pages/Home";
+import "./styles/shelter/dropdown.css";
 
-function App() {
+const App = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="root">
+      <Header isOpen={isOpen} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shelter" element={<Shelter />} />
+        <Route path="/record" element={<Record />} />
+      </Routes>
+      <Footer />
     </div>
   );
-}
+};
 
 export default App;

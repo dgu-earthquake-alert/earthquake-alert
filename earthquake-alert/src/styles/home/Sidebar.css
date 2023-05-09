@@ -1,0 +1,166 @@
+main.main {
+  width: 100vw;
+  transition: width 0.3s ease-in-out;
+  /*float: right; 해당 라인으로 인해 shelter table의 main도 float:right되고, home 페이지에서도 큰 변동사항 보이지 않아 주석처리했습니다. */
+}
+
+nav.nav.open,
+main.main.open,
+footer.footer.open {
+  width: calc(100vw - 20vw);
+  float: right;
+}
+
+.bookmark_button {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 134px;
+  width: 50px;
+  height: 50px;
+  background-color: #084298;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  text-align: center;
+  font-size: 22px;
+  z-index: 10;
+  transform: translateX(0);
+  transition: all 0.3s ease-in-out;
+}
+
+.bookmark_button:hover {
+  background-color: #084298;
+}
+
+.bookmark_button.open {
+  background-color: #084298;
+  transform: translateX(19.9vw);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20vw;
+  height: 100%;
+  background-color: #084298;
+  border-bottom-right-radius: 20px;
+  transform: translateX(-20vw);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+  background-color: #084298;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.bookmark_refresh {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 32px;
+  height: 32px;
+  background-image: url("../../assets/icon/refresh.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+  cursor: pointer;
+}
+
+.bookmark_refresh.rotate {
+  animation: clockwise-rotation 0.5s linear infinite;
+}
+
+@keyframes clockwise-rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bookmark_add {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 32px;
+  height: 32px;
+  background-image: url("../../assets/icon/add.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.bookmark_remove {
+  position: absolute;
+  top: 15px;
+  right: 45px;
+  width: 32px;
+  height: 32px;
+  background-image: url("../../assets/icon/remove.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.my_location_title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.my_location {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20vw;
+  height: 70px;
+  padding: 5px 10px;
+  font-size: 16px;
+  color: #fff;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+  background-color: #052c65;
+}
+
+.my_location_item {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20vw;
+  height: 50px;
+  font-size: 16px;
+  color: #fff;
+  border-bottom: 1px solid #052c65;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+}
+/* .sticky_note {
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 20vw;
+  height: 15vw;
+  background-color: #ffda6a;
+  border-bottom-right-radius: 20px;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+} */
