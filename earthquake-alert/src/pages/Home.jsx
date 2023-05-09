@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
-import GoogleMap from "../components/GoogleMap";
+import Sidebar from "../components/home/Sidebar";
+import GoogleMap from "../components/home/GoogleMap";
 import "../styles/App.css";
-import "../styles/Sidebar.css";
+import "../styles/home/Sidebar.css";
 
 function Home() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [location, setLocation] = useState("위치정보없음");
   const [lat, setLat] = useState(37.569227); // 위도
   const [lng, setLng] = useState(126.9777256); // 경도
@@ -18,7 +16,7 @@ function Home() {
   };
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   const getMyLocation = () => {
@@ -62,21 +60,19 @@ function Home() {
   return (
     <div>
       <div className="root">
-        <Header isOpen={isOpen} />
         <Sidebar
-          isOpen={isOpen}
+          isSidebarOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
           location={location}
           getMyLocation={getMyLocation}
         />
-        <main className={`main ${isOpen ? "open" : ""}`}>
+        <main className={`main ${isSidebarOpen ? "open" : ""}`}>
           <div className="map_title">내 주변 대피소를 찾아보세요</div>
           <div className="map">
             <GoogleMap lat={lat} lng={lng} />
           </div>
         </main>
       </div>
-      <Footer isOpen={isOpen} />
     </div>
   );
 }

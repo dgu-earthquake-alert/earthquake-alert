@@ -217,13 +217,3 @@ body {
   letter-spacing: 1px;
   color: #084298;
 }
-
-/* 대피소 조회, 지진발생이력 css */
-.thead_th {
-  min-width: 60px;
-}
-
-.tbody_black th,
-.tbody_black td {
-  color: rgb(75, 74, 74);
-}

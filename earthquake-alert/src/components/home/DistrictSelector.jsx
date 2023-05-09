@@ -1,6 +1,6 @@
-import { districtData } from "../utils/districtData";
+import { districtData } from "../../utils/districtData";
 import { useState } from "react";
-import "../styles/App.css";
+import "../../styles/App.css";
 
 const DistrictSelector = ({ map }) => {
   const [selectedDistrict, setSelectedDistrict] = useState(districtData[0]);
