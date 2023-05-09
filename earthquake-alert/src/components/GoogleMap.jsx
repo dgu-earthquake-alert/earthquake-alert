@@ -3,7 +3,7 @@ import "../styles/App.css";
 import DistrictSelector from "./DistrictSelector";
 import { fetchShelterData } from "../utils/api";
 
-const GoogleMap = () => {
+const GoogleMap = ({ lat, lng }) => {
   const [map, setMap] = useState(null);
   const ref = useRef();
 
@@ -21,8 +21,8 @@ const GoogleMap = () => {
 
   window.initMap = async () => {
     const newMap = new window.google.maps.Map(ref.current, {
-      center: { lat: 37.55840227, lng: 126.99779874 }, // 동국대학교 중앙으로 위치 설정
-      zoom: 16
+      center: { lat, lng },
+      zoom: 16,
     });
     setMap(newMap);
   
@@ -50,7 +50,7 @@ const GoogleMap = () => {
   return (
     <div className="google_map_container">
       <DistrictSelector map={map} />
-      <div ref={ref} id="map" data-testid="google-map"/>
+      <div ref={ref} id="map" data-testid="google-map" />
     </div>
   );
 };

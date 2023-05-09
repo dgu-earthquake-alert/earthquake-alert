@@ -1,0 +1,19 @@
+.datepicker_button {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 18px;
+  height: 40px;
+  background-color: #084298;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+
+  border: none;
+  text-align: center;
+}
+
+.datepicker_container {
+  display: flex;
+  width: 60%;
+  margin-bottom: 10px;
+}
