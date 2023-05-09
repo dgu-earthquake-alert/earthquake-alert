@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../styles/record/datepicker.css";
 import SiDropdown from "../components/record/SiDropdown";
 import RecordTable from "../components/record/RecordTable";
-import { fetchRecordData } from "../utils/api";
+import { fetchRecordTableData } from "../utils/api";
 
 const Record = () => {
   const [startDate, setStartDate] = useState(new Date("2018-01-01"));
@@ -19,7 +19,7 @@ const Record = () => {
   };
 
   const getData = async () => {
-    const result = await fetchRecordData(si, startDate, endDate);
+    const result = await fetchRecordTableData(si, startDate, endDate);
     setRecordData(result);
     console.log(result);
   };
@@ -48,9 +48,9 @@ const Record = () => {
 
   return (
     <main className="main">
-      <h2 className="main_title">
+      <h1 className="main_title">
         지진 발생 이력을 날짜별 지역별로 조회해보세요.
-      </h2>
+      </h1>
       <div className="datepicker_container">
         <div>
           <label>시작일</label>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Sidebar = ({ isOpen, toggleSidebar, location, getMyLocation }) => {
+const Sidebar = ({ isSidebarOpen, toggleSidebar, location, getMyLocation }) => {
   const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전
   let shelterNumber = 1; // css position 계산용
   const top = 64 + 70 * shelterNumber; // css position 계산용
@@ -16,13 +16,13 @@ const Sidebar = ({ isOpen, toggleSidebar, location, getMyLocation }) => {
   return (
     <>
       <button
-        className={`bookmark_button ${isOpen ? "open" : ""}`}
+        className={`bookmark_button ${isSidebarOpen ? "open" : ""}`}
         onClick={toggleSidebar}
       >
         ⭐
       </button>
 
-      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+      <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div
           className={`bookmark_refresh ${isRotated ? "rotate" : ""}`}
           onClick={refresh}
