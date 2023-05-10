@@ -1,6 +1,7 @@
 import { districtData } from "../../utils/districtData";
 import { useState } from "react";
-import "../../styles/App.css";
+import styles from "../../styles/home/home.module.css";
+import global from "../../styles/global.module.css";
 
 const DistrictSelector = ({ map }) => {
   const [selectedDistrict, setSelectedDistrict] = useState(districtData[0]);
@@ -23,7 +24,7 @@ const DistrictSelector = ({ map }) => {
   return (
     <div style={{ marginBottom: "5px" }}>
       <select
-        className="btn btn-secondary dropdown-toggle color_blue"
+        className={`${styles.map_select_button} ${global.color_blue}`}
         style={{ marginRight: "5px" }}
         onChange={handleDistrictChange}
       >
@@ -34,7 +35,7 @@ const DistrictSelector = ({ map }) => {
         ))}
       </select>
       <select
-        className="btn btn-secondary dropdown-toggle color_blue"
+        className={`${styles.map_select_button} ${global.color_blue}`}
         onChange={handleDongChange}
       >
         {selectedDistrict.dong.map((d) => (

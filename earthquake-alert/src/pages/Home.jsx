@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/home/Sidebar";
 import GoogleMap from "../components/home/GoogleMap";
-import "../styles/App.css";
-import "../styles/home/Sidebar.css";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import styles from "../styles/home/home.module.css";
 
 function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -58,21 +59,21 @@ function Home() {
   }, [location]);
 
   return (
-    <div>
-      <div className="root">
-        <Sidebar
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-          location={location}
-          getMyLocation={getMyLocation}
-        />
-        <main className={`sidebar main ${isSidebarOpen ? "open" : ""}`}>
-          <div className="map_title">내 주변 대피소를 찾아보세요</div>
-          <div className="map">
-            <GoogleMap lat={lat} lng={lng} />
-          </div>
-        </main>
-      </div>
+    <div className="root">
+      <Header isSidebarOpen={isSidebarOpen} />
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        location={location}
+        getMyLocation={getMyLocation}
+      />
+      <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
+        <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>
+        <div className={styles.map}>
+          <GoogleMap lat={lat} lng={lng} />
+        </div>
+      </main>
+      <Footer isSidebarOpen={isSidebarOpen} />
     </div>
   );
 }
