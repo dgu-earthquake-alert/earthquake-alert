@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Logging in to Amazon ECR..."
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+  build:
+    commands:
+      - echo "Running Docker build..."
+      - docker-compose build
+  post_build:
+    commands:
+      - echo "Pushing Docker images to ECR..."
+      - docker-compose push
