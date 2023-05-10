@@ -1,14 +1,14 @@
 version: "3.8"
 services:
   frontend:
-    build: ./frontend
+    build: ./earthquake-alert
     ports:
       - 3000:3000
     environment:
       - NODE_ENV=production
 
   backend:
-    build: ./backend
+    build: ./earthquake-alert-spring
     ports:
       - 8080:8080
     environment:
