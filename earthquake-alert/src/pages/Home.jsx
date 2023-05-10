@@ -24,16 +24,24 @@ function Home() {
     function onGeoOK(position) {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
+
+      let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${API_KEY}`;
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          setLocation(data.results[0].formatted_address.slice(5));
+        });
     }
+
     function onGeoError() {
       setLocation("위치정보없음");
     }
+
     navigator.geolocation.getCurrentPosition(onGeoOK, onGeoError);
   };
 
   useEffect(() => {
     if (localStorage.getItem("location") !== null) {
-      localStorage.getItem("location");
       setLocation(localStorage.getItem("location"));
     }
     getMyLocation(); // 최초에 위치 정보를 받아옴
@@ -42,16 +50,6 @@ function Home() {
       getMyLocation();
     }, 10000); // 10초마다 위치 정보를 받아옴
   }, []);
-
-  // 위치 정보가 바뀌면 location을 업데이트
-  useEffect(() => {
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setLocation(data.results[0].formatted_address.slice(5));
-      });
-  }, [lat, lng]);
 
   // location이 바뀌면 localStorage에 새로 저장
   useEffect(() => {

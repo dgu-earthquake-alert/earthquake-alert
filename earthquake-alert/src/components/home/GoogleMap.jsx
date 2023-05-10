@@ -19,6 +19,12 @@ const GoogleMap = ({ lat, lng }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (map && lat && lng) {
+      map.setCenter({ lat, lng });
+    }
+  }, [map, lat, lng]);
+
   window.initMap = async () => {
     const newMap = new window.google.maps.Map(ref.current, {
       center: { lat, lng },

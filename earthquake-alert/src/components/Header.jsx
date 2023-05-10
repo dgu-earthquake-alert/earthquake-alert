@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "../styles/header.module.css";
-import global from "../styles/global.module.css";
 
 const Header = ({ isSidebarOpen, toggleHeader }) => {
   const location = useLocation();

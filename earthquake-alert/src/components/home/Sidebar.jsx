@@ -40,7 +40,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, location, getMyLocation }) => {
             <span className={styles.my_location_title}>현재 위치</span>
             {location}
           </div>
-          <div className={styles.my_location_item} style={{ top: `${top}px` }}>
+          {/*           <div className={styles.my_location_item} style={{ top: `${top}px` }}>
             대피소 {shelterNumber++}
           </div>
           <div className={styles.my_location_item} style={{ top: `${top}px` }}>
@@ -48,7 +48,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, location, getMyLocation }) => {
           </div>
           <div className={styles.my_location_item} style={{ top: `${top}px` }}>
             대피소 {shelterNumber++}
-          </div>
+          </div> */}
 
           <div className={styles.sticky_note}></div>
         </div>
