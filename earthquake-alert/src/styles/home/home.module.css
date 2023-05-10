@@ -35,6 +35,11 @@
   cursor: pointer;
 }
 
+.map_select_button:focus {
+  border: none;
+  outline: none;
+}
+
 /* GoogleMap.jsx */
 .google_map_container {
   display: flex;
