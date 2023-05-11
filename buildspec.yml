@@ -7,8 +7,8 @@ phases:
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - IMAGE_TAG=latest
-      - ECR_REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
-
+      - ECR_REPOSITORY_URI_BACKEND=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/earthquake-alert-ecr-backend
+      - ECR_REPOSITORY_URI_FRONTEND=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/earthquake-alert-ecr-frontend
   build:
     commands:
       - echo Build started on `date`
@@ -18,8 +18,8 @@ phases:
   post_build:
     commands:
       - echo Tagging the Docker images...
-      - docker tag earthquake-alert-aws-backend:latest $ECR_REPOSITORY_URI:backend-latest
-      - docker tag earthquake-alert-aws-frontend:latest $ECR_REPOSITORY_URI:frontend-latest
+      - docker tag earthquake-alert-aws-backend:latest $ECR_REPOSITORY_URI_BACKEND:backend-latest
+      - docker tag earthquake-alert-aws-frontend:latest $ECR_REPOSITORY_FRONTEND:frontend-latest
       - echo Pushing the Docker images to ECR...
       - docker push $ECR_REPOSITORY_URI:backend-latest
       - docker push $ECR_REPOSITORY_URI:frontend-latest
