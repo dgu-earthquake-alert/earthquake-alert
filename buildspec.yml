@@ -17,6 +17,9 @@ phases:
 
   post_build:
     commands:
+      - echo "ECR_REPOSITORY_URI_BACKEND: $ECR_REPOSITORY_URI_BACKEND"
+      - echo "ECR_REPOSITORY_URI_FRONTEND: $ECR_REPOSITORY_URI_FRONTEND"
+      - echo "IMAGE_TAG: $IMAGE_TAG"
       - echo Tagging the Docker images...
       - docker tag earthquake-alert-aws-backend:latest $ECR_REPOSITORY_URI_BACKEND:backend-latest
       - docker tag earthquake-alert-aws-frontend:latest $ECR_REPOSITORY_FRONTEND:frontend-latest
