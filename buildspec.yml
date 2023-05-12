@@ -23,3 +23,9 @@ phases:
       - echo Pushing the Docker images to ECR...
       - docker push $ECR_REPOSITORY_URI_BACKEND:backend-latest
       - docker push $ECR_REPOSITORY_URI_FRONTEND:frontend-latest
+      - echo Creating application archive...
+      - zip -r earthquake-alert-altifact.zip .
+artifacts:
+  files:
+    - earthquake-alert-altifact.zip
+  discard-paths: yes
