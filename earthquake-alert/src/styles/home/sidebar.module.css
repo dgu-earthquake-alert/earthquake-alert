@@ -1,16 +1,3 @@
-main.main {
-  width: 100vw;
-  transition: width 0.3s ease-in-out;
-  float: right;
-}
-
-nav.nav.open,
-main.main.open,
-footer.footer.open {
-  width: calc(100vw - 20vw);
-  float: right;
-}
-
 .bookmark_button {
   all: unset;
   position: fixed;
@@ -26,10 +13,6 @@ footer.footer.open {
   z-index: 10;
   transform: translateX(0);
   transition: all 0.3s ease-in-out;
-}
-
-.bookmark_button:hover {
-  background-color: #084298;
 }
 
 .bookmark_button.open {
@@ -52,7 +35,7 @@ footer.footer.open {
 .sidebar.open {
   transform: translateX(0);
   background-color: #084298;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .bookmark_refresh {
@@ -61,7 +44,7 @@ footer.footer.open {
   left: 15px;
   width: 32px;
   height: 32px;
-  background-image: url("../assets/icon/refresh.svg");
+  background-image: url("../../assets/icon/refresh.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px;
@@ -89,7 +72,7 @@ footer.footer.open {
   right: 15px;
   width: 32px;
   height: 32px;
-  background-image: url("../assets/icon/add.svg");
+  background-image: url("../../assets/icon/add.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px;
@@ -104,7 +87,7 @@ footer.footer.open {
   right: 45px;
   width: 32px;
   height: 32px;
-  background-image: url("../assets/icon/remove.svg");
+  background-image: url("../../assets/icon/remove.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px;
@@ -164,3 +147,20 @@ footer.footer.open {
   transform: translateX(0px);
   transition: transform 0.3s ease-in-out;
 } */
+.map {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  margin-bottom: 50px;
+}
+
+.map_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #084298;
+}
