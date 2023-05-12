@@ -1,7 +1,7 @@
 main.main {
   width: 100vw;
   transition: width 0.3s ease-in-out;
-  float: right;
+  /*float: right; 해당 라인으로 인해 shelter table의 main도 float:right되고, home 페이지에서도 큰 변동사항 보이지 않아 주석처리했습니다. */
 }
 
 nav.nav.open,
@@ -61,7 +61,7 @@ footer.footer.open {
   left: 15px;
   width: 32px;
   height: 32px;
-  background-image: url("../assets/icon/refresh.svg");
+  background-image: url("../../assets/icon/refresh.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px;
@@ -89,7 +89,7 @@ footer.footer.open {
   right: 15px;
   width: 32px;
   height: 32px;
-  background-image: url("../assets/icon/add.svg");
+  background-image: url("../../assets/icon/add.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px;
@@ -104,7 +104,7 @@ footer.footer.open {
   right: 45px;
   width: 32px;
   height: 32px;
-  background-image: url("../assets/icon/remove.svg");
+  background-image: url("../../assets/icon/remove.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px;

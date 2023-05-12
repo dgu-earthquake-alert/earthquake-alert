@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/App.css";
-import "../styles/Sidebar.css";
+import "../styles/home/Sidebar.css";
 
-const Header = ({ isOpen }) => {
+const Header = ({ isOpen, toggleHeader }) => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
 
@@ -12,11 +12,11 @@ const Header = ({ isOpen }) => {
   }, [location]);
 
   return (
-    <header style={{ color: "white" }}>
+    <header style={{ color: "white", display: isOpen ? "block" : "none" }}>
       {/* <div className="img">
         <div className="title">지진알리미</div>
       </div> */}
-      <nav className={`nav ${isOpen ? "open" : ""}`}>
+      <nav className="nav">
         <ul className="nav_list">
           <Link to="/">
             <li className="nav_item nav_title">지진알리미</li>
@@ -42,6 +42,7 @@ const Header = ({ isOpen }) => {
           <li className="nav_item">행동요령</li>
         </ul>
       </nav>
+      {/*<button onClick={toggleHeader}>헤더 토글</button>*/}
     </header>
   );
 };

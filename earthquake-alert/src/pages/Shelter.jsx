@@ -8,7 +8,7 @@ import ShelterTable from "../components/shelter/ShelterTable";
 import "../styles/shelter/dropdown.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { fetchShelterData } from "../utils/api";
+import { fetchShelterTableData } from "../utils/api";
 
 const Shelter = () => {
   const [gu, setGu] = useState("-");
@@ -18,7 +18,7 @@ const Shelter = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchShelterData(gu, dong);
+      const data = await fetchShelterTableData(gu, dong);
       setShelterData(data);
     };
     fetchData();
