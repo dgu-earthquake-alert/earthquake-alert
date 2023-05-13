@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/earthquake-alert/earthquake-alert-aws
+    destination: /home/ec2-user/earthquake-alert/earthquake-alert
 hooks:
   ApplicationStop:
     - location: scripts/stop_server.sh
