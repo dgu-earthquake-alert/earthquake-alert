@@ -65,7 +65,7 @@ function Home() {
     geocoder.geocode({ location: clickedLocation }, (results, status) => {
       if (status === "OK" && results[0]) {
         const address = results[0].formatted_address;
-        setClickedLocation(address);
+        setClickedLocation(address.slice(5));
       }
     });
   };
@@ -84,6 +84,7 @@ function Home() {
         lng={lng}
         location={location}
         getMyLocation={getMyLocation}
+        clickedLocation={clickedLocation}
       />
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>

@@ -9,13 +9,27 @@ const Sidebar = ({
   lng,
   location,
   getMyLocation,
+  clickedLocation,
 }) => {
-  const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전
+  const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전 여부
+  const [isModalOpen, setIsModalOpen] = useState(false); // 북마크 모달창 여부
+  const [bookmarkName, setBookmarkName] = useState(""); // 북마크 이름
   const [isDisplayed, setIsDisplayed] = useState(true); // 대피소 정보 표시 여부
+  const [bookmarks, setBookmarks] = useState([]); // Store bookmarks
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
 
-  let shelterNumber = 1; // css position 계산용
-  const top = 64 + 70 * shelterNumber; // css position 계산용
+  let topValue;
+
+  if (isDisplayed) {
+    topValue =
+      70 +
+      50 *
+        (nearbyShelterRef.current.length === 0
+          ? 1
+          : nearbyShelterRef.current.length);
+  } else {
+    topValue = 70;
+  }
 
   const refresh = () => {
     setIsRotated(true);
@@ -23,6 +37,17 @@ const Sidebar = ({
     setTimeout(() => {
       setIsRotated(false);
     }, 500);
+  };
+
+  const handleBookmarkSave = () => {
+    const newBookmark = {
+      name: bookmarkName,
+      location: clickedLocation,
+    };
+
+    setBookmarks([...bookmarks, newBookmark]);
+    setIsModalOpen(false);
+    setBookmarkName("");
   };
 
   useEffect(() => {
@@ -45,6 +70,7 @@ const Sidebar = ({
 
   return (
     <>
+      {/* 사이드바 오픈 */}
       <button
         className={`${styles.bookmark_button} ${
           isSidebarOpen ? styles.open : ""
@@ -54,6 +80,54 @@ const Sidebar = ({
         ⭐
       </button>
 
+      {/* 위치 북마크 모달 */}
+      {isModalOpen && (
+        <div className={styles.modal_overlay}>
+          <div className={styles.modal_content}>
+            <button
+              className={styles.close_button}
+              onClick={() => setIsModalOpen(false)}
+            >
+              &times;
+            </button>
+            <label>
+              저장 이름
+              <input
+                type="text"
+                className={styles.modal_input}
+                value={bookmarkName}
+                onChange={(e) => setBookmarkName(e.target.value)}
+                placeholder="저장할 이름을 입력하세요."
+              />
+            </label>
+            <label>
+              저장 위치
+              <input
+                type="text"
+                className={styles.modal_input}
+                value={clickedLocation}
+                placeholder="지도에서 클릭한 위치가 표시됩니다."
+              />
+            </label>
+            <p>
+              <button
+                className={styles.modal_button}
+                onClick={handleBookmarkSave}
+              >
+                저장
+              </button>
+              <button
+                className={styles.modal_button}
+                onClick={() => setIsModalOpen(false)}
+              >
+                취소
+              </button>
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* 사이드바 */}
       <div className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ""}`}>
         <div
           className={`${styles.bookmark_refresh} ${
@@ -61,7 +135,10 @@ const Sidebar = ({
           }`}
           onClick={refresh}
         ></div>
-        <div className={styles.bookmark_add}></div>
+        <div
+          className={styles.bookmark_add}
+          onClick={() => setIsModalOpen(true)}
+        ></div>
         <div className={styles.bookmark_remove}></div>
 
         <div className={styles.my_location_container}>
@@ -91,6 +168,28 @@ const Sidebar = ({
               style={{ top: "70px" }}
             >
               주변 대피소 조회 불가
+            </div>
+          )}
+
+          {/* Display Bookmarks */}
+          {bookmarks.length > 0 && (
+            <div className={styles.bookmark_list}>
+              {bookmarks.map((bookmark, idx) => (
+                <div
+                  className={styles.my_location}
+                  style={{
+                    top: `${topValue + 70 * idx}px`,
+                  }}
+                  key={`${bookmark.name}_${idx}`}
+                >
+                  <div className={styles.my_location_title}>
+                    {bookmark.name}
+                  </div>
+                  <div className={styles.my_location_name}>
+                    {bookmark.location}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
