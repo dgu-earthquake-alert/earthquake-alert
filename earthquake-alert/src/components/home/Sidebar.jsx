@@ -40,14 +40,15 @@ const Sidebar = ({
       setIsRotated(false);
     }, 500);
   };
+
   const handleBookmarkSave = async () => {
     const filteredShelter = await fetchMapPlaceData().then((data) =>
       data.filter(
         (item) =>
-          item.lat > clickedLocation.lat - 0.005 &&
-          item.lat < clickedLocation.lat + 0.005 &&
-          item.lng > clickedLocation.lng - 0.005 &&
-          item.lng < clickedLocation.lng + 0.005
+          item.lat > clickedLocation.lat - 0.01 &&
+          item.lat < clickedLocation.lat + 0.01 &&
+          item.lng > clickedLocation.lng - 0.01 &&
+          item.lng < clickedLocation.lng + 0.01
       )
     );
 
@@ -64,21 +65,26 @@ const Sidebar = ({
 
   useEffect(() => {
     fetchMapPlaceData().then((data) => {
-      const filteredShelter = data.filter((item) => {
-        return (
-          item.lat > lat - 0.005 &&
-          item.lat < lat + 0.005 &&
-          item.lng > lng - 0.005 &&
-          item.lng < lng + 0.005
-        );
-      });
+      if (
+        location !== "위치정보없음" ||
+        location.indexOf("서울특별시") !== -1
+      ) {
+        const filteredShelter = data.filter((item) => {
+          return (
+            item.lat > lat - 0.01 &&
+            item.lat < lat + 0.01 &&
+            item.lng > lng - 0.01 &&
+            item.lng < lng + 0.01
+          );
+        });
 
-      nearbyShelterRef.current = filteredShelter; // Store the value in the useRef
+        nearbyShelterRef.current = filteredShelter; // Store the value in the useRef
 
-      /* console.log(nearbyShelterRef.current);
+        /* console.log(nearbyShelterRef.current);
       console.log(lat, lng, location); */
+      }
     });
-  }, [location, lat, lng]);
+  }, [location]);
 
   useEffect(() => {
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
