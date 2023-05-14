@@ -11,6 +11,7 @@ const Sidebar = ({
   getMyLocation,
 }) => {
   const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전
+  const [isDisplayed, setIsDisplayed] = useState(true); // 대피소 정보 표시 여부
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
 
   let shelterNumber = 1; // css position 계산용
@@ -37,8 +38,8 @@ const Sidebar = ({
 
       nearbyShelterRef.current = filteredShelter; // Store the value in the useRef
 
-      console.log(nearbyShelterRef.current);
-      console.log(lat, lng, location);
+      /* console.log(nearbyShelterRef.current);
+      console.log(lat, lng, location); */
     });
   }, [location, lat, lng]);
 
@@ -64,21 +65,31 @@ const Sidebar = ({
         <div className={styles.bookmark_remove}></div>
 
         <div className={styles.my_location_container}>
-          <div className={styles.my_location}>
+          <div
+            className={styles.my_location}
+            onClick={() => setIsDisplayed(!isDisplayed)}
+          >
             <span className={styles.my_location_title}>현재 위치</span>
             <div className={styles.my_location_name}>{location}</div>
           </div>
           {nearbyShelterRef.current.length !== 0 ? (
             nearbyShelterRef.current.map((item, idx) => (
               <div
-                className={styles.my_location_item}
+                className={`${styles.my_location_item} ${
+                  isDisplayed ? styles.displayed : ""
+                }`}
                 style={{ top: `${70 + 50 * idx}px` }}
               >
                 {item.name}
               </div>
             ))
           ) : (
-            <div className={styles.my_location_item} style={{ top: "70px" }}>
+            <div
+              className={`${styles.my_location_item} ${
+                isDisplayed ? styles.displayed : ""
+              }`}
+              style={{ top: "70px" }}
+            >
               주변 대피소 조회 불가
             </div>
           )}

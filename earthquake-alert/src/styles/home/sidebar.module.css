@@ -135,6 +135,7 @@
   transform: translateX(0px);
   transition: transform 0.3s ease-in-out;
   background-color: #052c65;
+  cursor: pointer;
 }
 
 .my_location_title {
@@ -151,10 +152,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: none;
   text-align: center;
   width: 20vw;
   height: 50px;
@@ -163,6 +161,13 @@
   border-bottom: 1px solid #052c65;
   transform: translateX(0px);
   transition: transform 0.3s ease-in-out;
+}
+
+.my_location_item.displayed {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 /* .sticky_note {
   box-sizing: border-box;
