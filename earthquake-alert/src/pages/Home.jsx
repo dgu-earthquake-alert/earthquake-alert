@@ -62,6 +62,8 @@ function Home() {
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
+        lat={lat}
+        lng={lng}
         location={location}
         getMyLocation={getMyLocation}
       />

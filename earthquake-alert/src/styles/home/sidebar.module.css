@@ -127,6 +127,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   width: 20vw;
   height: 50px;
   font-size: 16px;
@@ -147,20 +148,3 @@
   transform: translateX(0px);
   transition: transform 0.3s ease-in-out;
 } */
-.map {
-  display: flex;
-  justify-content: center;
-  padding: 40px 0;
-  margin-bottom: 50px;
-}
-
-.map_title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 60px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #084298;
-}
