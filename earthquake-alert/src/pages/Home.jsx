@@ -8,7 +8,7 @@ import styles from "../styles/home/home.module.css";
 function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [location, setLocation] = useState("위치정보없음");
-  const [clickedLocation, setClickedLocation] = useState(""); // 지도 클릭시 위치정보 저장
+  const [clickedLocation, setClickedLocation] = useState(); // 지도 클릭시 위치정보 저장
   const [lat, setLat] = useState(37.569227); // 위도
   const [lng, setLng] = useState(126.9777256); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -65,7 +65,10 @@ function Home() {
     geocoder.geocode({ location: clickedLocation }, (results, status) => {
       if (status === "OK" && results[0]) {
         const address = results[0].formatted_address;
-        setClickedLocation(address.slice(5));
+        const lat = results[0].geometry.viewport.Ua.lo;
+        const lng = results[0].geometry.viewport.Ha.lo;
+
+        setClickedLocation({ lat: lat, lng: lng, address: address.slice(5) });
       }
     });
   };

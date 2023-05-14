@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 
@@ -15,7 +15,9 @@ const Sidebar = ({
   const [isModalOpen, setIsModalOpen] = useState(false); // 북마크 모달창 여부
   const [bookmarkName, setBookmarkName] = useState(""); // 북마크 이름
   const [isDisplayed, setIsDisplayed] = useState(true); // 대피소 정보 표시 여부
-  const [bookmarks, setBookmarks] = useState([]); // Store bookmarks
+  const [bookmarks, setBookmarks] = useState(
+    JSON.parse(localStorage.getItem("bookmarks")) ?? []
+  ); // Store bookmarks
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
 
   let topValue;
@@ -24,9 +26,9 @@ const Sidebar = ({
     topValue =
       70 +
       50 *
-        (nearbyShelterRef.current.length === 0
+        (nearbyShelterRef.current?.length === 0
           ? 1
-          : nearbyShelterRef.current.length);
+          : nearbyShelterRef.current?.length);
   } else {
     topValue = 70;
   }
@@ -38,14 +40,24 @@ const Sidebar = ({
       setIsRotated(false);
     }, 500);
   };
+  const handleBookmarkSave = async () => {
+    const filteredShelter = await fetchMapPlaceData().then((data) =>
+      data.filter(
+        (item) =>
+          item.lat > clickedLocation.lat - 0.005 &&
+          item.lat < clickedLocation.lat + 0.005 &&
+          item.lng > clickedLocation.lng - 0.005 &&
+          item.lng < clickedLocation.lng + 0.005
+      )
+    );
 
-  const handleBookmarkSave = () => {
     const newBookmark = {
       name: bookmarkName,
       location: clickedLocation,
+      shelter: filteredShelter,
     };
 
-    setBookmarks([...bookmarks, newBookmark]);
+    setBookmarks((prev) => [...prev, newBookmark]);
     setIsModalOpen(false);
     setBookmarkName("");
   };
@@ -54,10 +66,10 @@ const Sidebar = ({
     fetchMapPlaceData().then((data) => {
       const filteredShelter = data.filter((item) => {
         return (
-          item.lat > lat - 0.01 &&
-          item.lat < lat + 0.01 &&
-          item.lng > lng - 0.01 &&
-          item.lng < lng + 0.01
+          item.lat > lat - 0.005 &&
+          item.lat < lat + 0.005 &&
+          item.lng > lng - 0.005 &&
+          item.lng < lng + 0.005
         );
       });
 
@@ -67,6 +79,10 @@ const Sidebar = ({
       console.log(lat, lng, location); */
     });
   }, [location, lat, lng]);
+
+  useEffect(() => {
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  }, [bookmarks]);
 
   return (
     <>
@@ -105,7 +121,7 @@ const Sidebar = ({
               <input
                 type="text"
                 className={styles.modal_input}
-                value={clickedLocation}
+                defaultValue={clickedLocation?.address}
                 placeholder="지도에서 클릭한 위치가 표시됩니다."
               />
             </label>
@@ -149,7 +165,7 @@ const Sidebar = ({
             <span className={styles.my_location_title}>현재 위치</span>
             <div className={styles.my_location_name}>{location}</div>
           </div>
-          {nearbyShelterRef.current.length !== 0 ? (
+          {nearbyShelterRef.current?.length !== 0 ? (
             nearbyShelterRef.current.map((item, idx) => (
               <div
                 className={`${styles.my_location_item} ${
@@ -172,21 +188,22 @@ const Sidebar = ({
           )}
 
           {/* Display Bookmarks */}
-          {bookmarks.length > 0 && (
+          {bookmarks?.length > 0 && (
             <div className={styles.bookmark_list}>
               {bookmarks.map((bookmark, idx) => (
                 <div
                   className={styles.my_location}
                   style={{
                     top: `${topValue + 70 * idx}px`,
+                    cursor: "default",
                   }}
-                  key={`${bookmark.name}_${idx}`}
+                  key={`${bookmark.name}_${bookmark.location.lat}`}
                 >
                   <div className={styles.my_location_title}>
                     {bookmark.name}
                   </div>
                   <div className={styles.my_location_name}>
-                    {bookmark.location}
+                    {bookmark.location?.address}
                   </div>
                 </div>
               ))}
