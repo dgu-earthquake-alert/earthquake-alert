@@ -63,25 +63,22 @@ const Sidebar = ({
         <div className={styles.bookmark_add}></div>
         <div className={styles.bookmark_remove}></div>
 
-        <div>
+        <div className={styles.my_location_container}>
           <div className={styles.my_location}>
             <span className={styles.my_location_title}>현재 위치</span>
-            {location}
+            <div className={styles.my_location_name}>{location}</div>
           </div>
           {nearbyShelterRef.current.length !== 0 ? (
             nearbyShelterRef.current.map((item, idx) => (
               <div
                 className={styles.my_location_item}
-                style={{ top: `${64 + 70 * (idx + 1)}px` }}
+                style={{ top: `${70 + 50 * idx}px` }}
               >
                 {item.name}
               </div>
             ))
           ) : (
-            <div
-              className={styles.my_location_item}
-              style={{ top: `${64 + 70}px` }}
-            >
+            <div className={styles.my_location_item} style={{ top: "70px" }}>
               주변 대피소 조회 불가
             </div>
           )}
