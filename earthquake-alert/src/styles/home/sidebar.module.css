@@ -113,6 +113,19 @@
   cursor: pointer;
 }
 
+.bookmark_remove_item {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  border-radius: 50%;
+  background-image: url("../../assets/icon/remove-filled.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 23px;
+  margin-left: 5px;
+}
+
 .my_location_container {
   position: relative;
   top: 64px;

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
+import remove from "../../assets/icon/remove-filled.svg";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -20,8 +21,9 @@ const Sidebar = ({
   ); // Store bookmarks
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
   const [bookmarkItemsVisible, setBookmarkItemsVisible] = useState(
-    Array(bookmarks.length).fill(true)
+    Array(bookmarks.length).fill(false)
   ); // State variable to track the visibility of bookmark items
+  const [isRemoveToggle, setIsRemoveToggle] = useState(false); // 북마크 삭제버튼 클릭 여부
 
   // Toggle the visibility of bookmark items for a given index
   const toggleBookmarkItems = (index) => {
@@ -29,6 +31,14 @@ const Sidebar = ({
       const newVisible = [...prevVisible];
       newVisible[index] = !newVisible[index];
       return newVisible;
+    });
+  };
+
+  const removeBookmark = (index) => {
+    setBookmarks((prev) => {
+      const updatedBookmarks = [...prev];
+      updatedBookmarks.splice(index, 1);
+      return updatedBookmarks;
     });
   };
 
@@ -175,7 +185,10 @@ const Sidebar = ({
           className={styles.bookmark_add}
           onClick={() => setIsModalOpen(true)}
         ></div>
-        <div className={styles.bookmark_remove}></div>
+        <div
+          className={styles.bookmark_remove}
+          onClick={() => setIsRemoveToggle((prev) => !prev)}
+        ></div>
 
         <div className={styles.my_location_container}>
           <div
@@ -233,6 +246,15 @@ const Sidebar = ({
                 >
                   <div className={styles.my_location_title}>
                     {bookmark.name}
+                    {isRemoveToggle && (
+                      <div
+                        className={styles.bookmark_remove_item}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeBookmark(index);
+                        }}
+                      ></div>
+                    )}
                   </div>
                   <div className={styles.my_location_name}>
                     {bookmark.location?.address}
