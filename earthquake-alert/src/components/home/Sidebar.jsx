@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 
@@ -19,6 +19,18 @@ const Sidebar = ({
     JSON.parse(localStorage.getItem("bookmarks")) ?? []
   ); // Store bookmarks
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
+  const [bookmarkItemsVisible, setBookmarkItemsVisible] = useState(
+    Array(bookmarks.length).fill(true)
+  ); // State variable to track the visibility of bookmark items
+
+  // Toggle the visibility of bookmark items for a given index
+  const toggleBookmarkItems = (index) => {
+    setBookmarkItemsVisible((prevVisible) => {
+      const newVisible = [...prevVisible];
+      newVisible[index] = !newVisible[index];
+      return newVisible;
+    });
+  };
 
   let topValue;
 
@@ -43,13 +55,15 @@ const Sidebar = ({
 
   const handleBookmarkSave = async () => {
     const filteredShelter = await fetchMapPlaceData().then((data) =>
-      data.filter(
-        (item) =>
-          item.lat > clickedLocation.lat - 0.01 &&
-          item.lat < clickedLocation.lat + 0.01 &&
-          item.lng > clickedLocation.lng - 0.01 &&
-          item.lng < clickedLocation.lng + 0.01
-      )
+      data
+        .filter(
+          (item) =>
+            item.lat > clickedLocation.lat - 0.01 &&
+            item.lat < clickedLocation.lat + 0.01 &&
+            item.lng > clickedLocation.lng - 0.01 &&
+            item.lng < clickedLocation.lng + 0.01
+        )
+        .slice(0, 10)
     );
 
     const newBookmark = {
@@ -78,7 +92,7 @@ const Sidebar = ({
           );
         });
 
-        nearbyShelterRef.current = filteredShelter; // Store the value in the useRef
+        nearbyShelterRef.current = filteredShelter.slice(0, 10); // Store the value in the useRef
 
         /* console.log(nearbyShelterRef.current);
       console.log(lat, lng, location); */
@@ -170,40 +184,52 @@ const Sidebar = ({
           >
             <span className={styles.my_location_title}>현재 위치</span>
             <div className={styles.my_location_name}>{location}</div>
-          </div>
-          {nearbyShelterRef.current?.length !== 0 ? (
-            nearbyShelterRef.current.map((item, idx) => (
+            {nearbyShelterRef.current?.length !== 0 ? (
+              nearbyShelterRef.current.map((item, idx) => (
+                <div
+                  className={`${styles.my_location_item} ${
+                    isDisplayed ? styles.displayed : ""
+                  }`}
+                  style={{ top: `${70 + 50 * idx}px` }}
+                >
+                  {item.name}
+                </div>
+              ))
+            ) : (
               <div
                 className={`${styles.my_location_item} ${
                   isDisplayed ? styles.displayed : ""
                 }`}
-                style={{ top: `${70 + 50 * idx}px` }}
+                style={{ top: "70px" }}
               >
-                {item.name}
+                주변 대피소 조회 불가
               </div>
-            ))
-          ) : (
-            <div
-              className={`${styles.my_location_item} ${
-                isDisplayed ? styles.displayed : ""
-              }`}
-              style={{ top: "70px" }}
-            >
-              주변 대피소 조회 불가
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Display Bookmarks */}
-          {bookmarks?.length > 0 && (
-            <div className={styles.bookmark_list}>
-              {bookmarks.map((bookmark, idx) => (
+          {bookmarks?.length > 0 &&
+            bookmarks.map((bookmark, index) => {
+              let additionalOffset = 0;
+
+              if (index > 0) {
+                for (let i = index - 1; i >= 0; i--) {
+                  additionalOffset +=
+                    50 *
+                    (bookmarkItemsVisible[i]
+                      ? bookmarks[i]?.shelter?.length
+                      : 0);
+                }
+              }
+
+              return (
                 <div
                   className={styles.my_location}
                   style={{
-                    top: `${topValue + 70 * idx}px`,
-                    cursor: "default",
+                    top: `${topValue + 70 * index + additionalOffset}px`,
                   }}
                   key={`${bookmark.name}_${bookmark.location.lat}`}
+                  onClick={() => toggleBookmarkItems(index)}
                 >
                   <div className={styles.my_location_title}>
                     {bookmark.name}
@@ -211,12 +237,22 @@ const Sidebar = ({
                   <div className={styles.my_location_name}>
                     {bookmark.location?.address}
                   </div>
+                  {bookmark.shelter.map((item, idx) => (
+                    <div
+                      className={`${styles.my_location_item} ${
+                        bookmarkItemsVisible[index] ? styles.displayed : ""
+                      }`}
+                      style={{ top: `${70 + 50 * idx}px` }}
+                      key={`${item.name}_${idx}`}
+                    >
+                      {item.name}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
+              );
+            })}
 
-          <div className={styles.sticky_note}></div>
+          {/* <div className={styles.sticky_note}></div> */}
         </div>
       </div>
     </>

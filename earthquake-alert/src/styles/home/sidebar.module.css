@@ -224,10 +224,3 @@
   cursor: pointer;
   z-index: 902;
 }
-
-.bookmark_list {
-  position: relative;
-  top: 0;
-  width: 100%;
-  color: #fff;
-}
