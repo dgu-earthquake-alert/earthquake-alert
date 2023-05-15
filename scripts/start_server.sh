@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /home/ec2-user/earthquake-alert/earthquake-alert
-docker-compose up -d
+sudo docker-compose up -d
