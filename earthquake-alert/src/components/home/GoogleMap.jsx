@@ -3,7 +3,7 @@ import DistrictSelector from "./DistrictSelector";
 import { fetchMapPlaceData } from "../../utils/api";
 import styles from "../../styles/home/home.module.css";
 
-const GoogleMap = ({ lat, lng }) => {
+const GoogleMap = ({ lat, lng, handleMapClick }) => {
   const [map, setMap] = useState(null);
   const ref = useRef();
 
@@ -31,6 +31,8 @@ const GoogleMap = ({ lat, lng }) => {
       zoom: 16,
     });
     setMap(newMap);
+
+    newMap.addListener("click", handleMapClick); // Add click event listener to the map
 
     try {
       const shelterData = await fetchMapPlaceData();
