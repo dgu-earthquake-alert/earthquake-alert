@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import "../../styles/App.css";
 import DistrictSelector from "./DistrictSelector";
 import { fetchMapPlaceData } from "../../utils/api";
+import styles from "../../styles/home/home.module.css";
 
 const GoogleMap = ({ lat, lng }) => {
   const [map, setMap] = useState(null);
@@ -18,6 +18,12 @@ const GoogleMap = ({ lat, lng }) => {
       document.head.removeChild(script);
     };
   }, []);
+
+  useEffect(() => {
+    if (map && lat && lng) {
+      map.setCenter({ lat, lng });
+    }
+  }, [map, lat, lng]);
 
   window.initMap = async () => {
     const newMap = new window.google.maps.Map(ref.current, {
@@ -48,9 +54,9 @@ const GoogleMap = ({ lat, lng }) => {
   };
 
   return (
-    <div className="google_map_container">
+    <div className={styles.google_map_container}>
       <DistrictSelector map={map} />
-      <div ref={ref} id="map" data-testid="google-map" />
+      <div ref={ref} id={styles.map} data-testid="google-map" />
     </div>
   );
 };

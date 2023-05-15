@@ -22,8 +22,8 @@ export const fetchMapPlaceData = async () => {
     );
     const indoorData = indoorResponse.data;
 
-    console.log(outdoorData);
-    console.log(indoorData);
+    // console.log(outdoorData);
+    // console.log(indoorData);
 
     if (
       outdoorData.TlEtqkP.RESULT &&
@@ -35,7 +35,7 @@ export const fetchMapPlaceData = async () => {
         lng: parseFloat(shelter.XCORD),
       }));
 
-      console.log(outdoorShelterData);
+      // console.log(outdoorShelterData);
 
       let combinedShelterData = outdoorShelterData;
 
@@ -49,7 +49,7 @@ export const fetchMapPlaceData = async () => {
           lng: parseFloat(shelter.XCORD),
         }));
 
-        console.log(indoorShelterData);
+        // console.log(indoorShelterData);
 
         combinedShelterData = [...combinedShelterData, ...indoorShelterData];
       }
