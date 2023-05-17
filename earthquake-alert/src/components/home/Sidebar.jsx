@@ -8,9 +8,11 @@ const Sidebar = ({
   toggleSidebar,
   lat,
   lng,
+  map,
   location,
   getMyLocation,
   clickedLocation,
+  updateMapCenter,
 }) => {
   const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전 여부
   const [isModalOpen, setIsModalOpen] = useState(false); // 북마크 모달창 여부
@@ -111,7 +113,7 @@ const Sidebar = ({
           );
         });
 
-        nearbyShelterRef.current = filteredShelter.slice(0, 3); // Store the value in the useRef
+        nearbyShelterRef.current = filteredShelter.slice(0, 3);
 
         /* console.log(nearbyShelterRef.current);
       console.log(lat, lng, location); */
@@ -130,7 +132,10 @@ const Sidebar = ({
         className={`${styles.bookmark_button} ${
           isSidebarOpen ? styles.open : ""
         }`}
-        onClick={toggleSidebar}
+        onClick={() => {
+          toggleSidebar();
+          setIsRemoveToggle(false);
+        }}
       >
         ⭐
       </button>
@@ -143,7 +148,7 @@ const Sidebar = ({
               className={styles.close_button}
               onClick={() => setIsModalOpen(false)}
             >
-              &times;
+              {/* &times; */}
             </button>
             <label>
               저장 이름
@@ -198,32 +203,35 @@ const Sidebar = ({
           className={styles.bookmark_remove}
           onClick={() => setIsRemoveToggle((prev) => !prev)}
         ></div>
-
         <div className={styles.my_location_container}>
           <div
             className={styles.my_location}
             // onClick={() => setIsDisplayed(!isDisplayed)}
+            onClick={() => updateMapCenter(lat, lng)}
           >
-            <span className={styles.my_location_title}>현재 위치</span>
+            <div className={styles.my_location_title}>현재 위치</div>
             <div className={styles.my_location_name}>{location}</div>
-            {nearbyShelterRef.current?.length !== 0 ? (
-              nearbyShelterRef.current.map((item, idx) => (
-                <div
-                  className={`${styles.my_location_item} ${styles.displayed}`}
-                  style={{ top: `${70 + 50 * idx}px` }}
-                >
-                  {item.name}
-                </div>
-              ))
-            ) : (
+          </div>
+          {nearbyShelterRef.current?.length !== 0 ? (
+            nearbyShelterRef.current.map((item, idx) => (
               <div
                 className={`${styles.my_location_item} ${styles.displayed}`}
-                style={{ top: "70px" }}
+                style={{ top: `${70 + 50 * idx}px` }}
+                onClick={() => {
+                  updateMapCenter(item.lat, item.lng);
+                }}
               >
-                주변 대피소 조회 불가
+                {item.name}
               </div>
-            )}
-          </div>
+            ))
+          ) : (
+            <div
+              className={`${styles.my_location_item} ${styles.displayed}`}
+              style={{ top: "70px", cursor: "default" }}
+            >
+              주변 대피소 조회 불가
+            </div>
+          )}
 
           {/* Display Bookmarks */}
           {bookmarks?.length > 0 &&
@@ -237,39 +245,74 @@ const Sidebar = ({
               }
 
               return (
-                <div
-                  className={styles.my_location}
-                  style={{
-                    top: `${topValue + 70 * index + additionalOffset}px`,
-                  }}
-                  key={`${bookmark.name}_${bookmark.location.lat}`}
-                  // onClick={() => toggleBookmarkItems(index)}
-                >
-                  <div className={styles.my_location_title}>
-                    {bookmark.name}
-                    {isRemoveToggle && (
+                <>
+                  <div
+                    className={styles.my_location}
+                    style={{
+                      top: `${topValue + 70 * index + additionalOffset}px`,
+                    }}
+                    key={`${bookmark.name}_${bookmark.location.lat}`}
+                    onClick={() =>
+                      updateMapCenter(
+                        bookmark.location.lat,
+                        bookmark.location.lng
+                      )
+                    }
+                  >
+                    <div className={styles.my_location_title}>
+                      {bookmark.name}
+                      {isRemoveToggle && (
+                        <img
+                          src={remove}
+                          alt="remove"
+                          width="20px"
+                          height="20px"
+                          className={styles.bookmark_remove_item}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeBookmark(index);
+                            setIsRemoveToggle((prev) => !prev);
+                          }}
+                        />
+                      )}
+                    </div>
+                    <div className={styles.my_location_name}>
+                      {bookmark.location?.address}
+                    </div>
+                  </div>
+                  {bookmark.shelter.length > 0 ? (
+                    bookmark.shelter.map((item, idx) => (
                       <div
-                        className={styles.bookmark_remove_item}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeBookmark(index);
+                        className={`${styles.my_location_item} ${styles.displayed}`}
+                        style={{
+                          top: `${
+                            topValue +
+                            70 * index +
+                            additionalOffset +
+                            70 +
+                            50 * idx
+                          }px`,
                         }}
-                      ></div>
-                    )}
-                  </div>
-                  <div className={styles.my_location_name}>
-                    {bookmark.location?.address}
-                  </div>
-                  {bookmark.shelter.map((item, idx) => (
+                        key={`${item.name}_${idx}`}
+                        onClick={() => updateMapCenter(item.lat, item.lng)}
+                      >
+                        {item.name}
+                      </div>
+                    ))
+                  ) : (
                     <div
                       className={`${styles.my_location_item} ${styles.displayed}`}
-                      style={{ top: `${70 + 50 * idx}px` }}
-                      key={`${item.name}_${idx}`}
+                      style={{
+                        top: `${
+                          topValue + 70 * index + additionalOffset + 70
+                        }px`,
+                        cursor: "default",
+                      }}
                     >
-                      {item.name}
+                      주변 대피소 조회 불가
                     </div>
-                  ))}
-                </div>
+                  )}
+                </>
               );
             })}
 

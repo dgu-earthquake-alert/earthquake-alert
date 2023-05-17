@@ -115,14 +115,6 @@
 
 .bookmark_remove_item {
   display: inline-block;
-  width: 15px;
-  height: 15px;
-  background-color: #fff;
-  border-radius: 50%;
-  background-image: url("../../assets/icon/remove-filled.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 23px;
   margin-left: 5px;
 }
 
@@ -186,10 +178,11 @@
 
 .my_location_item.displayed {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
+
 /* .sticky_note {
   box-sizing: border-box;
   position: fixed;
@@ -237,4 +230,9 @@
   color: gray;
   cursor: pointer;
   z-index: 902;
+}
+
+.move {
+  display: inline-block;
+  margin-left: 2px;
 }
