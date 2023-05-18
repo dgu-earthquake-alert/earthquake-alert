@@ -12,7 +12,7 @@ import java.util.Map;
 public class SeoulApiController {
     private final RestTemplate restTemplate;
 
-    public ApiController() {
+    public SeoulApiController() {
         this.restTemplate = new RestTemplate();
     }
     @RequestMapping("/api/{apiKey}/json/{pathVar1}/{pathVar2}/{pathVar3}")
