@@ -35,7 +35,9 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
       >
         지진발생 이력
       </Link>
-      <Link to="/rule" className={`${styles.nav_item}`}>
+      <Link to="/rule" className={`${styles.nav_item} ${
+          selectedItem === "/rule" ? styles.nav_item_select : ""
+        }`}>
         행동요령
       </Link>
       <div className={`${styles.nav_login}`}>
