@@ -1,5 +1,7 @@
 package com.example.earthquakealertspring.controller;
 
+import java.util.Map;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +20,14 @@ https를 사용하는 브라우저는 http 호출을 지원하지 않기 때문�
         this.webClient = webClient;
     }
 
-
-    @RequestMapping("/api/{apiKey}/json/{pathVar1}/{pathVar2}/{pathVar3}/{pathVar4}")
-    public Mono<ResponseEntity<Map<String, Object>>> fetchApiData(@PathVariable String apiKey, @PathVariable String pathVar1, @PathVariable String pathVar2, @PathVariable String pathVar3, @PathVariable String pathVar4) {
-        String url = "http://openapi.seoul.go.kr:8088/" + apiKey + "/json/" + pathVar1 + "/" + pathVar2 + "/" + pathVar3 + "/" + pathVar4;
+    @RequestMapping("/api/{apiKey}/json/{pathVar1}/{pathVar2}/{pathVar3}")
+    public Mono<ResponseEntity<Map<String, Object>>> fetchApiData(@PathVariable String apiKey, @PathVariable String pathVar1, @PathVariable String pathVar2, @PathVariable String pathVar3) {
+        String url = "http://openapi.seoul.go.kr:8088/" + apiKey + "/json/" + pathVar1 + "/" + pathVar2 + "/" + pathVar3;
         return this.webClient.get()
                 .uri(url)
                 .retrieve()
-                .toEntity(Map.class);
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
-    
 }
