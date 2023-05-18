@@ -1,4 +1,4 @@
-package com.example.test.controller;
+package com.example.earthquakealertspring.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
