@@ -1,0 +1,47 @@
+.main {
+  width: 100vw;
+  transition: width 0.3s ease-in-out;
+  float: right;
+
+}
+
+.main_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #084298;
+}
+
+.main_text {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  font-size: 18px;
+  padding: 30px 30px;
+  padding-left: 200px;
+}
+
+.btn_select_group{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.ol {
+  color: #084298;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 20px;
+}
+
+.ul {
+  color: rgb(75, 74, 74);
+  font-size: 18px;
+  font-weight: 400;
+  padding-bottom: 10px;
+}
