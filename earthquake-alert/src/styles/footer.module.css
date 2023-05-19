@@ -1,8 +1,9 @@
 .footer {
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: #e9ecef;
-  width: 100%;
+  width: 100vw;
   height: 37vh;
   transition: width 0.3s ease-in-out;
   float: right;
@@ -13,10 +14,20 @@
   float: right;
 }
 
-.footer_item {
-  flex-basis: 20%;
+.footer_container {
+  width: 80%;
+  max-width: 1080px;
   height: 100%;
-  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  transition: width 0.3s ease-in-out;
+  float: right;
+}
+
+.footer_item {
+  flex-basis: 25%;
+  height: 100%;
+  padding: 45px 0;
   color: #084298;
 }
 
