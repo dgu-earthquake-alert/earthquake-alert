@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import styles from "../styles/home/home.module.css";
 
 function Home() {
+  const [map, setMap] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [location, setLocation] = useState("위치정보없음");
   const [clickedLocation, setClickedLocation] = useState(); // 지도 클릭시 위치정보 저장
@@ -73,9 +74,21 @@ function Home() {
     });
   };
 
+  // 지도 중심 이동
+  const updateMapCenter = (newLat, newLng) => {
+    map.setCenter({ lat: newLat, lng: newLng });
+  };
+
+  // 현재 위치 기반으로 지도 중심 이동
   useEffect(() => {
+    if (map && lat && lng) {
+      map.setCenter({ lat, lng });
+    }
+  }, [map, lat, lng]);
+
+  /* useEffect(() => {
     console.log(clickedLocation);
-  }, [clickedLocation]);
+  }, [clickedLocation]); */
 
   return (
     <div className="root">
@@ -85,14 +98,22 @@ function Home() {
         toggleSidebar={toggleSidebar}
         lat={lat}
         lng={lng}
+        map={map}
         location={location}
         getMyLocation={getMyLocation}
         clickedLocation={clickedLocation}
+        updateMapCenter={updateMapCenter}
       />
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>
         <div className={styles.map}>
-          <GoogleMap lat={lat} lng={lng} handleMapClick={handleMapClick} />
+          <GoogleMap
+            lat={lat}
+            lng={lng}
+            map={map}
+            setMap={setMap}
+            handleMapClick={handleMapClick}
+          />
         </div>
       </main>
       <Footer isSidebarOpen={isSidebarOpen} />

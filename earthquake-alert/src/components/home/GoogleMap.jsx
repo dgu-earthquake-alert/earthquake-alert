@@ -3,8 +3,7 @@ import DistrictSelector from "./DistrictSelector";
 import { fetchMapPlaceData } from "../../utils/api";
 import styles from "../../styles/home/home.module.css";
 
-const GoogleMap = ({ lat, lng, handleMapClick }) => {
-  const [map, setMap] = useState(null);
+const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -13,36 +12,6 @@ const GoogleMap = ({ lat, lng, handleMapClick }) => {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
     script.async = true;
     
-  window.initMap = async () => {
-    try {
-      const shelterData = await fetchMapPlaceData();
-
-      const newMap = new window.google.maps.Map(ref.current, {
-        center: { lat, lng },
-        zoom: 16,
-      });
-
-      shelterData.forEach((shelter) => {
-        const marker = new window.google.maps.Marker({
-          position: { lat: shelter.lat, lng: shelter.lng },
-          map: newMap,
-          title: shelter.name,
-          icon: {
-            url: process.env.PUBLIC_URL + "/images/marker.png",
-            scaledSize: new window.google.maps.Size(40, 40),
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(25, 50),
-          },
-        });
-      });
-
-      setMap(newMap);
-      newMap.addListener("click", handleMapClick);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
   document.head.appendChild(script);
 
   return () => {
@@ -50,12 +19,6 @@ const GoogleMap = ({ lat, lng, handleMapClick }) => {
   };
 }, []);
 
-  useEffect(() => {
-    if (map && lat && lng) {
-      map.setCenter({ lat, lng });
-    }
-  }, [map, lat, lng]);
-
   window.initMap = async () => {
     try {
       const shelterData = await fetchMapPlaceData();
@@ -72,7 +35,7 @@ const GoogleMap = ({ lat, lng, handleMapClick }) => {
           title: shelter.name,
           icon: {
             url: process.env.PUBLIC_URL + "/images/marker.png",
-            scaledSize: new window.google.maps.Size(40, 40),
+            scaledSize: new window.google.maps.Size(40, 50),
             origin: new window.google.maps.Point(0, 0),
             anchor: new window.google.maps.Point(25, 50),
           },
