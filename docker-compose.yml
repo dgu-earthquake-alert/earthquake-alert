@@ -4,7 +4,7 @@ services:
     image: earthquake-alert-aws-frontend:latest
     build: ./earthquake-alert
     ports:
-      - 3001:3000
+      - 3001:3001
     environment:
       - NODE_ENV=production
 

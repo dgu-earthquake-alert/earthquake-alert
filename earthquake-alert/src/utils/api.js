@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const BASE_URL = "http://openapi.seoul.go.kr:8088/";
+const BASE_URL = "https://server.earthquake-alert.site/api/";
 /*
  * 브라우저 렌더링 성능상 fetch 다 나누는게 좋을것 같아 이름 변경 했습니다.
  * 별 fetchShelterData -> fetchMapPlaceData
