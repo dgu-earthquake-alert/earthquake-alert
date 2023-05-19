@@ -51,6 +51,7 @@
 
 #map {
   width: 80%;
+  max-width: 1080px;
   height: 600px;
   border: 1px solid #e9ecef;
   border-radius: 20px;

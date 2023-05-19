@@ -52,13 +52,14 @@ const Shelter = () => {
             />
           </div>
         </div>
+
+        <ShelterTable
+          shelterData={shelterData}
+          activePage={activePage}
+          handlePageChange={handlePageChange}
+        />
       </main>
 
-      <ShelterTable
-        shelterData={shelterData}
-        activePage={activePage}
-        handlePageChange={handlePageChange}
-      />
       <Footer />
     </>
   );

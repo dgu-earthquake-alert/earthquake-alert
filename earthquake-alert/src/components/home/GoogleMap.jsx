@@ -3,8 +3,7 @@ import DistrictSelector from "./DistrictSelector";
 import { fetchMapPlaceData } from "../../utils/api";
 import styles from "../../styles/home/home.module.css";
 
-const GoogleMap = ({ lat, lng, handleMapClick }) => {
-  const [map, setMap] = useState(null);
+const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -12,31 +11,23 @@ const GoogleMap = ({ lat, lng, handleMapClick }) => {
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
     script.async = true;
-    document.head.appendChild(script);
+    
+  document.head.appendChild(script);
 
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (map && lat && lng) {
-      map.setCenter({ lat, lng });
-    }
-  }, [map, lat, lng]);
+  return () => {
+    document.head.removeChild(script);
+  };
+}, []);
 
   window.initMap = async () => {
-    const newMap = new window.google.maps.Map(ref.current, {
-      center: { lat, lng },
-      zoom: 16,
-    });
-    setMap(newMap);
-
-    newMap.addListener("click", handleMapClick); // Add click event listener to the map
-
     try {
       const shelterData = await fetchMapPlaceData();
-
+  
+      const newMap = new window.google.maps.Map(ref.current, {
+        center: { lat, lng },
+        zoom: 16,
+      });
+  
       shelterData.forEach((shelter) => {
         const marker = new window.google.maps.Marker({
           position: { lat: shelter.lat, lng: shelter.lng },
@@ -44,12 +35,19 @@ const GoogleMap = ({ lat, lng, handleMapClick }) => {
           title: shelter.name,
           icon: {
             url: process.env.PUBLIC_URL + "/images/marker.png",
-            scaledSize: new window.google.maps.Size(40, 40),
+            scaledSize: new window.google.maps.Size(40, 50),
             origin: new window.google.maps.Point(0, 0),
             anchor: new window.google.maps.Point(25, 50),
           },
         });
       });
+  
+      if (newMap instanceof window.google.maps.Map) {
+        setMap(newMap);
+        newMap.addListener("click", handleMapClick);
+      } else {
+        console.error("Invalid map instance");
+      }
     } catch (error) {
       console.error(error.message);
     }
