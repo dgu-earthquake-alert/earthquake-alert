@@ -8,31 +8,40 @@ const Sidebar = ({
   toggleSidebar,
   lat,
   lng,
+  map,
   location,
   getMyLocation,
   clickedLocation,
+  updateMapCenter,
 }) => {
   const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전 여부
   const [isModalOpen, setIsModalOpen] = useState(false); // 북마크 모달창 여부
   const [bookmarkName, setBookmarkName] = useState(""); // 북마크 이름
-  const [isDisplayed, setIsDisplayed] = useState(true); // 대피소 정보 표시 여부
+  // const [isDisplayed, setIsDisplayed] = useState(true); // 대피소 정보 표시 여부
   const [bookmarks, setBookmarks] = useState(
     JSON.parse(localStorage.getItem("bookmarks")) ?? []
   ); // Store bookmarks
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
-  const [bookmarkItemsVisible, setBookmarkItemsVisible] = useState(
-    Array(bookmarks.length).fill(false)
-  ); // State variable to track the visibility of bookmark items
   const [isRemoveToggle, setIsRemoveToggle] = useState(false); // 북마크 삭제버튼 클릭 여부
+  let topValue =
+    70 +
+    50 *
+      (nearbyShelterRef.current?.length === 0
+        ? 1
+        : nearbyShelterRef.current?.length);
 
-  // Toggle the visibility of bookmark items for a given index
+  /*   const [bookmarkItemsVisible, setBookmarkItemsVisible] = useState(
+    Array(bookmarks.length).fill(false)
+  ); // State variable to track the visibility of bookmark items */
+
+  /*   // Toggle the visibility of bookmark items for a given index
   const toggleBookmarkItems = (index) => {
     setBookmarkItemsVisible((prevVisible) => {
       const newVisible = [...prevVisible];
       newVisible[index] = !newVisible[index];
       return newVisible;
     });
-  };
+  }; */
 
   const removeBookmark = (index) => {
     setBookmarks((prev) => {
@@ -42,7 +51,7 @@ const Sidebar = ({
     });
   };
 
-  let topValue;
+  /*   let topValue;
 
   if (isDisplayed) {
     topValue =
@@ -53,7 +62,7 @@ const Sidebar = ({
           : nearbyShelterRef.current?.length);
   } else {
     topValue = 70;
-  }
+  } */
 
   const refresh = () => {
     setIsRotated(true);
@@ -63,6 +72,7 @@ const Sidebar = ({
     }, 500);
   };
 
+  // 저장한 위치의 1km 반경 이내 대피소 3개
   const handleBookmarkSave = async () => {
     const filteredShelter = await fetchMapPlaceData().then((data) =>
       data
@@ -73,7 +83,7 @@ const Sidebar = ({
             item.lng > clickedLocation.lng - 0.01 &&
             item.lng < clickedLocation.lng + 0.01
         )
-        .slice(0, 10)
+        .slice(0, 3)
     );
 
     const newBookmark = {
@@ -87,6 +97,7 @@ const Sidebar = ({
     setBookmarkName("");
   };
 
+  // 현재위치의 1km 이내 대피소 3개
   useEffect(() => {
     fetchMapPlaceData().then((data) => {
       if (
@@ -102,7 +113,7 @@ const Sidebar = ({
           );
         });
 
-        nearbyShelterRef.current = filteredShelter.slice(0, 10); // Store the value in the useRef
+        nearbyShelterRef.current = filteredShelter.slice(0, 3);
 
         /* console.log(nearbyShelterRef.current);
       console.log(lat, lng, location); */
@@ -121,7 +132,10 @@ const Sidebar = ({
         className={`${styles.bookmark_button} ${
           isSidebarOpen ? styles.open : ""
         }`}
-        onClick={toggleSidebar}
+        onClick={() => {
+          toggleSidebar();
+          setIsRemoveToggle(false);
+        }}
       >
         ⭐
       </button>
@@ -134,7 +148,7 @@ const Sidebar = ({
               className={styles.close_button}
               onClick={() => setIsModalOpen(false)}
             >
-              &times;
+              {/* &times; */}
             </button>
             <label>
               저장 이름
@@ -189,36 +203,35 @@ const Sidebar = ({
           className={styles.bookmark_remove}
           onClick={() => setIsRemoveToggle((prev) => !prev)}
         ></div>
-
         <div className={styles.my_location_container}>
           <div
             className={styles.my_location}
-            onClick={() => setIsDisplayed(!isDisplayed)}
+            // onClick={() => setIsDisplayed(!isDisplayed)}
+            onClick={() => updateMapCenter(lat, lng)}
           >
-            <span className={styles.my_location_title}>현재 위치</span>
+            <div className={styles.my_location_title}>현재 위치</div>
             <div className={styles.my_location_name}>{location}</div>
-            {nearbyShelterRef.current?.length !== 0 ? (
-              nearbyShelterRef.current.map((item, idx) => (
-                <div
-                  className={`${styles.my_location_item} ${
-                    isDisplayed ? styles.displayed : ""
-                  }`}
-                  style={{ top: `${70 + 50 * idx}px` }}
-                >
-                  {item.name}
-                </div>
-              ))
-            ) : (
-              <div
-                className={`${styles.my_location_item} ${
-                  isDisplayed ? styles.displayed : ""
-                }`}
-                style={{ top: "70px" }}
-              >
-                주변 대피소 조회 불가
-              </div>
-            )}
           </div>
+          {nearbyShelterRef.current?.length !== 0 ? (
+            nearbyShelterRef.current.map((item, idx) => (
+              <div
+                className={`${styles.my_location_item} ${styles.displayed}`}
+                style={{ top: `${70 + 50 * idx}px` }}
+                onClick={() => {
+                  updateMapCenter(item.lat, item.lng);
+                }}
+              >
+                {item.name}
+              </div>
+            ))
+          ) : (
+            <div
+              className={`${styles.my_location_item} ${styles.displayed}`}
+              style={{ top: "70px", cursor: "default" }}
+            >
+              주변 대피소 조회 불가
+            </div>
+          )}
 
           {/* Display Bookmarks */}
           {bookmarks?.length > 0 &&
@@ -227,50 +240,79 @@ const Sidebar = ({
 
               if (index > 0) {
                 for (let i = index - 1; i >= 0; i--) {
-                  additionalOffset +=
-                    50 *
-                    (bookmarkItemsVisible[i]
-                      ? bookmarks[i]?.shelter?.length
-                      : 0);
+                  additionalOffset += 50 * bookmarks[i]?.shelter?.length;
                 }
               }
 
               return (
-                <div
-                  className={styles.my_location}
-                  style={{
-                    top: `${topValue + 70 * index + additionalOffset}px`,
-                  }}
-                  key={`${bookmark.name}_${bookmark.location.lat}`}
-                  onClick={() => toggleBookmarkItems(index)}
-                >
-                  <div className={styles.my_location_title}>
-                    {bookmark.name}
-                    {isRemoveToggle && (
-                      <div
-                        className={styles.bookmark_remove_item}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeBookmark(index);
-                        }}
-                      ></div>
-                    )}
-                  </div>
-                  <div className={styles.my_location_name}>
-                    {bookmark.location?.address}
-                  </div>
-                  {bookmark.shelter.map((item, idx) => (
-                    <div
-                      className={`${styles.my_location_item} ${
-                        bookmarkItemsVisible[index] ? styles.displayed : ""
-                      }`}
-                      style={{ top: `${70 + 50 * idx}px` }}
-                      key={`${item.name}_${idx}`}
-                    >
-                      {item.name}
+                <>
+                  <div
+                    className={styles.my_location}
+                    style={{
+                      top: `${topValue + 70 * index + additionalOffset}px`,
+                    }}
+                    key={`${bookmark.name}_${bookmark.location.lat}`}
+                    onClick={() =>
+                      updateMapCenter(
+                        bookmark.location.lat,
+                        bookmark.location.lng
+                      )
+                    }
+                  >
+                    <div className={styles.my_location_title}>
+                      {bookmark.name}
+                      {isRemoveToggle && (
+                        <img
+                          src={remove}
+                          alt="remove"
+                          width="20px"
+                          height="20px"
+                          className={styles.bookmark_remove_item}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeBookmark(index);
+                            setIsRemoveToggle((prev) => !prev);
+                          }}
+                        />
+                      )}
                     </div>
-                  ))}
-                </div>
+                    <div className={styles.my_location_name}>
+                      {bookmark.location?.address}
+                    </div>
+                  </div>
+                  {bookmark.shelter.length > 0 ? (
+                    bookmark.shelter.map((item, idx) => (
+                      <div
+                        className={`${styles.my_location_item} ${styles.displayed}`}
+                        style={{
+                          top: `${
+                            topValue +
+                            70 * index +
+                            additionalOffset +
+                            70 +
+                            50 * idx
+                          }px`,
+                        }}
+                        key={`${item.name}_${idx}`}
+                        onClick={() => updateMapCenter(item.lat, item.lng)}
+                      >
+                        {item.name}
+                      </div>
+                    ))
+                  ) : (
+                    <div
+                      className={`${styles.my_location_item} ${styles.displayed}`}
+                      style={{
+                        top: `${
+                          topValue + 70 * index + additionalOffset + 70
+                        }px`,
+                        cursor: "default",
+                      }}
+                    >
+                      주변 대피소 조회 불가
+                    </div>
+                  )}
+                </>
               );
             })}
 
