@@ -11,25 +11,23 @@ const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
     script.async = true;
-    document.head.appendChild(script);
+    
+  document.head.appendChild(script);
 
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
+  return () => {
+    document.head.removeChild(script);
+  };
+}, []);
 
   window.initMap = async () => {
-    const newMap = new window.google.maps.Map(ref.current, {
-      center: { lat, lng },
-      zoom: 16,
-    });
-    setMap(newMap);
-
-    newMap.addListener("click", handleMapClick); // Add click event listener to the map
-
     try {
       const shelterData = await fetchMapPlaceData();
-
+  
+      const newMap = new window.google.maps.Map(ref.current, {
+        center: { lat, lng },
+        zoom: 16,
+      });
+  
       shelterData.forEach((shelter) => {
         const marker = new window.google.maps.Marker({
           position: { lat: shelter.lat, lng: shelter.lng },
@@ -43,6 +41,13 @@ const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
           },
         });
       });
+  
+      if (newMap instanceof window.google.maps.Map) {
+        setMap(newMap);
+        newMap.addListener("click", handleMapClick);
+      } else {
+        console.error("Invalid map instance");
+      }
     } catch (error) {
       console.error(error.message);
     }
