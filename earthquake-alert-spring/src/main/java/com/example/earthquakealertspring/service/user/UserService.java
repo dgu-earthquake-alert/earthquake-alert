@@ -310,4 +310,44 @@ public class UserService {
             return ResponseEntity.badRequest().body("Add shelter memo: Error while adding shelter memo");
         }
     }
+
+    public ResponseEntity updateShelterMemo(String userId, String favoritePlaceId, String shelterId, String shelterMemo) {
+        try {
+            User user = userRepository.findByUserId(Long.parseLong(userId));
+            if (user == null) {
+                log.info("Update shelter memo: User {} does not exist", userId);
+                return ResponseEntity.badRequest().body("Update shelter memo: User does not exist");
+            }
+            FavoritePlace favoritePlace = favoritePlaceRepository.findByFavoritePlaceId(Long.parseLong(favoritePlaceId));
+            if (favoritePlace == null) {
+                log.info("Update shelter memo: Favorite place {} does not exist", favoritePlaceId);
+                return ResponseEntity.badRequest().body("Update shelter memo: Favorite place does not exist");
+            }
+            Shelter shelter = shelterRepository.findByShelterId(Long.parseLong(shelterId));
+            if (shelter == null) {
+                log.info("Update shelter memo: Shelter {} does not exist", shelterId);
+                return ResponseEntity.badRequest().body("Update shelter memo: Shelter does not exist");
+            }
+            if (shelter.getMemo()==null) {
+                log.info("Update shelter memo: Shelter {} does not have a memo", shelterId);
+                return ResponseEntity.badRequest().body("Update shelter memo: Shelter does not have a memo");
+            }
+            shelter.setMemo(shelterMemo);
+            shelterRepository.save(shelter);
+            ShelterDto shelterResponseDto = ShelterDto.builder()
+                    .shelterId(Long.toString(shelter.getShelterId()))
+                    .favoritePlaceId(Long.toString(favoritePlace.getFavoritePlaceId()))
+                    .shelterName(shelter.getName())
+                    .shelterAddress(shelter.getAddress())
+                    .shelterLat(shelter.getLatitude())
+                    .shelterLng(shelter.getLongitude())
+                    .shelterMemo(shelter.getMemo())
+                    .build();
+            return ResponseEntity.ok().body(shelterResponseDto);
+        }
+        catch (Exception e) {
+            log.error("Update shelter memo: Error while updating shelter memo", e);
+            return ResponseEntity.badRequest().body("Update shelter memo: Error while updating shelter memo");
+        }
+    }
 }
