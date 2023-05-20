@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y mysql-server
 
 # MySQL 서버 실행 및 구성
 RUN service mysql start \
-    && mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'" \
+    && mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'" \
     && mysql -e "CREATE DATABASE earthquake" \
     && mysql -e "GRANT ALL PRIVILEGES ON earthquake.* TO 'root'@'localhost'"
 
