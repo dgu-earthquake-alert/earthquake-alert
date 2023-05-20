@@ -62,4 +62,10 @@ public class UserController {
     public ResponseEntity updateShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId, @RequestBody ShelterDto shelterDto) {
         return userService.updateShelterMemo(userId, favoritePlaceId, shelterId, shelterDto.getShelterMemo());
     }
+
+    @DeleteMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}/memo")
+    public ResponseEntity deleteShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId) {
+        return userService.deleteShelterMemo(userId, favoritePlaceId, shelterId);
+    }
+
 }
