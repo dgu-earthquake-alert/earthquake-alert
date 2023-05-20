@@ -12,4 +12,5 @@ public class ShelterDto {
     private String shelterAddress;
     private String shelterLat;
     private String shelterLng;
+    private String shelterMemo;
 }

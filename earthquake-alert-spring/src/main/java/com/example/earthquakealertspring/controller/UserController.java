@@ -52,4 +52,20 @@ public class UserController {
     public ResponseEntity deleteShelter(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId) {
         return userService.deleteShelter(userId, favoritePlaceId, shelterId);
     }
+
+    @PostMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}/memo")
+    public ResponseEntity addShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId, @RequestBody ShelterDto shelterDto) {
+        return userService.addShelterMemo(userId, favoritePlaceId, shelterId, shelterDto.getShelterMemo());
+    }
+
+    @PutMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}/memo")
+    public ResponseEntity updateShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId, @RequestBody ShelterDto shelterDto) {
+        return userService.updateShelterMemo(userId, favoritePlaceId, shelterId, shelterDto.getShelterMemo());
+    }
+
+    @DeleteMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}/memo")
+    public ResponseEntity deleteShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId) {
+        return userService.deleteShelterMemo(userId, favoritePlaceId, shelterId);
+    }
+
 }

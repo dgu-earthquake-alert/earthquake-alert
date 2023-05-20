@@ -34,11 +34,18 @@ public class Shelter {
     @Column(nullable = false)
     private String longitude;
 
+    @Column(nullable = true)
+    private String memo;
+
     public void setFavoritePlace(FavoritePlace favoritePlace) {
         this.favoritePlace = favoritePlace;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 }
