@@ -276,7 +276,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity addShelterMemo(String userId, String favoritePlaceId, String shelterId, String memo) {
+    public ResponseEntity addShelterMemo(String userId, String favoritePlaceId, String shelterId, String shelterMemo) {
         try {
             User user = userRepository.findByUserId(Long.parseLong(userId));
             if (user == null) {
@@ -293,7 +293,11 @@ public class UserService {
                 log.info("Add shelter memo: Shelter {} does not exist", shelterId);
                 return ResponseEntity.badRequest().body("Add shelter memo: Shelter does not exist");
             }
-            shelter.setMemo(memo);
+            if (shelterMemo == null || shelterMemo.equals("")) {
+                log.info("Add shelter memo: Memo is empty");
+                return ResponseEntity.badRequest().body("Add shelter memo: Memo is empty");
+            }
+            shelter.setMemo(shelterMemo);
             shelterRepository.save(shelter);
             ShelterDto shelterResponseDto = ShelterDto.builder()
                     .shelterId(Long.toString(shelter.getShelterId()))
@@ -331,6 +335,10 @@ public class UserService {
             if (shelter.getMemo() == null) {
                 log.info("Update shelter memo: Shelter {} does not have a memo", shelterId);
                 return ResponseEntity.badRequest().body("Update shelter memo: Shelter does not have a memo");
+            }
+            if (shelterMemo == null || shelterMemo.equals("")) {
+                log.info("Update shelter memo: Memo is empty");
+                return ResponseEntity.badRequest().body("Update shelter memo: Memo is empty");
             }
             shelter.setMemo(shelterMemo);
             shelterRepository.save(shelter);
