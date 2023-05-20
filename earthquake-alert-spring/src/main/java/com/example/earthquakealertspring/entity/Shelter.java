@@ -44,4 +44,7 @@ public class Shelter {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setMemo(String memo) {
+    }
 }

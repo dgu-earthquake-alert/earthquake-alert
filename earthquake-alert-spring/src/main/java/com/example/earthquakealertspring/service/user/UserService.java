@@ -275,4 +275,39 @@ public class UserService {
             return ResponseEntity.badRequest().body("Delete shelter: Error while deleting shelter");
         }
     }
+
+    public ResponseEntity addShelterMemo(String userId, String favoritePlaceId, String shelterId, String memo) {
+        try {
+            User user = userRepository.findByUserId(Long.parseLong(userId));
+            if (user == null) {
+                log.info("Add shelter memo: User {} does not exist", userId);
+                return ResponseEntity.badRequest().body("Add shelter memo: User does not exist");
+            }
+            FavoritePlace favoritePlace = favoritePlaceRepository.findByFavoritePlaceId(Long.parseLong(favoritePlaceId));
+            if (favoritePlace == null) {
+                log.info("Add shelter memo: Favorite place {} does not exist", favoritePlaceId);
+                return ResponseEntity.badRequest().body("Add shelter memo: Favorite place does not exist");
+            }
+            Shelter shelter = shelterRepository.findByShelterId(Long.parseLong(shelterId));
+            if (shelter == null) {
+                log.info("Add shelter memo: Shelter {} does not exist", shelterId);
+                return ResponseEntity.badRequest().body("Add shelter memo: Shelter does not exist");
+            }
+            shelter.setMemo(memo);
+            shelterRepository.save(shelter);
+            ShelterDto shelterResponseDto = ShelterDto.builder()
+                    .shelterId(Long.toString(shelter.getShelterId()))
+                    .favoritePlaceId(Long.toString(favoritePlace.getFavoritePlaceId()))
+                    .shelterName(shelter.getName())
+                    .shelterAddress(shelter.getAddress())
+                    .shelterLat(shelter.getLatitude())
+                    .shelterLng(shelter.getLongitude())
+                    .shelterMemo(shelter.getMemo())
+                    .build();
+            return ResponseEntity.ok().body(shelterResponseDto);
+        } catch (Exception e) {
+            log.error("Add shelter memo: Error while adding shelter memo", e);
+            return ResponseEntity.badRequest().body("Add shelter memo: Error while adding shelter memo");
+        }
+    }
 }
