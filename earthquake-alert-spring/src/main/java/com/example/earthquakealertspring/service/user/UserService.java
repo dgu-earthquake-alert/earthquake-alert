@@ -85,7 +85,7 @@ public class UserService {
                     .build();
             return ResponseEntity.ok().body(favoritePlaceResponseDto);
         } catch (Exception e) {
-            log.error("AAdd favorite place: Error while getting user info", e);
+            log.error("Add favorite place: Error while getting user info", e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -206,6 +206,7 @@ public class UserService {
                             .shelterAddress(shelter.getAddress())
                             .shelterLat(shelter.getLatitude())
                             .shelterLng(shelter.getLongitude())
+                            .shelterMemo(shelter.getMemo())
                             .build())
                     .collect(Collectors.toList());
             return ResponseEntity.ok().body(Collections.singletonMap("shelters", shelterResponseDtos));

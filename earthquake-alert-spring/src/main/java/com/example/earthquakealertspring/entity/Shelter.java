@@ -34,6 +34,9 @@ public class Shelter {
     @Column(nullable = false)
     private String longitude;
 
+    @Column(nullable = true, columnDefinition = "TEXT")
+    private String memo;
+
     public void setFavoritePlace(FavoritePlace favoritePlace) {
         this.favoritePlace = favoritePlace;
     }
