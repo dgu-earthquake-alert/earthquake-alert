@@ -25,14 +25,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         String token = tokenProvider.create(authentication);
-//        response.getWriter().write(token);
-//        log.info("token {}", token);
-//        response.sendRedirect("http://localhost:3000/social-login?token=" + token);
+        response.getWriter().write(token);
         log.info("token {}", token);
-        Map<String, String> tokenResponse = new HashMap<>();
-        tokenResponse.put("token", token);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(objectMapper.writeValueAsString(tokenResponse));
-        response.getWriter().flush();
+        response.sendRedirect("https://earthquake-alert.site/social-login?token=" + token);
     }
 }
