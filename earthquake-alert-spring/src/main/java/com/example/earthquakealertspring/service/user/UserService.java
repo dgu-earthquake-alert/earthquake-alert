@@ -53,7 +53,7 @@ public class UserService {
             return ResponseEntity.ok(userDto);
         } catch (Exception e) {
             log.error("Get user info: Error while getting user info", e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Get user info: Error while getting user info");
         }
     }
 
@@ -86,7 +86,7 @@ public class UserService {
             return ResponseEntity.ok().body(favoritePlaceResponseDto);
         } catch (Exception e) {
             log.error("Add favorite place: Error while getting user info", e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Add favorite place: Error while getting user info");
         }
     }
 
@@ -180,8 +180,8 @@ public class UserService {
                     .build();
             return ResponseEntity.ok().body(shelterResponseDto);
         } catch (Exception e) {
-            log.error("Error while getting user info", e);
-            return ResponseEntity.badRequest().build();
+            log.error("Add shelter: Error while adding shelter", e);
+            return ResponseEntity.badRequest().body("Add shelter: Error while adding shelter");
         }
     }
 
@@ -211,8 +211,8 @@ public class UserService {
                     .collect(Collectors.toList());
             return ResponseEntity.ok().body(Collections.singletonMap("shelters", shelterResponseDtos));
         } catch (Exception e) {
-            log.error("Error while getting user info", e);
-            return ResponseEntity.badRequest().build();
+            log.error("Get shelter: Error while getting shelter", e);
+            return ResponseEntity.badRequest().body("Get shelter: Error while getting shelter");
         }
     }
 
@@ -246,8 +246,8 @@ public class UserService {
                     .build();
             return ResponseEntity.ok().body(shelterResponseDto);
         } catch (Exception e) {
-            log.error("Error while getting user info", e);
-            return ResponseEntity.badRequest().build();
+            log.error("Update shelter: Error while updating shelter", e);
+            return ResponseEntity.badRequest().body("Update shelter: Error while updating shelter");
         }
     }
 
@@ -271,8 +271,8 @@ public class UserService {
             shelterRepository.delete(shelter);
             return ResponseEntity.ok().body("Shelter deleted");
         } catch (Exception e) {
-            log.error("Error while getting user info", e);
-            return ResponseEntity.badRequest().build();
+            log.error("Delete shelter: Error while deleting shelter", e);
+            return ResponseEntity.badRequest().body("Delete shelter: Error while deleting shelter");
         }
     }
 }
