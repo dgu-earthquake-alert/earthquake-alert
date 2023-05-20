@@ -35,7 +35,7 @@ public class TokenProvider {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .setSubject(userPrincipal.getName())
-                .setIssuer("dguEarthquakeAlert")
+                .setIssuer("earthquake-alert")
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .compact();
