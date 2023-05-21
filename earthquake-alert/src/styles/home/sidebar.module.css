@@ -248,3 +248,35 @@
   display: inline-block;
   margin-left: 2px;
 }
+
+.toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background-color: rgb(196, 11, 11);
+  color: white;
+  font-size: 20px;
+  padding: 15px 25px;
+  border-radius: 15px;
+  opacity: 0;
+  animation-name: fade;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

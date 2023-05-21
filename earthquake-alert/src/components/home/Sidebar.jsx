@@ -23,25 +23,14 @@ const Sidebar = ({
   ); // Store bookmarks
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
   const [isRemoveToggle, setIsRemoveToggle] = useState(false); // 북마크 삭제버튼 클릭 여부
+  const [showToast, setShowToast] = useState(false); // State variable to track toast visibility
+
   let topValue =
     70 +
     50 *
       (nearbyShelterRef.current?.length === 0
         ? 1
         : nearbyShelterRef.current?.length);
-
-  /*   const [bookmarkItemsVisible, setBookmarkItemsVisible] = useState(
-    Array(bookmarks.length).fill(false)
-  ); // State variable to track the visibility of bookmark items */
-
-  /*   // Toggle the visibility of bookmark items for a given index
-  const toggleBookmarkItems = (index) => {
-    setBookmarkItemsVisible((prevVisible) => {
-      const newVisible = [...prevVisible];
-      newVisible[index] = !newVisible[index];
-      return newVisible;
-    });
-  }; */
 
   const removeBookmark = (index) => {
     setBookmarks((prev) => {
@@ -50,19 +39,6 @@ const Sidebar = ({
       return updatedBookmarks;
     });
   };
-
-  /*   let topValue;
-
-  if (isDisplayed) {
-    topValue =
-      70 +
-      50 *
-        (nearbyShelterRef.current?.length === 0
-          ? 1
-          : nearbyShelterRef.current?.length);
-  } else {
-    topValue = 70;
-  } */
 
   const refresh = () => {
     setIsRotated(true);
@@ -75,6 +51,11 @@ const Sidebar = ({
   // 저장한 위치의 1km 반경 이내 대피소 3개
   const handleBookmarkSave = async () => {
     if (bookmarkName !== "") {
+      if (bookmarks.length >= 5) {
+        setShowToast((prev) => !prev); // Display toast when the number of bookmarks exceeds 5
+        return;
+      }
+
       const filteredShelter = await fetchMapPlaceData().then((data) =>
         data
           .filter(
@@ -142,6 +123,11 @@ const Sidebar = ({
       >
         ⭐
       </button>
+
+      {/* Toast */}
+      {showToast && (
+        <div className={styles.toast}>5개를 초과하여 저장할 수 없습니다.</div>
+      )}
 
       {/* 북마크 모달 */}
       {isModalOpen && (
@@ -230,7 +216,11 @@ const Sidebar = ({
 
               if (index > 0) {
                 for (let i = index - 1; i >= 0; i--) {
-                  additionalOffset += 50 * bookmarks[i]?.shelter?.length;
+                  additionalOffset +=
+                    50 *
+                    (bookmarks[i]?.shelter?.length === 0
+                      ? 1
+                      : bookmarks[i]?.shelter?.length);
                 }
               }
 
