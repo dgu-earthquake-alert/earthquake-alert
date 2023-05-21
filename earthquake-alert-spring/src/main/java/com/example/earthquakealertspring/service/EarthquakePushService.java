@@ -1,7 +1,7 @@
 package com.example.earthquakealertspring.service;
 
 import com.example.earthquakealertspring.dto.EarthquakeResponse;
-import com.example.earthquakealertspring.dto.EarthquakeResponse.Item;
+import com.example.earthquakealertspring.dto.EarthquakeData;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,7 +17,7 @@ public class EarthquakePushService {
     private final RestTemplate restTemplate;
     private final FcmService fcmService;
     private final FCMTokenRepository fcmTokenRepository;
-    private Item lastSentItem;
+    private EarthquakeData lastSentData;
     private final String serviceKey;
     public EarthquakePushService(RestTemplate restTemplate, @Value("${api.earthquake-api.service-key}") String serviceKey, FcmService fcmService, FCMTokenRepository fcmTokenRepository) {
         this.restTemplate = restTemplate;
@@ -29,29 +29,28 @@ public class EarthquakePushService {
     @Scheduled(fixedRate = 60000)
     public void sendPushNotification() {
         EarthquakeResponse response = restTemplate.getForObject(EARTHQUAKE_API_URL, EarthquakeResponse.class);
-        Item newItem = response.getResponse().getBody().getItems().getItem();
+        EarthquakeData newData = response.getResponse().getBody().getItems().getEarthquakeData();
 
-        if (newItem == null) {
+        if (newData == null) {
             return;
         }
 
-        if (lastSentItem != null && lastSentItem.equals(newItem)) {
+        if (lastSentData != null && lastSentData.equals(newData)) {
             return;
         }
 
-        if (Double.parseDouble(newItem.getMt()) >= 5.0) {
-            sendFCMPushNotification(newItem);
-            lastSentItem = newItem;
+        if (Double.parseDouble(newData.getMt()) >= 5.0) {
+            sendFCMPushNotification(newData);
+            lastSentData = newData;
         }
     }
 
-    private void sendFCMPushNotification(Item item) {
+    private void sendFCMPushNotification(EarthquakeData earthquakeData) {
         List<FCMTokenEntity> tokens = fcmTokenRepository.findAll();
 
         for (FCMTokenEntity tokenEntity : tokens) {
             String title = "지진 알림";
-            String body = String.format("규모 %s 지진이 발생했습니다. 위치: %s \n인근에 계신 분들은 빠르게 대피하십시오.", item.getMt(), item.getLoc());
-
+            String body = String.format("규모 %s 지진이 발생했습니다. 위치: %s \n인근에 계신 분들은 빠르게 대피하십시오.", earthquakeData.getMt(), earthquakeData.getLoc());
             fcmService.sendMessage(tokenEntity.getToken(), title, body);
         }
     }

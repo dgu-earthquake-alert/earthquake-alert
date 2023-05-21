@@ -1,5 +1,6 @@
 package com.example.earthquakealertspring.dto;
 
+import com.example.earthquakealertspring.dto.EarthquakeData;
 import lombok.Getter;
 import lombok.Setter;
 

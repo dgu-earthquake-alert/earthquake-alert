@@ -1,4 +1,4 @@
-package com.example.test.entity;
+package com.example.earthquakealertspring.entity;
 import lombok.Getter;
 import lombok.Setter;
 
