@@ -74,27 +74,29 @@ const Sidebar = ({
 
   // 저장한 위치의 1km 반경 이내 대피소 3개
   const handleBookmarkSave = async () => {
-    const filteredShelter = await fetchMapPlaceData().then((data) =>
-      data
-        .filter(
-          (item) =>
-            item.lat > clickedLocation.lat - 0.01 &&
-            item.lat < clickedLocation.lat + 0.01 &&
-            item.lng > clickedLocation.lng - 0.01 &&
-            item.lng < clickedLocation.lng + 0.01
-        )
-        .slice(0, 3)
-    );
+    if (bookmarkName !== "") {
+      const filteredShelter = await fetchMapPlaceData().then((data) =>
+        data
+          .filter(
+            (item) =>
+              item.lat > clickedLocation.lat - 0.01 &&
+              item.lat < clickedLocation.lat + 0.01 &&
+              item.lng > clickedLocation.lng - 0.01 &&
+              item.lng < clickedLocation.lng + 0.01
+          )
+          .slice(0, 3)
+      );
 
-    const newBookmark = {
-      name: bookmarkName,
-      location: clickedLocation,
-      shelter: filteredShelter,
-    };
+      const newBookmark = {
+        name: bookmarkName,
+        location: clickedLocation,
+        shelter: filteredShelter,
+      };
 
-    setBookmarks((prev) => [...prev, newBookmark]);
-    setIsModalOpen(false);
-    setBookmarkName("");
+      setBookmarks((prev) => [...prev, newBookmark]);
+      setIsModalOpen(false);
+      setBookmarkName("");
+    }
   };
 
   // 현재위치의 1km 이내 대피소 3개
@@ -135,54 +137,42 @@ const Sidebar = ({
         onClick={() => {
           toggleSidebar();
           setIsRemoveToggle(false);
+          setIsModalOpen(false);
         }}
       >
         ⭐
       </button>
 
-      {/* 위치 북마크 모달 */}
+      {/* 북마크 모달 */}
       {isModalOpen && (
-        <div className={styles.modal_overlay}>
-          <div className={styles.modal_content}>
+        <div className={styles.modal_content}>
+          <input
+            type="text"
+            className={styles.modal_input}
+            value={bookmarkName}
+            onChange={(e) => setBookmarkName(e.target.value)}
+            placeholder="저장할 이름을 입력하세요."
+          />
+          <input
+            type="text"
+            className={styles.modal_input}
+            value={clickedLocation?.address}
+            placeholder="저장할 위치를 클릭하세요."
+            title="저장할 위치를 지도에서 클릭하세요."
+          />
+          <div className={styles.modal_button_container}>
             <button
-              className={styles.close_button}
+              className={styles.modal_button}
+              onClick={handleBookmarkSave}
+            >
+              저장
+            </button>
+            <button
+              className={styles.modal_button}
               onClick={() => setIsModalOpen(false)}
             >
-              {/* &times; */}
+              취소
             </button>
-            <label>
-              저장 이름
-              <input
-                type="text"
-                className={styles.modal_input}
-                value={bookmarkName}
-                onChange={(e) => setBookmarkName(e.target.value)}
-                placeholder="저장할 이름을 입력하세요."
-              />
-            </label>
-            <label>
-              저장 위치
-              <input
-                type="text"
-                className={styles.modal_input}
-                defaultValue={clickedLocation?.address}
-                placeholder="지도에서 클릭한 위치가 표시됩니다."
-              />
-            </label>
-            <p>
-              <button
-                className={styles.modal_button}
-                onClick={handleBookmarkSave}
-              >
-                저장
-              </button>
-              <button
-                className={styles.modal_button}
-                onClick={() => setIsModalOpen(false)}
-              >
-                취소
-              </button>
-            </p>
           </div>
         </div>
       )}
@@ -197,7 +187,7 @@ const Sidebar = ({
         ></div>
         <div
           className={styles.bookmark_add}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsModalOpen((prev) => !prev)}
         ></div>
         <div
           className={styles.bookmark_remove}
@@ -271,7 +261,6 @@ const Sidebar = ({
                           onClick={(e) => {
                             e.stopPropagation();
                             removeBookmark(index);
-                            setIsRemoveToggle((prev) => !prev);
                           }}
                         />
                       )}

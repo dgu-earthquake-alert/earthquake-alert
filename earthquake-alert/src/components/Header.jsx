@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "../styles/header.module.css";
-import Login from "./login/Login";
+/* import Login from "./login/Login";
 import Profile from "./login/Profile";
-
+ */
 const Header = ({ isSidebarOpen, toggleHeader }) => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
@@ -35,18 +35,25 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
       >
         지진발생 이력
       </Link>
-      <Link to="/rule" className={`${styles.nav_item} ${
-          selectedItem === "/rule" || selectedItem === "/rule/subpage1" || selectedItem === "/rule/subpage2" ? styles.nav_item_select : ""
-        }`}>
+      <Link
+        to="/rule"
+        className={`${styles.nav_item} ${
+          selectedItem === "/rule" ||
+          selectedItem === "/rule/subpage1" ||
+          selectedItem === "/rule/subpage2"
+            ? styles.nav_item_select
+            : ""
+        }`}
+      >
         행동요령
       </Link>
-      <div className={`${styles.nav_login}`}>
+      {/*       <div className={`${styles.nav_login}`}>
         {isLogin ? (
           <Profile userInfo={userInfo} />
         ) : (
           <Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />
         )}
-      </div>
+      </div> */}
     </nav>
   );
 };
