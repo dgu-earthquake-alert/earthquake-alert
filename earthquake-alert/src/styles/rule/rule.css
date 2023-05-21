@@ -1,14 +1,12 @@
 .main {
   width: 100vw;
-  transition: width 0.3s ease-in-out;
-  float: right;
-
 }
 
 .main_title {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   padding-top: 60px;
   font-size: 20px;
   font-weight: bold;
@@ -25,11 +23,30 @@
   padding-left: 200px;
 }
 
-.btn_select_group{
+.btn_select_group {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 40px;
+}
+
+.select_button {
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.select_button:hover {
+  background-color: #084298;
+  color: white;
+  transition: 0.2s;
+}
+
+.select_button:focus {
+  border: none;
+  outline: none;
 }
 
 .ol {

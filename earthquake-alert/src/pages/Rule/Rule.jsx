@@ -26,12 +26,19 @@ const Rule = () => {
   return (
     <>
       <Header />
-      <main className="main">
+      <main
+        className="main"
+        style={{
+          width: "1080px",
+          margin: "0 auto",
+          marginBottom: "80px",
+        }}
+      >
         <div className="main_title">지진, 이렇게 행동하세요.</div>
         <div className="btn_select_group">
-        <Link
+          <Link
             to="/rule"
-            className={`btn btn-primary btn-lg ${
+            className={`select_button ${
               activeButton === "" ? "color_blue" : "color_white"
             }`}
             onClick={handleButtonClick}
@@ -40,7 +47,7 @@ const Rule = () => {
           </Link>
           <Link
             to="/rule/subpage1"
-            className={`btn btn-secondary btn-lg ms-1 ${
+            className={`select_button ${
               activeButton === "subpage1" ? "color_blue" : "color_white"
             }`}
             onClick={handleSecondButtonClick}
@@ -49,7 +56,7 @@ const Rule = () => {
           </Link>
           <Link
             to="/rule/subpage2"
-            className={`btn btn-secondary btn-lg ms-1 ${
+            className={`select_button ${
               activeButton === "subpage2" ? "color_blue" : "color_white"
             }`}
             onClick={handleThirdButtonClick}

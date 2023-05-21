@@ -76,8 +76,14 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
   };
 
   return (
-    <div className="table_wrapper">
-      <Table style={{ width: "100%" }} striped bordered hover responsive>
+    <div className="table_wrapper" style={{ marginBottom: "80px" }}>
+      <Table
+        style={{ width: "900px", textAlign: "center" }}
+        striped
+        bordered
+        hover
+        responsive
+      >
         <thead>
           <tr className="bg_color_blue">
             <th
