@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  frontend:
+    image: earthquake-alert-aws-frontend:latest
+    build: ./earthquake-alert
+    ports:
+      - 3001:3001
+    environment:
+      - NODE_ENV=production
+
+  backend:
+    image: earthquake-alert-aws-backend:latest
+    build: ./earthquake-alert-spring
+    ports:
+      - 8081:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
