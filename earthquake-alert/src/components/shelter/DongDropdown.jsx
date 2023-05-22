@@ -370,7 +370,7 @@ const DongDropdown = ({ gu, dong, setDong, handlePageChange }) => {
   const dropdownStyles = {
     control: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "#052c65" : "#084298",
+      backgroundColor: state.isFocused || state.isHover ? "#052c65" : "#084298",
       border: state.isFocused ? "none" : null,
       width: "110px",
       borderRadius: "10px",
@@ -384,6 +384,7 @@ const DongDropdown = ({ gu, dong, setDong, handlePageChange }) => {
       ...provided,
       backgroundColor: "#052c65",
       color: "white",
+      cursor: "pointer",
     }),
   };
   return (

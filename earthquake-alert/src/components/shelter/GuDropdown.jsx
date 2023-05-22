@@ -46,7 +46,7 @@ const GuDropdown = ({ gu, setGu, setDong, handlePageChange }) => {
   const dropdownStyles = {
     control: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "#052c65" : "#084298",
+      backgroundColor: state.isFocused || state.isHover ? "#052c65" : "#084298",
       border: state.isFocused ? "none" : null,
       width: "110px",
       marginRight: "10px",

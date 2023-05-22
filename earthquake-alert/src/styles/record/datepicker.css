@@ -13,6 +13,12 @@
   cursor: pointer;
 }
 
+.datepicker_button:focus,
+.datepicker_button:hover {
+  outline: none;
+  background-color: #052c65;
+}
+
 .datepicker_container {
   display: flex;
   justify-content: center;

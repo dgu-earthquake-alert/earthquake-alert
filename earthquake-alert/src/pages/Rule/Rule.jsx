@@ -30,7 +30,7 @@ const Rule = () => {
         className="main"
         style={{
           width: "85vw",
-          maxWidth: "900px",
+          maxWidth: "800px",
           margin: "0 auto",
           marginBottom: "80px",
         }}
