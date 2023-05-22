@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/footer.module.css";
 import { Modal, Button } from "react-bootstrap";
 import EarthquakeModal from "./modal/EarthquakeModal";
+import { fetchEarthquakeData } from "../utils/api";
 
 const Footer = ({ isSidebarOpen }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,29 +12,62 @@ const Footer = ({ isSidebarOpen }) => {
     lng: "",
     mt: "",
   });
+  const [modalData, setModalData] = useState({
+    loc:"",
+    lat: "",
+    lng: "",
+    mt: "",
+  });
 
   const handleModalInputChange = (e, field) => {
-    setEarthquakeData({ ...earthquakeData, [field]: e.target.value });
+    setModalData({ ...modalData, [field]: e.target.value });
+  };
+
+  useEffect(() => {
+    // 페이지 로드 시 지진 데이터 가져오기
+    fetchData();
+    // 20초마다 지진 데이터 업데이트
+    const interval = setInterval(fetchData, 20000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetchEarthquakeData();
+    setEarthquakeData(data);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setModalData({
+      loc:"",
+      lat: "",
+      lng: "",
+      mt: "",
+    });
   };
 
   const handleModalSave = () => {
-    setIsModalOpen(true);
+    setEarthquakeData(modalData);
+    setIsModalOpen(false);
   };
 
   return (
     <>
       {isModalOpen && (
-        <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)}>
+        <Modal show={isModalOpen} onHide={handleModalClose}>
           <Modal.Header closeButton>
-          <Modal.Title>지진 정보 입력</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <label>
+            <Modal.Title>지진 정보 입력</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <label>
               위치
               <input
                 type="text"
                 className="form-control"
-                value={earthquakeData.loc}
+                value={modalData.loc}
                 onChange={(e) => handleModalInputChange(e, "loc")}
                 placeholder="위치를 입력하세요."
               />
@@ -43,7 +77,7 @@ const Footer = ({ isSidebarOpen }) => {
               <input
                 type="text"
                 className="form-control"
-                value={earthquakeData.lat}
+                value={modalData.lat}
                 onChange={(e) => handleModalInputChange(e, "lat")}
                 placeholder="위도를 입력하세요."
               />
@@ -53,7 +87,7 @@ const Footer = ({ isSidebarOpen }) => {
               <input
                 type="text"
                 className="form-control"
-                value={earthquakeData.lng}
+                value={modalData.lng}
                 onChange={(e) => handleModalInputChange(e, "lng")}
                 placeholder="경도를 입력하세요."
               />
@@ -63,13 +97,20 @@ const Footer = ({ isSidebarOpen }) => {
               <input
                 type="text"
                 className="form-control"
-                value={earthquakeData.mt}
+                value={modalData.mt}
                 onChange={(e) => handleModalInputChange(e, "mt")}
                 placeholder="규모를 입력하세요."
               />
             </label>
-            
           </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleModalClose}>
+              닫기
+            </Button>
+            <Button variant="primary" onClick={handleModalSave}>
+              저장
+            </Button>
+          </Modal.Footer>
         </Modal>
       )}
       {earthquakeData.lat &&
