@@ -77,7 +77,7 @@ const RecordTable = ({ recordData = [], activePage, handlePageChange }) => {
   return (
     <div className="table_wrapper" style={{ marginBottom: "80px" }}>
       <Table
-        style={{ width: "900px", textAlign: "center" }}
+        style={{ width: "85vw", maxWidth: "900px", textAlign: "center" }}
         striped
         bordered
         hover
