@@ -71,12 +71,18 @@ const RecordTable = ({ recordData = [], activePage, handlePageChange }) => {
       />
     );
 
-    return <Pagination className="font_color_blue">{items}</Pagination>;
+    return <Pagination>{items}</Pagination>;
   };
 
   return (
-    <div className="table_wrapper">
-      <Table style={{ width: "100%" }} striped bordered hover responsive>
+    <div className="table_wrapper" style={{ marginBottom: "80px" }}>
+      <Table
+        style={{ width: "85vw", maxWidth: "900px", textAlign: "center" }}
+        striped
+        bordered
+        hover
+        responsive
+      >
         <thead>
           <tr className="bg_color_blue">
             <th

@@ -33,32 +33,33 @@ const Shelter = () => {
       <main className="main">
         <h1 className="main_title">지진대피소 상세 정보를 조회해 보세요.</h1>
         <div className="dropdown_container">
-          <div>
-            <label>구별조회</label>
+          <label className="font_color_blue" style={{ cursor: "pointer" }}>
+            구별조회
             <GuDropdown
               gu={gu}
               setGu={setGu}
               setDong={setDong}
               handlePageChange={handlePageChange}
             />
-          </div>
-          <div>
-            <label>동별조회</label>
+          </label>
+          <label className="font_color_blue" style={{ cursor: "pointer" }}>
+            동별조회
             <DongDropdown
               gu={gu}
               dong={dong}
               setDong={setDong}
               handlePageChange={handlePageChange}
             />
-          </div>
+          </label>
         </div>
+
+        <ShelterTable
+          shelterData={shelterData}
+          activePage={activePage}
+          handlePageChange={handlePageChange}
+        />
       </main>
 
-      <ShelterTable
-        shelterData={shelterData}
-        activePage={activePage}
-        handlePageChange={handlePageChange}
-      />
       <Footer />
     </>
   );

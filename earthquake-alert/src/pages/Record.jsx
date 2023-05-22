@@ -57,7 +57,7 @@ const Record = () => {
         </h1>
         <div className="datepicker_container">
           <div>
-            <label>시작일</label>
+            <label className="font_color_blue">시작일</label>
             <DatePicker
               selected={startDate}
               onChange={(date) => updateStartDate(date)}
@@ -67,7 +67,7 @@ const Record = () => {
             />
           </div>
           <div>
-            <label>종료일</label>
+            <label className="font_color_blue">종료일</label>
             <DatePicker
               selected={endDate}
               onChange={(date) => updateEndDate(date)}
@@ -77,7 +77,9 @@ const Record = () => {
             />
           </div>
           <div>
-            <label>시별조회</label>
+            <label className="font_color_blue" style={{ cursor: "pointer" }}>
+              시별조회
+            </label>
             <SiDropdown
               si={si}
               setSi={setSi}

@@ -36,12 +36,15 @@ const SiDropdown = ({ si, setSi, handlePageChange }) => {
   const selectedValue = options.find((option) => option.value === si);
 
   const dropdownStyles = {
-    control: (provided) => ({
+    control: (provided, state) => ({
       ...provided,
-      backgroundColor: "#084298",
+      backgroundColor:
+        state.isFocused || state.isHovered ? "#052c65" : "#084298",
+      border: state.isFocused ? "none" : null,
       width: "110px",
       marginRight: "10px",
-      borderRadius: "20px",
+      borderRadius: "10px",
+      cursor: "pointer",
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -49,7 +52,9 @@ const SiDropdown = ({ si, setSi, handlePageChange }) => {
     }),
     option: (provided) => ({
       ...provided,
-      color: "black",
+      backgroundColor: "#052c65",
+      color: "white",
+      cursor: "pointer",
     }),
   };
 
