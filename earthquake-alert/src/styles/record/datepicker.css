@@ -2,14 +2,21 @@
   display: inline-block;
   padding: 5px 10px;
   font-size: 18px;
+  max-width: 150px;
   height: 40px;
   background-color: #084298;
   color: white;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
-
   border: none;
   text-align: center;
+  cursor: pointer;
+}
+
+.datepicker_button:focus,
+.datepicker_button:hover {
+  outline: none;
+  background-color: #052c65;
 }
 
 .datepicker_container {
