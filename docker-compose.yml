@@ -1,12 +1,10 @@
 version: "3.8"
 services:
   mysql:
-    image: mysql:8.0.33
+    image: mysql:8.0.32
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: earthquake
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
     volumes:
       - db_data:/var/lib/mysql
     ports:
