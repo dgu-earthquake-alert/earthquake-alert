@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-import { sendTokenToServer } from "./api";
+import { sendTokenToServer } from "./utils/api";
 import App from "./App";
-import firebase from "firebase/app";
-import "firebase/messaging";
+import firebase from "firebase/compat/app";
+import "firebase/compat/messaging";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () {
-    navigator.serviceWorker.register("../public/firebase-messaging-sw.js").then(
+    navigator.serviceWorker.register("/firebase-messaging-sw.js").then(
       function (registration) {
         console.log("서비스 워커 등록 성공: ", registration.scope);
       },
@@ -36,7 +36,14 @@ messaging
   .getToken({ vapidKey: process.env.REACT_APP_VAPID_KEY })
   .then((currentToken) => {
     if (currentToken) {
-      sendTokenToServer(currentToken); // 백엔드에 토큰 전송
+      // 푸시 알람 동의 요청
+      if (
+        window.confirm(
+          "동의하시면 지진 발생 시 푸시 알람을 받아보실 수 있습니다."
+        )
+      ) {
+        sendTokenToServer(currentToken); // 백엔드에 토큰 전송
+      }
     } else {
       // Show permission request UI
       alert("푸시 알람을 받아보실 수 없습니다.");
