@@ -22,7 +22,7 @@ function Home() {
     localStorage.setItem("location", location);
   };
 
-  const toggleMemo = (memoId) => {
+  const closeMemo = (memoId) => {
     setShelterMemo((prevMemo) =>
       prevMemo?.map((shelter) => {
         if (shelter?.id === memoId) {
@@ -30,6 +30,12 @@ function Home() {
         }
         return shelter; // 추가: return 문을 추가하여 기본적으로 shelter를 반환하도록 함
       })
+    );
+  };
+
+  const removeMemo = (memoId) => {
+    setShelterMemo((prevMemo) =>
+      prevMemo.filter((shelter) => shelter.id !== memoId)
     );
   };
 
@@ -151,18 +157,15 @@ function Home() {
                   position: "absolute",
                   top: "50px",
                   right: "50px",
+                  display: "flex",
+                  flexDirection: "column",
                   backgroundColor: "#fde68a",
-                  boxShadow: "black",
+                  boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                  padding: "10px",
                   cursor: "grab",
                   zIndex: "100",
                 }}
               >
-                <span
-                  onClick={() => toggleMemo(shelter.id)}
-                  style={{ cursor: "pointer" }}
-                >
-                  X
-                </span>
                 <textarea
                   style={{
                     backgroundColor: "transparent",
@@ -181,6 +184,24 @@ function Home() {
                     setShelterMemo(updatedShelterMemo);
                   }}
                 />
+                <div style={{ alignSelf: "end" }}>
+                  <span
+                    onClick={() => closeMemo(shelter.id)}
+                    style={{ display: "inline-block", cursor: "pointer" }}
+                  >
+                    닫기
+                  </span>
+                  <span
+                    onClick={() => removeMemo(shelter.id)}
+                    style={{
+                      display: "inline-block",
+                      marginLeft: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    삭제
+                  </span>
+                </div>
               </div>
             </Draggable>
           ) : null
