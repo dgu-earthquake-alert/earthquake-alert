@@ -183,6 +183,7 @@ function Home() {
                     });
                     setShelterMemo(updatedShelterMemo);
                   }}
+                  maxLength={100}
                 />
                 <div style={{ alignSelf: "end" }}>
                   <span
