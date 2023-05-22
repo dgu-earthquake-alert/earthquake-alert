@@ -22,41 +22,43 @@ function Home() {
     localStorage.setItem("location", location);
   };
 
+  const toggleMemo = (memoId) => {
+    setShelterMemo((prevMemo) =>
+      prevMemo?.map((shelter) => {
+        if (shelter?.id === memoId) {
+          return { ...shelter, open: !shelter.open };
+        }
+        return shelter; // 추가: return 문을 추가하여 기본적으로 shelter를 반환하도록 함
+      })
+    );
+  };
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const toggleShelterClicked = useCallback(
-    (shelterId, shelterName) => {
-      // 중복 저장 여부를 확인
-      const isDuplicate = shelterMemo.some(
+  const toggleShelterClicked = useCallback((shelterId, shelterName) => {
+    setShelterMemo((prevMemo) => {
+      const memoIndex = prevMemo.findIndex(
         (shelter) => shelter.id === shelterId
       );
-
-      if (!isDuplicate) {
-        setShelterMemo((prevMemo) => {
-          const newShelterMemo = [
-            ...prevMemo,
-            {
-              id: shelterId,
-              name: shelterName,
-              description: shelterName,
-              open: true,
-            },
-          ];
-
-          // 중복 제거
-          const uniqueShelterMemo = newShelterMemo.filter(
-            (value, index, self) =>
-              self.findIndex((s) => s.id === value.id) === index
-          );
-
-          return uniqueShelterMemo;
-        });
+      if (memoIndex !== -1) {
+        const updatedMemo = [...prevMemo];
+        updatedMemo[memoIndex].open = !updatedMemo[memoIndex].open;
+        return updatedMemo;
+      } else {
+        return [
+          ...prevMemo,
+          {
+            id: shelterId,
+            name: shelterName,
+            description: shelterName,
+            open: true,
+          },
+        ];
       }
-    },
-    [shelterMemo]
-  );
+    });
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("shelterMemo", JSON.stringify(shelterMemo));
@@ -141,33 +143,49 @@ function Home() {
         updateMapCenter={updateMapCenter}
       />
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
-        {shelterMemo.map((shelter) => (
-          <Draggable key={shelter.id}>
-            <textarea
-              value={shelter.description}
-              style={{
-                position: "absolute",
-                top: "50px",
-                right: "50px",
-                width: "200px",
-                height: "200px",
-                backgroundColor: "#fde68a",
-                cursor: "grab",
-                zIndex: "100",
-              }}
-              onChange={(e) => {
-                const updatedShelterMemo = shelterMemo.map((s) => {
-                  if (s.id === shelter.id) {
-                    return { ...s, description: e.target.value };
-                  }
-                  return s;
-                });
-                setShelterMemo(updatedShelterMemo);
-              }}
-            />
-            {/* <div onClick={() => !shelter.open}>X</div> */}
-          </Draggable>
-        ))}
+        {shelterMemo.map((shelter) =>
+          shelter.open ? (
+            <Draggable key={shelter.id}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50px",
+                  right: "50px",
+                  backgroundColor: "#fde68a",
+                  boxShadow: "black",
+                  cursor: "grab",
+                  zIndex: "100",
+                }}
+              >
+                <span
+                  onClick={() => toggleMemo(shelter.id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  X
+                </span>
+                <textarea
+                  style={{
+                    backgroundColor: "transparent",
+                    width: "200px",
+                    height: "180px",
+                    border: "none",
+                  }}
+                  value={shelter.description}
+                  onChange={(e) => {
+                    const updatedShelterMemo = shelterMemo.map((s) => {
+                      if (s.id === shelter.id) {
+                        return { ...s, description: e.target.value };
+                      }
+                      return s;
+                    });
+                    setShelterMemo(updatedShelterMemo);
+                  }}
+                />
+              </div>
+            </Draggable>
+          ) : null
+        )}
+
         <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>
         <div className={styles.map}>
           <GoogleMap
