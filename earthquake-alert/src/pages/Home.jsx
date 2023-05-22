@@ -37,7 +37,12 @@ function Home() {
         setShelterMemo((prevMemo) => {
           const newShelterMemo = [
             ...prevMemo,
-            { id: shelterId, name: shelterName, description: shelterName },
+            {
+              id: shelterId,
+              name: shelterName,
+              description: shelterName,
+              open: true,
+            },
           ];
 
           // 중복 제거
@@ -152,7 +157,7 @@ function Home() {
               }}
               onChange={(e) => {
                 const updatedShelterMemo = shelterMemo.map((s) => {
-                  if (s.Id === shelter.Id) {
+                  if (s.id === shelter.id) {
                     return { ...s, description: e.target.value };
                   }
                   return s;
@@ -160,6 +165,7 @@ function Home() {
                 setShelterMemo(updatedShelterMemo);
               }}
             />
+            {/* <div onClick={() => !shelter.open}>X</div> */}
           </Draggable>
         ))}
         <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>

@@ -218,8 +218,9 @@
   width: 95%;
   font-size: 14px;
   margin-bottom: 2px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: none;
+  padding: 5px;
   background-color: #e9ecef;
 }
 
