@@ -32,3 +32,5 @@ RUN mkdir -p target && (cd build/libs && cp earthquake-alert-spring-0.0.1-SNAPSH
 
 # 컨테이너 실행 시 JAR 파일 실행
 CMD ["java", "-jar", "target/earthquake-alert-spring.jar"]
+#use 8080 port
+EXPOSE 8080

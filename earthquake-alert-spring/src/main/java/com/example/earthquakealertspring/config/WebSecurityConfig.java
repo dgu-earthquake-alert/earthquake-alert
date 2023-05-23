@@ -1,5 +1,5 @@
 package com.example.earthquakealertspring.config;
-
+   
 import com.example.earthquakealertspring.service.oauth2.CustomOAuth2UserService;
 import com.example.earthquakealertspring.service.security.JwtAuthenticationFilter;
 import com.example.earthquakealertspring.service.security.OAuth2SuccessHandler;

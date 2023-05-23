@@ -1,24 +1,38 @@
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const BASE_URL = "https://server.earthquake-alert.site/api/";
-/*
- * 브라우저 렌더링 성능상 fetch 다 나누는게 좋을것 같아 이름 변경 했습니다.
- * 별 fetchShelterData -> fetchMapPlaceData
- * 수빈 fetchShelterData -> fetchShelterTableData, fetchRecordData -> fetchRecordTableData
- * 제 생각에 소연님의 map에서는 indoorData는 가져오지 않는 것이 좋아보입니다. 왜냐하면 지진이 실제 발생했을 때 사람들을 실내구호소로 대피시킬 수는 없을 것 같아요.
- * 옥외대피소만 표시해주시면 될 것 같고 이를 새로 api.js에 추가해주시면 될것같습니다.
- */
+//배포
+//const BASE_URL = "https://server.earthquake-alert.site/api/";
+const BASE_URL = "http://localhost:8081/api/";
 // 옥외대피소 API: outdoorResponse, 실내구호소 API: indoorResponse
+
+const apiClient = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true, // 쿠키를 요청에 포함합니다.
+});
+
+export const sendTokenToServer = (token) => {
+  apiClient
+    .post("/register-token", {
+      token: token,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+
 export const fetchMapPlaceData = async () => {
   try {
-    const outdoorResponse = await axios.get(
-      `${BASE_URL}${API_KEY}/json/TlEtqkP/1/1000/`
+    const outdoorResponse = await apiClient.get(
+      `${API_KEY}/json/TlEtqkP/1/1000/`
     );
     const outdoorData = outdoorResponse.data;
 
-    const indoorResponse = await axios.get(
-      `${BASE_URL}${API_KEY}/json/TlInetqkP/1/1000/`
+    const indoorResponse = await apiClient.get(
+      `${API_KEY}/json/TlInetqkP/1/1000/`
     );
     const indoorData = indoorResponse.data;
 
@@ -68,9 +82,9 @@ export const fetchMapPlaceData = async () => {
 
 export const fetchShelterTableData = async (gu, dong) => {
   try {
-    const response = await axios.get(
+    const response = await apiClient.get(
       //"http://openapi.seoul.go.kr:8088/66524245416c736239334a75697446/json/TlEtqkP/1/1000/"
-      `${BASE_URL}${API_KEY}/json/TlEtqkP/1/1000/`
+      `${API_KEY}/json/TlEtqkP/1/1000/`
     );
     const data = response.data;
 
@@ -96,8 +110,8 @@ export const fetchShelterTableData = async (gu, dong) => {
 };
 export const fetchRecordTableData = async (si, startDate, endDate) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}${API_KEY}/json/TbEqkKenvinfo/1/1000/`
+    const response = await apiClient.get(
+      `${API_KEY}/json/TbEqkKenvinfo/1/1000/`
     );
     const data = response.data;
     if (
