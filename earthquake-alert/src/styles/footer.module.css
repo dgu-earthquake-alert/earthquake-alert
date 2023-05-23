@@ -4,13 +4,13 @@
   align-items: center;
   background-color: #e9ecef;
   width: 100vw;
-  height: 37vh;
+  height: 280px;
   transition: width 0.3s ease-in-out;
   float: right;
 }
 
 .footer.open {
-  width: calc(100vw - 20vw);
+  width: calc(100vw - 250px);
   float: right;
 }
 

@@ -6,7 +6,7 @@
 }
 
 .main.open {
-  width: calc(100vw - 20vw);
+  width: calc(100vw - 250px);
   float: right;
 }
 
