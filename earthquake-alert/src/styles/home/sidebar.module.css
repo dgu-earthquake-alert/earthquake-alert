@@ -200,7 +200,7 @@
 .modal_content {
   position: fixed;
   top: 60px;
-  left: 1vw;
+  left: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,7 +208,7 @@
   background-color: white;
   padding: 10px 10px 5px 10px;
   border-radius: 8px;
-  width: 18vw;
+  width: 238px;
   height: fit-content;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 901;
