@@ -4,8 +4,8 @@ import styles from "../styles/header.module.css";
 /* import Login from "./login/Login";
 import Profile from "./login/Profile";
  */
-import { Mobile, PC } from "./MediaQuery";
 import menu from "../assets/icon/menu.svg";
+import { PC, Mobile } from "../utils/MediaQuery";
 
 const Header = ({ isSidebarOpen, toggleHeader }) => {
   const location = useLocation();
@@ -39,7 +39,7 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
               selectedItem === "/record" ? styles.nav_item_select : ""
             }`}
           >
-            지진발생 이력
+            지진발생이력
           </Link>
           <Link
             to="/rule"

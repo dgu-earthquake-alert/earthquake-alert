@@ -72,3 +72,9 @@ body {
 a:link {
   text-decoration: none;
 }
+
+@media screen and (max-width: 819px) {
+  * {
+    font-size: 15px;
+  }
+}

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 import remove from "../../assets/icon/remove-filled.svg";
+import { Mobile, PC } from "../../utils/MediaQuery";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -109,7 +110,7 @@ const Sidebar = ({
   }, [bookmarks]);
 
   return (
-    <>
+    <PC>
       {/* 사이드바 오픈 */}
       <button
         className={`${styles.bookmark_button} ${
@@ -298,7 +299,7 @@ const Sidebar = ({
           {/* <div className={styles.sticky_note}></div> */}
         </div>
       </div>
-    </>
+    </PC>
   );
 };
 

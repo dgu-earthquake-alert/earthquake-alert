@@ -57,3 +57,12 @@
   border-radius: 20px;
   margin-top: 1rem;
 }
+
+@media screen and (max-width: 819px) {
+  .map_title {
+    font-size: 18px;
+  }
+  .map_select_button {
+    padding: 8px 12px;
+  }
+}
