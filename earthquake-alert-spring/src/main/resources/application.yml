@@ -1,18 +1,15 @@
 spring:
   datasource:
-    #배포
-    url: jdbc:mysql://mysql:3306/earthquake?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    #로컬
-    #    url: jdbc:mysql://localhost:3307/earthquake?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://mysql:3306/earthquake?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true #url: jdbc:mysql://localhost:3307/earthquake?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       #배포
-      ddl-auto: none
+      #ddl-auto: none
       #로컬
-    #      ddl-auto: create
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -26,9 +23,9 @@ spring:
             client-id: 364301501502-m5cst7hpa06dr7kqqlh5hlvg10rrhrna.apps.googleusercontent.com
             client-secret: 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
             #배포
-            redirect-uri: https://server.earthquake-alert.site/oauth2/callback/google
+            #redirect-uri: https://server.earthquake-alert.site/oauth2/callback/google
             #로컬
-            #            redirect-uri: http://localhost:8080/oauth2/callback/google
+            redirect-uri: http://localhost:8080/oauth2/callback/google
             scope: https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/userinfo.profile
 
   jwt:
