@@ -170,7 +170,7 @@ const Sidebar = ({
           className={`${styles.bookmark_refresh} ${
             isRotated ? styles.rotate : ""
           }`}
-          onClick={refresh}
+          onClick={() => refresh()}
         ></div>
         <div
           className={styles.bookmark_add}
