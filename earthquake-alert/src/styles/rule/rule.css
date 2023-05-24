@@ -1,5 +1,5 @@
 .main {
-  width: 100vw;
+  width: 100%;
 }
 
 .main_title {
@@ -61,4 +61,29 @@
   font-size: 18px;
   font-weight: 400;
   padding-bottom: 10px;
+}
+
+@media screen and (max-width: 819px) {
+  .main_title {
+    font-size: 17px;
+  }
+  .main_text {
+    font-size: 16px;
+  }
+  .select_button {
+    font-size: 14px;
+    padding: 8px;
+    margin-right: 5px;
+  }
+  .select_button:first-child {
+    display: flex;
+    justify-content: center;
+    width: 86px;
+  }
+  .ol {
+    font-size: 17px;
+  }
+  .ul {
+    font-size: 14px;
+  }
 }

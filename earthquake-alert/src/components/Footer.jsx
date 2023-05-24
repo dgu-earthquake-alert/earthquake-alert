@@ -122,10 +122,10 @@ const Footer = ({ isSidebarOpen }) => {
           </Modal.Footer>
         </Modal>
       )}
-      {earthquakeData.lat &&
-        earthquakeData.lng &&
-        earthquakeData.mt &&
-        earthquakeData.loc && (
+      {earthquakeData?.lat &&
+        earthquakeData?.lng &&
+        earthquakeData?.mt &&
+        earthquakeData?.loc && (
           <EarthquakeModal
             closeModal={() => setIsModalOpen(false)}
             earthquakeData={earthquakeData}
@@ -135,7 +135,7 @@ const Footer = ({ isSidebarOpen }) => {
         <div className={styles.footer_container}>
           <div className={styles.footer_item}>
             <span className={styles.footer_item_title}>지진알리미</span>
-            &copy; 2023
+            <div>&copy;2023</div>
           </div>
           {isPC && (
             <>
