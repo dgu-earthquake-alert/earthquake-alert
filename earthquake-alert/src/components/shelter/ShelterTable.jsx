@@ -99,7 +99,7 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
             <th style={{ width: "235px" }} className="thead_th" scope="col">
               시설명
             </th>
-            <th className="thead_th" scope="col">
+            <th style={{ width: "330px" }} className="thead_th" scope="col">
               상세주소
             </th>
             <th style={{ width: "95px" }} className="thead_th" scope="col">
@@ -110,7 +110,6 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
               scope="col"
               style={{
                 borderTopRightRadius: "10px",
-                width: "155px",
               }}
             >
               예상대피가능인원
