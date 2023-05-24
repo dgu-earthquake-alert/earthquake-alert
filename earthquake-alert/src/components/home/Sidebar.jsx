@@ -3,6 +3,7 @@ import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 import remove from "../../assets/icon/remove-filled.svg";
 import { Mobile, PC } from "../../utils/MediaQuery";
+import { is } from "date-fns/locale";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -83,27 +84,31 @@ const Sidebar = ({
 
   // 현재위치의 1km 이내 대피소 3개
   useEffect(() => {
-    fetchMapPlaceData().then((data) => {
-      if (
-        location !== "위치정보없음" ||
-        location.indexOf("서울특별시") !== -1
-      ) {
-        const filteredShelter = data.filter((item) => {
-          return (
-            item.lat > lat - 0.01 &&
-            item.lat < lat + 0.01 &&
-            item.lng > lng - 0.01 &&
-            item.lng < lng + 0.01
-          );
-        });
+    const findNearestShelter = () => {
+      fetchMapPlaceData().then((data) => {
+        if (
+          location !== "위치정보없음" ||
+          location.indexOf("서울특별시") !== -1
+        ) {
+          const filteredShelter = data.filter((item) => {
+            return (
+              item.lat > lat - 0.01 &&
+              item.lat < lat + 0.01 &&
+              item.lng > lng - 0.01 &&
+              item.lng < lng + 0.01
+            );
+          });
 
-        nearbyShelterRef.current = filteredShelter.slice(0, 3);
+          nearbyShelterRef.current = filteredShelter.slice(0, 3);
 
-        /* console.log(nearbyShelterRef.current);
-      console.log(lat, lng, location); */
-      }
-    });
-  }, [location]);
+          /* console.log(nearbyShelterRef.current);
+          console.log(lat, lng, location); */
+        }
+      });
+    };
+
+    findNearestShelter();
+  }, [location, lat, lng]);
 
   useEffect(() => {
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
