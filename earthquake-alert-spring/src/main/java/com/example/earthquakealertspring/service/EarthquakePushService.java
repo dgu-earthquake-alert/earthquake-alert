@@ -17,8 +17,10 @@ public class EarthquakePushService {
     private final RestTemplate restTemplate;
     private final FCMTokenService fcmTokenService;
     private final FCMTokenRepository fcmTokenRepository;
-    private EarthquakeData lastSentData;
     private final String serviceKey;
+
+    private EarthquakeData lastSentData;
+
     public EarthquakePushService(RestTemplate restTemplate, @Value("${api.earthquake-api.service-key}") String serviceKey, FCMTokenService fcmTokenService, FCMTokenRepository fcmTokenRepository) {
         this.restTemplate = restTemplate;
         this.serviceKey = serviceKey;
@@ -41,6 +43,7 @@ public class EarthquakePushService {
 
         if (Double.parseDouble(newData.getMt()) >= 5.0) {
             sendFCMPushNotification(newData);
+
             lastSentData = newData;
         }
     }

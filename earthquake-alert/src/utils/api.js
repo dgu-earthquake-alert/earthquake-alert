@@ -12,6 +12,7 @@ const apiClient = axios.create({
 });
 
 export const sendTokenToServer = (token) => {
+  console.log(token);
   apiClient
     .post("/register-token", {
       token: token,
@@ -21,6 +22,12 @@ export const sendTokenToServer = (token) => {
     })
     .catch((error) => {
       console.error("Error:", error);
+      if (error.response) {
+        // 요청이 이루어졌으나 서버가 2xx의 범위를 벗어나는 상태 코드를 반환
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      }
     });
 };
 
