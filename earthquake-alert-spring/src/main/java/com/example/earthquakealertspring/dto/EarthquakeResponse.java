@@ -1,6 +1,6 @@
 package com.example.earthquakealertspring.dto;
 
-import com.example.earthquakealertspring.dto.EarthquakeData;
+import com.example.earthquakealertspring.dto.EarthquakeDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +24,7 @@ public class EarthquakeResponse {
     @Getter
     @Setter
     public static class Items {
-        private EarthquakeData earthquakeData;
+        private EarthquakeDto earthquakeDto;
     }
 }
 

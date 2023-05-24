@@ -13,8 +13,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
 //                Url 수정 필요
-                .allowedOrigins("localhost:3000", "https://www.earthquake-alert.site", "https://earthquake-alert.site")
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedOrigins("http://localhost:3001", "https://www.earthquake-alert.site", "https://earthquake-alert.site")
+                .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
