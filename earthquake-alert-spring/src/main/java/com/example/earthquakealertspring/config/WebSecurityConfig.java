@@ -37,10 +37,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeRequests()
+        /* 
         .antMatchers("/", "/auth/**", "/oauth2/**").permitAll()
         .anyRequest()
         .authenticated()
+        */
+        .antMatchers("/auth/**", "/oauth2/**").authenticated()
+        .anyRequest().permitAll()
         .and()
+        
         .oauth2Login()
         .redirectionEndpoint()
         .baseUri("/oauth2/callback/*")
@@ -57,7 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
 
         httpSecurity.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
-        }
     }
     
     @Bean
