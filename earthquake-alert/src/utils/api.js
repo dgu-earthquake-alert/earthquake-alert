@@ -12,6 +12,7 @@ const apiClient = axios.create({
 });
 
 export const sendTokenToServer = (token) => {
+  //배포시 삭제
   console.log(token);
   apiClient
     .post("/register-token", {

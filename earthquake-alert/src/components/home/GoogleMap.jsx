@@ -3,6 +3,9 @@ import DistrictSelector from "./DistrictSelector";
 import { fetchMapPlaceData } from "../../utils/api";
 import styles from "../../styles/home/home.module.css";
 
+//InfoWindow를 하나만 띄우게 하기 위한 전역변수
+let currentInfoWindow = null;
+
 const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
   const ref = useRef();
 
@@ -11,23 +14,43 @@ const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
     script.async = true;
-    
-  document.head.appendChild(script);
 
-  return () => {
-    document.head.removeChild(script);
-  };
-}, []);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   window.initMap = async () => {
     try {
+      const createInfoWindow = (shelter, marker, map) => {
+        const shelterSearchingName = shelter.name.split(" ")[0]; // 첫번째 단어만 가져옵니다. 신연중학교 운동장 -> 신연중학교, 검색 오류 막기 위함입니다.
+
+        const infoWindow = new window.google.maps.InfoWindow({
+          content: `
+          <div>
+            <h5>${shelter.name}</h5>
+            <a href="https://map.naver.com/v5/search/${shelterSearchingName}?c=15,15,0,0,dh}" target="_blank">경로 찾기</a>
+          </div>
+        `,
+        });
+        marker.addListener("click", () => {
+          if (currentInfoWindow) {
+            currentInfoWindow.close();
+          }
+          infoWindow.open(map, marker);
+          currentInfoWindow = infoWindow;
+        });
+      };
+
       const shelterData = await fetchMapPlaceData();
-  
+
       const newMap = new window.google.maps.Map(ref.current, {
         center: { lat, lng },
         zoom: 16,
       });
-  
+
       shelterData.forEach((shelter) => {
         const marker = new window.google.maps.Marker({
           position: { lat: shelter.lat, lng: shelter.lng },
@@ -40,8 +63,8 @@ const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
             anchor: new window.google.maps.Point(25, 50),
           },
         });
+        createInfoWindow(shelter, marker, newMap);
       });
-  
       if (newMap instanceof window.google.maps.Map) {
         setMap(newMap);
         newMap.addListener("click", handleMapClick);
