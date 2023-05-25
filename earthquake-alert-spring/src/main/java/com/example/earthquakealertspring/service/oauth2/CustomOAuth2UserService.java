@@ -50,6 +50,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 Map<String, String> properties = (HashMap<String, String>) oAuth2User.getAttributes().get("properties");
                 name  = (String) properties.get("nickname");
                 break;
+            case "naver":
+                log.info("Auth provider: {}", authProvider);
+                Map<String, String> response = (HashMap<String, String>) oAuth2User.getAttributes().get("response");
+                email = (String) response.get("email");
+                name  = (String) response.get("name");
+                break;
             default:
                 throw new IllegalArgumentException("Unsupported auth provider: " + authProvider);
         }
