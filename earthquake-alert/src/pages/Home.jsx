@@ -189,7 +189,7 @@ function Home() {
           ) : null
         )}
 
-        <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>
+        <div className={styles.map_title}>내 주변 대피소를 찾아보세요.</div>
         <div className={styles.map}>
           <GoogleMap
             lat={lat}

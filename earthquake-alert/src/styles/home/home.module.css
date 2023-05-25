@@ -10,6 +10,21 @@
   float: right;
 }
 
+@keyframes reveal-text {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  50% {
+    width: 96%;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
 .map_title {
   display: flex;
   justify-content: center;
@@ -19,6 +34,9 @@
   font-weight: bold;
   letter-spacing: 1px;
   color: #084298;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: reveal-text 1s linear forwards;
 }
 
 .map {

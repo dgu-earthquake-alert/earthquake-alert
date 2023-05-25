@@ -1,5 +1,21 @@
 .main {
   width: 100%;
+  min-height: 100vh;
+}
+
+@keyframes reveal-text {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  50% {
+    width: 96%;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
 }
 
 .main_title {
@@ -12,6 +28,7 @@
   font-weight: bold;
   letter-spacing: 1px;
   color: #084298;
+  animation: reveal-text 1s linear forwards;
 }
 
 .main_text {
