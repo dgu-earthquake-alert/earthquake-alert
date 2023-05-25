@@ -293,7 +293,7 @@
     top: 10px;
     width: 30px;
     height: 30px;
-    background-color: none;
+    background-color: transparent;
     text-align: center;
     font-size: 25px;
     z-index: 10;
@@ -302,6 +302,7 @@
   }
 
   .bookmark_button.open {
+    background-color: transparent;
     transform: none;
   }
 
