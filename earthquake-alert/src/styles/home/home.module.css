@@ -97,6 +97,11 @@
   width: 200px;
   height: 180px;
   border: none;
+  line-height: 1.2;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
 }
 
 .sticky_note_textarea:focus {
