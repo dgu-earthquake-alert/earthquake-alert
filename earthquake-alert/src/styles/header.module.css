@@ -94,7 +94,15 @@
     justify-content: center;
     position: relative;
     font-size: 18px;
+    transition: none;
+    float: none;
   }
+
+  .nav.open {
+    display: none;
+    float: none;
+  }
+
   .nav_title {
     text-align: center;
     justify-content: end;
@@ -132,7 +140,8 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
   }
-  .nav_item:hover {
+  .nav_item:hover,
+  .nav_item:active {
     border-radius: 0;
     cursor: pointer;
   }

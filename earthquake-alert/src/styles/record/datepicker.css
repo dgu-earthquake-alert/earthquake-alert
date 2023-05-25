@@ -53,6 +53,7 @@
   }
   .tbody_black > td {
     font-size: 13px;
+    vertical-align: middle;
   }
   .pagenation {
     width: 150px;

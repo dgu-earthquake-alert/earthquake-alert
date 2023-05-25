@@ -39,6 +39,15 @@
 }
 
 @media screen and (max-width: 819px) {
+  .footer {
+    transition: none;
+    float: none;
+  }
+
+  .footer.open {
+    display: none;
+    float: none;
+  }
   .footer_container {
     float: none;
   }

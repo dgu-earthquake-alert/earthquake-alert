@@ -4,6 +4,7 @@ import { fetchMapPlaceData } from "../../utils/api";
 import remove from "../../assets/icon/remove-filled.svg";
 import { Mobile, PC } from "../../utils/MediaQuery";
 import { is } from "date-fns/locale";
+import { useMediaQuery } from "react-responsive";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -33,6 +34,14 @@ const Sidebar = ({
       (nearbyShelterRef.current?.length === 0
         ? 1
         : nearbyShelterRef.current?.length);
+
+  const isPC = useMediaQuery({
+    query: "(min-width:820px)",
+  });
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:819px)",
+  });
 
   const removeBookmark = (index) => {
     setBookmarks((prev) => {
@@ -115,7 +124,7 @@ const Sidebar = ({
   }, [bookmarks]);
 
   return (
-    <PC>
+    <>
       {/* 사이드바 오픈 */}
       <button
         className={`${styles.bookmark_button} ${
@@ -132,7 +141,7 @@ const Sidebar = ({
 
       {/* Toast */}
       {showToast && (
-        <div className={styles.toast}>5개를 초과하여 저장할 수 없습니다.</div>
+        <div className={styles.toast}>최대 5개까지 저장할 수 있습니다.</div>
       )}
 
       {/* 북마크 모달 */}
@@ -189,7 +198,10 @@ const Sidebar = ({
           <div
             className={styles.my_location}
             // onClick={() => setIsDisplayed(!isDisplayed)}
-            onClick={() => updateMapCenter(lat, lng)}
+            onClick={() => {
+              updateMapCenter(lat, lng);
+              isMobile && toggleSidebar();
+            }}
           >
             <div className={styles.my_location_title}>현재 위치</div>
             <div className={styles.my_location_name}>{location}</div>
@@ -201,6 +213,7 @@ const Sidebar = ({
                 style={{ top: `${70 + 50 * idx}px` }}
                 onClick={() => {
                   updateMapCenter(item.lat, item.lng);
+                  isMobile && toggleSidebar();
                 }}
               >
                 {item.name}
@@ -238,12 +251,13 @@ const Sidebar = ({
                       top: `${topValue + 70 * index + additionalOffset}px`,
                     }}
                     key={`${bookmark.name}_${bookmark.location.lat}`}
-                    onClick={() =>
+                    onClick={() => {
                       updateMapCenter(
                         bookmark.location.lat,
                         bookmark.location.lng
-                      )
-                    }
+                      );
+                      isMobile && toggleSidebar();
+                    }}
                   >
                     <div className={styles.my_location_title}>
                       {bookmark.name}
@@ -279,7 +293,10 @@ const Sidebar = ({
                           }px`,
                         }}
                         key={`${item.name}_${idx}`}
-                        onClick={() => updateMapCenter(item.lat, item.lng)}
+                        onClick={() => {
+                          updateMapCenter(item.lat, item.lng);
+                          isMobile && toggleSidebar();
+                        }}
                       >
                         {item.name}
                       </div>
@@ -304,7 +321,7 @@ const Sidebar = ({
           {/* <div className={styles.sticky_note}></div> */}
         </div>
       </div>
-    </PC>
+    </>
   );
 };
 

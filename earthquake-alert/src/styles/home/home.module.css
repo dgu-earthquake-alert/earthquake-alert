@@ -59,10 +59,24 @@
 }
 
 @media screen and (max-width: 819px) {
+  .main {
+    width: 100vw;
+    transition: none;
+    float: none;
+  }
+
+  .main.open {
+    display: none;
+    float: none;
+  }
+
   .map_title {
-    font-size: 18px;
+    font-size: 17px;
   }
   .map_select_button {
     padding: 8px 12px;
+  }
+  #map {
+    z-index: 0;
   }
 }
