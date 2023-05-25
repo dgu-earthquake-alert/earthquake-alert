@@ -71,7 +71,7 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
             <img
               src={menu}
               alt="menu"
-              width="40px"
+              width="35px"
               onClick={() => setIsMenuOpen((prev) => !prev)}
             />
           </div>

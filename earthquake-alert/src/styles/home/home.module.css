@@ -76,6 +76,7 @@
   margin-top: 1rem;
 }
 
+/* sticky note */
 .sticky_note {
   font-family: "Nanum Pen Script", cursive;
   position: absolute;
@@ -141,6 +142,10 @@
   }
   #map {
     z-index: 0;
+  }
+  .sticky_note {
+    font-size: 18px;
+    padding: 8px 12px;
   }
   .sticky_note_textarea {
     width: 150px;
