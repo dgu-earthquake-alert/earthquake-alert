@@ -155,27 +155,9 @@ function Home() {
         {shelterMemo.map((shelter) =>
           shelter.open ? (
             <Draggable key={shelter.id}>
-              <div
-                style={{
-                  position: "absolute",
-                  top: "50px",
-                  right: "50px",
-                  display: "flex",
-                  flexDirection: "column",
-                  backgroundColor: "#fde68a",
-                  boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
-                  padding: "10px",
-                  cursor: "grab",
-                  zIndex: "100",
-                }}
-              >
+              <div className={styles.sticky_note}>
                 <textarea
-                  style={{
-                    backgroundColor: "transparent",
-                    width: "200px",
-                    height: "180px",
-                    border: "none",
-                  }}
+                  className={styles.sticky_note_textarea}
                   value={shelter.description}
                   onChange={(e) => {
                     const updatedShelterMemo = shelterMemo.map((s) => {
@@ -188,20 +170,16 @@ function Home() {
                   }}
                   maxLength={100}
                 />
-                <div style={{ alignSelf: "end" }}>
+                <div className={styles.sticky_note_button_container}>
                   <span
                     onClick={() => closeMemo(shelter.id)}
-                    style={{ display: "inline-block", cursor: "pointer" }}
+                    className={styles.sticky_note_close}
                   >
                     닫기
                   </span>
                   <span
                     onClick={() => removeMemo(shelter.id)}
-                    style={{
-                      display: "inline-block",
-                      marginLeft: "10px",
-                      cursor: "pointer",
-                    }}
+                    className={styles.sticky_note_remove}
                   >
                     삭제
                   </span>
