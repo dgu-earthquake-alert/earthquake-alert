@@ -40,3 +40,12 @@ jwt:
   header: Authorization
   secret-key: r2U6W5k6DX2w79lA1V7yF68gDvGf32uH9ZL23I0zOiMNtVjCSadfadfwef21343dafaew2142354esdr325efds
   token-validity-in-seconds: 2592000
+
+#배포시 삭제
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
