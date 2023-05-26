@@ -1,4 +1,7 @@
 package com.example.earthquakealertspring.entity;
+
+import com.example.earthquakealertspring.entity.FCMTokenEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +18,5 @@ public class FCMTokenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String token;
+    private String FCMToken;
 }
