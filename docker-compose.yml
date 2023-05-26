@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:8.0.32
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: earthquake
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - 3307:3306
+
+  frontend:
+    image: earthquake-alert-aws-frontend:latest
+    build:
+      context: ./earthquake-alert
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    environment:
+      - NODE_ENV=production
+
+  backend:
+    image: earthquake-alert-aws-backend:latest
+    build: ./earthquake-alert-spring
+    ports:
+      - 8081:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/earthquake
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - mysql
+
+volumes:
+  db_data:
