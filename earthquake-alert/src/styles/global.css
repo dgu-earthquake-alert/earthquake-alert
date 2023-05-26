@@ -68,3 +68,13 @@ body {
   border: none;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
 } */
+
+a:link {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 819px) {
+  * {
+    font-size: 15px;
+  }
+}
