@@ -6,8 +6,23 @@
 }
 
 .main.open {
-  width: calc(100vw - 20vw);
+  width: calc(100vw - 250px);
   float: right;
+}
+
+@keyframes reveal-text {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  50% {
+    width: 96%;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
 }
 
 .map_title {
@@ -19,6 +34,9 @@
   font-weight: bold;
   letter-spacing: 1px;
   color: #084298;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: reveal-text 1s linear forwards;
 }
 
 .map {
@@ -56,4 +74,86 @@
   border: 1px solid #e9ecef;
   border-radius: 20px;
   margin-top: 1rem;
+}
+
+/* sticky note */
+.sticky_note {
+  font-family: "Nanum Pen Script", cursive;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fde68a;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px 15px;
+  font-size: 22px;
+  cursor: grab;
+  z-index: 100;
+}
+
+.sticky_note_textarea {
+  background-color: transparent;
+  width: 200px;
+  height: 180px;
+  border: none;
+  line-height: 1.2;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+}
+
+.sticky_note_textarea:focus {
+  outline: none;
+}
+
+.sticky_note_button_container {
+  align-self: end;
+}
+
+.sticky_note_close {
+  font-family: "Nanum Pen Script", cursive;
+
+  display: inline-block;
+  cursor: pointer;
+}
+
+.sticky_note_remove {
+  font-family: "Nanum Pen Script", cursive;
+
+  display: inline-block;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 819px) {
+  .main {
+    width: 100vw;
+    transition: none;
+    float: none;
+  }
+
+  .main.open {
+    display: none;
+    float: none;
+  }
+
+  .map_title {
+    font-size: 17px;
+  }
+  .map_select_button {
+    padding: 8px 12px;
+  }
+  #map {
+    z-index: 0;
+  }
+  .sticky_note {
+    font-size: 18px;
+    padding: 8px 12px;
+  }
+  .sticky_note_textarea {
+    width: 150px;
+    height: 130px;
+  }
 }

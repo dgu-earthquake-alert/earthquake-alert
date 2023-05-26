@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,6 +16,14 @@ const Record = () => {
   const [recordData, setRecordData] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [si, setSi] = useState("-");
+
+  const isPC = useMediaQuery({
+    query: "(min-width:820px)",
+  });
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:819px)",
+  });
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
@@ -53,10 +62,12 @@ const Record = () => {
       <Header />
       <main className="main">
         <h1 className="main_title">
-          지진 발생 이력을 날짜별 지역별로 조회해보세요.
+          {isPC
+            ? "지진 발생 이력을 날짜별, 시간별로 조회해보세요."
+            : "지진 발생 이력을 조회해보세요."}
         </h1>
         <div className="datepicker_container">
-          <div>
+          <div className="datepicker_wrapper">
             <label className="font_color_blue">시작일</label>
             <DatePicker
               selected={startDate}
@@ -66,7 +77,7 @@ const Record = () => {
               className="datepicker_button"
             />
           </div>
-          <div>
+          <div className="datepicker_wrapper">
             <label className="font_color_blue">종료일</label>
             <DatePicker
               selected={endDate}
@@ -76,7 +87,7 @@ const Record = () => {
               className="datepicker_button"
             />
           </div>
-          <div>
+          <div className="datepicker_wrapper">
             <label className="font_color_blue" style={{ cursor: "pointer" }}>
               시별조회
             </label>
