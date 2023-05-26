@@ -22,11 +22,12 @@ messaging.onBackgroundMessage((payload) => {
     "[firebase-messaging-sw.js] Received background message ",
     payload
   );
-  // Customize notification here
-  const notificationTitle = "Background Message Title";
+
+  // payload에서 알림 타이틀과 내용 추출
+  const notificationTitle = payload.notification.title; // 변경된 부분
   const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/firebase-logo.png",
+    body: payload.notification.body, // 변경된 부분
+    //icon: "/firebase-logo.png",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

@@ -14,12 +14,13 @@ const apiClient = axios.create({
 export const sendTokenToServer = (token) => {
   //배포시 삭제
   console.log(token);
+
   apiClient
-    .post("/register-token", {
-      token: token,
+    .post("register-token", {
+      fcmtoken: token,
     })
     .then((response) => {
-      console.log(response.data);
+      alert(JSON.stringify(response.data));
     })
     .catch((error) => {
       console.error("Error:", error);
