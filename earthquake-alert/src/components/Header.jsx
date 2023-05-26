@@ -7,13 +7,12 @@ import Profile from "./login/Profile";
 import menu from "../assets/icon/menu.svg";
 import { PC, Mobile } from "../utils/MediaQuery";
 
-const Header = ({ isSidebarOpen, toggleHeader }) => {
+const Header = ({ isSidebarOpen, toggleHeader, username }) => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({});
-
   useEffect(() => {
     setSelectedItem(location.pathname);
   }, [location]);
@@ -52,6 +51,18 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
             }`}
           >
             행동요령
+          </Link>
+          <Link
+            to="/rule"
+            className={`${styles.nav_item} ${
+              selectedItem === "/rule" ||
+              selectedItem === "/rule/subpage1" ||
+              selectedItem === "/rule/subpage2"
+                ? styles.nav_item_select
+                : ""
+            }`}
+          >
+            {username} 님 환영합니다
           </Link>
           {/*       <div className={`${styles.nav_login}`}>
         {isLogin ? (

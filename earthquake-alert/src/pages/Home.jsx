@@ -17,6 +17,42 @@ function Home() {
   const [lat, setLat] = useState(0); // 위도
   const [lng, setLng] = useState(0); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  const [username, setUsername] = useState("");
+  const [favoritePlaces, setFavoritePlaces] = useState([]);
+  const [isFavoritePlacesChanged, setIsFavoritePlacesChanged] = useState(false);
+
+  const token =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTA4OTA4OCwiZXhwIjoxNjg3NjgxMDg4fQ.T-aXt52aP6Xtwt2AO5vzwQxpGgahFpgJxXNx4dL2SkA";
+
+  const fetchUserInfo = () => {
+    fetch("http://localhost:8081/api/user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUsername(data.name);
+        setFavoritePlaces(data.favoritePlaces);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useState(() => {
+    fetchUserInfo();
+  }, [token]);
+
+  useState(() => {
+    if (isFavoritePlacesChanged) {
+      fetchUserInfo();
+      setIsFavoritePlacesChanged(false);
+    }
+  }, [isFavoritePlacesChanged]);
 
   const saveLocation = () => {
     localStorage.setItem("location", location);
@@ -60,8 +96,8 @@ function Home() {
             id: shelterId,
             name: shelterName,
             description: `${shelterName}에 대한 메모를 해보세요! 작성한 내용은 자동 저장되며, 삭제 버튼을 누르면 메모가 삭제됩니다.`,
-            open: true,
-          },
+            open: true
+          }
         ];
       }
     });
@@ -139,7 +175,7 @@ function Home() {
 
   return (
     <div className="root">
-      <Header isSidebarOpen={isSidebarOpen} />
+      <Header isSidebarOpen={isSidebarOpen} username={username} />
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
