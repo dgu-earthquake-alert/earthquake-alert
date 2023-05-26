@@ -90,18 +90,19 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
               className="thead_th"
               style={{
                 borderTopLeftRadius: "10px",
+                width: "60px",
               }}
               scope="col"
             >
               연번
             </th>
-            <th className="thead_th" scope="col">
+            <th style={{ width: "235px" }} className="thead_th" scope="col">
               시설명
             </th>
-            <th className="thead_th" scope="col">
+            <th style={{ width: "330px" }} className="thead_th" scope="col">
               상세주소
             </th>
-            <th className="thead_th" scope="col">
+            <th style={{ width: "95px" }} className="thead_th" scope="col">
               면적
             </th>
             <th

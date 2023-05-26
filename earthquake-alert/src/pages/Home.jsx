@@ -14,8 +14,8 @@ function Home() {
   ); // 대피소 메모
   const [location, setLocation] = useState("위치정보없음");
   const [clickedLocation, setClickedLocation] = useState(); // 지도 클릭시 위치정보 저장
-  const [lat, setLat] = useState(37.569227); // 위도
-  const [lng, setLng] = useState(126.9777256); // 경도
+  const [lat, setLat] = useState(0); // 위도
+  const [lng, setLng] = useState(0); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   const saveLocation = () => {
@@ -43,6 +43,7 @@ function Home() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // 마커 클릭시 이벤트
   const toggleShelterClicked = useCallback((shelterId, shelterName) => {
     setShelterMemo((prevMemo) => {
       const memoIndex = prevMemo.findIndex(
@@ -58,17 +59,13 @@ function Home() {
           {
             id: shelterId,
             name: shelterName,
-            description: shelterName,
+            description: `${shelterName}에 대한 메모를 해보세요! 작성한 내용은 자동 저장되며, 삭제 버튼을 누르면 메모가 삭제됩니다.`,
             open: true,
           },
         ];
       }
     });
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("shelterMemo", JSON.stringify(shelterMemo));
-  }, [shelterMemo]);
 
   const getMyLocation = () => {
     function onGeoOK(position) {
@@ -89,22 +86,6 @@ function Home() {
 
     navigator.geolocation.getCurrentPosition(onGeoOK, onGeoError);
   };
-
-  useEffect(() => {
-    if (localStorage.getItem("location") !== null) {
-      setLocation(localStorage.getItem("location"));
-    }
-    getMyLocation(); // 최초에 위치 정보를 받아옴
-
-    setInterval(() => {
-      getMyLocation();
-    }, 10000); // 10초마다 위치 정보를 받아옴
-  }, []);
-
-  // location이 바뀌면 localStorage에 새로 저장
-  useEffect(() => {
-    saveLocation();
-  }, [location]);
 
   // 지도에서 클릭한 곳의 주소를 가져오는 함수
   const handleMapClick = (event) => {
@@ -127,9 +108,31 @@ function Home() {
     map.setCenter({ lat: newLat, lng: newLng });
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("location") !== null) {
+      setLocation(localStorage.getItem("location"));
+    }
+    getMyLocation(); // 최초에 위치 정보를 받아옴
+
+    setInterval(() => {
+      getMyLocation();
+    }, 10000); // 10초마다 위치 정보를 받아옴
+  }, []);
+
+  // location이 바뀌면 localStorage에 새로 저장
+  useEffect(() => {
+    saveLocation();
+  }, [location]);
+
+  useEffect(() => {
+    localStorage.setItem("shelterMemo", JSON.stringify(shelterMemo));
+  }, [shelterMemo]);
+
   // 현재 위치 기반으로 지도 중심 이동
   useEffect(() => {
-    if (map && lat && lng) {
+    if (lat === 0 && lng === 0) {
+      map?.setCenter({ lat: 37.569227, lng: 126.9777256 });
+    } else if (map && lat !== 0 && lng !== 0) {
       map.setCenter({ lat, lng });
     }
   }, [map, lat, lng]);
@@ -152,27 +155,9 @@ function Home() {
         {shelterMemo.map((shelter) =>
           shelter.open ? (
             <Draggable key={shelter.id}>
-              <div
-                style={{
-                  position: "absolute",
-                  top: "50px",
-                  right: "50px",
-                  display: "flex",
-                  flexDirection: "column",
-                  backgroundColor: "#fde68a",
-                  boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
-                  padding: "10px",
-                  cursor: "grab",
-                  zIndex: "100",
-                }}
-              >
+              <div className={styles.sticky_note}>
                 <textarea
-                  style={{
-                    backgroundColor: "transparent",
-                    width: "200px",
-                    height: "180px",
-                    border: "none",
-                  }}
+                  className={styles.sticky_note_textarea}
                   value={shelter.description}
                   onChange={(e) => {
                     const updatedShelterMemo = shelterMemo.map((s) => {
@@ -185,20 +170,16 @@ function Home() {
                   }}
                   maxLength={100}
                 />
-                <div style={{ alignSelf: "end" }}>
+                <div className={styles.sticky_note_button_container}>
                   <span
                     onClick={() => closeMemo(shelter.id)}
-                    style={{ display: "inline-block", cursor: "pointer" }}
+                    className={styles.sticky_note_close}
                   >
                     닫기
                   </span>
                   <span
                     onClick={() => removeMemo(shelter.id)}
-                    style={{
-                      display: "inline-block",
-                      marginLeft: "10px",
-                      cursor: "pointer",
-                    }}
+                    className={styles.sticky_note_remove}
                   >
                     삭제
                   </span>
@@ -208,7 +189,7 @@ function Home() {
           ) : null
         )}
 
-        <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>
+        <div className={styles.map_title}>내 주변 대피소를 찾아보세요.</div>
         <div className={styles.map}>
           <GoogleMap
             lat={lat}

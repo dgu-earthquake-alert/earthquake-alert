@@ -3,20 +3,29 @@ import styles from "../styles/footer.module.css";
 import { Modal, Button } from "react-bootstrap";
 import EarthquakeModal from "./modal/EarthquakeModal";
 import { fetchEarthquakeData } from "../utils/api";
+import { useMediaQuery } from "react-responsive";
 
 const Footer = ({ isSidebarOpen }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [earthquakeData, setEarthquakeData] = useState({
-    loc:"",
+    loc: "",
     lat: "",
     lng: "",
     mt: "",
   });
   const [modalData, setModalData] = useState({
-    loc:"",
+    loc: "",
     lat: "",
     lng: "",
     mt: "",
+  });
+
+  const isPC = useMediaQuery({
+    query: "(min-width:820px)",
+  });
+
+  const isMobile = useMediaQuery({
+    query: "(max-width:819px)",
   });
 
   const handleModalInputChange = (e, field) => {
@@ -42,7 +51,7 @@ const Footer = ({ isSidebarOpen }) => {
   const handleModalClose = () => {
     setIsModalOpen(false);
     setModalData({
-      loc:"",
+      loc: "",
       lat: "",
       lng: "",
       mt: "",
@@ -113,10 +122,10 @@ const Footer = ({ isSidebarOpen }) => {
           </Modal.Footer>
         </Modal>
       )}
-      {earthquakeData.lat &&
-        earthquakeData.lng &&
-        earthquakeData.mt &&
-        earthquakeData.loc && (
+      {earthquakeData?.lat &&
+        earthquakeData?.lng &&
+        earthquakeData?.mt &&
+        earthquakeData?.loc && (
           <EarthquakeModal
             closeModal={() => setIsModalOpen(false)}
             earthquakeData={earthquakeData}
@@ -126,13 +135,21 @@ const Footer = ({ isSidebarOpen }) => {
         <div className={styles.footer_container}>
           <div className={styles.footer_item}>
             <span className={styles.footer_item_title}>지진알리미</span>
-            <br />
-            &copy; 2023
+            <div>&copy;2023</div>
           </div>
-          <div className={styles.footer_item}></div>
-          <div className={styles.footer_item}></div>
+          {isPC && (
+            <>
+              <div className={styles.footer_item}></div>
+              <div className={styles.footer_item}></div>
+            </>
+          )}
           <div className={styles.footer_item}>
-            <Button size="lg" variant="dark" onClick={() => setIsModalOpen(true)}>
+            <Button
+              size="lg"
+              className="mb-2"
+              variant="dark"
+              onClick={() => setIsModalOpen(true)}
+            >
               Test Modal
             </Button>
             <div>
