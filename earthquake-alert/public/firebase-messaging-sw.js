@@ -6,6 +6,7 @@ importScripts(
 );
 importScripts("env.js");
 
+const firebase = self.firebase;
 firebase.initializeApp({
   apiKey: self.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "earthquake-alert-fcm.firebaseapp.com",
@@ -22,12 +23,19 @@ messaging.onBackgroundMessage((payload) => {
     "[firebase-messaging-sw.js] Received background message ",
     payload
   );
-  // Customize notification here
-  const notificationTitle = "Background Message Title";
+
+  // payload에서 알림 타이틀과 내용 추출
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/firebase-logo.png",
+    body: payload.data.body,
+    icon: "/logo192.png",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close();
+
+  event.waitUntil(self.clients.openWindow("/"));
 });
