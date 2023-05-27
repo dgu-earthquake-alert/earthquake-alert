@@ -4,6 +4,8 @@ import GoogleMap from "../components/home/GoogleMap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "../styles/home/home.module.css";
+import EarthquakeTestModal from "../components/modal/EarthquakeTestModal";
+import EarthquakeModal from "../components/modal/EarthquakeModal";
 
 function Home() {
   const [map, setMap] = useState(null);
@@ -12,6 +14,17 @@ function Home() {
   const [clickedLocation, setClickedLocation] = useState(); // 지도 클릭시 위치정보 저장
   const [lat, setLat] = useState(37.569227); // 위도
   const [lng, setLng] = useState(126.9777256); // 경도
+
+  const [showTestModal, setShowTestModal] = useState(false);
+  const [showEarthquakeModal, setShowEarthquakeModal] = useState(false);
+  const [earthquakeData, setEarthquakeData] = useState({
+    lat: null,
+    lng: null,
+    magnitude: null,
+    location: null,
+    tmEqk: null, // 지진 발생 시각을 저장할 상태도 추가
+  });
+
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   const saveLocation = () => {
@@ -89,6 +102,23 @@ function Home() {
   /* useEffect(() => {
     console.log(clickedLocation);
   }, [clickedLocation]); */
+  const handleTestModalOpen = () => {
+    setShowTestModal(true);
+  };
+
+  const handleTestModalClose = () => {
+    setShowTestModal(false);
+  };
+
+  const handleEarthquakeModalOpen = (data) => {
+    // 수정
+    setEarthquakeData(data); // 수정
+    setShowEarthquakeModal(true);
+  };
+
+  const handleEarthquakeModalClose = () => {
+    setShowEarthquakeModal(false);
+  };
 
   return (
     <div className="root">
@@ -104,6 +134,20 @@ function Home() {
         clickedLocation={clickedLocation}
         updateMapCenter={updateMapCenter}
       />
+
+      <button onClick={handleTestModalOpen}>테스트 시작하기</button>
+
+      <EarthquakeTestModal
+        showEarthquakeTestModal={showTestModal}
+        closeEarthquakeTestModal={handleTestModalClose}
+        handleEarthquakeModalOpen={handleEarthquakeModalOpen}
+      />
+      <EarthquakeModal
+        showEarthquakeModal={showEarthquakeModal}
+        closeEarthquakeModal={handleEarthquakeModalClose}
+        earthquakeData={earthquakeData}
+      />
+
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         <div className={styles.map_title}>내 주변 대피소를 찾아보세요</div>
         <div className={styles.map}>

@@ -12,16 +12,13 @@ const apiClient = axios.create({
 });
 
 export const sendTokenToServer = (token) => {
-  //배포시 삭제
-  console.log(token);
-
   apiClient
     .post("register-token", {
       fcmtoken: token,
     })
-    .then((response) => {
-      alert(JSON.stringify(response.data));
-    })
+    //.then((response) => {
+    //  alert(JSON.stringify(response.data));
+    //})
     .catch((error) => {
       console.error("Error:", error);
       if (error.response) {
@@ -79,13 +76,12 @@ export const fetchMapPlaceData = async () => {
 
       return combinedShelterData;
     } else {
-      alert(
+      console.error(
         `API 요청 중 문제가 발생했습니다: ${outdoorData.TlEtqkP.RESULT.MESSAGE}`
       );
     }
   } catch (error) {
-    console.error(error.message);
-    alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
+    console.error(`API 요청 중 문제가 발생했습니다: ${error.message}`);
   }
 };
 
@@ -108,12 +104,13 @@ export const fetchShelterTableData = async (gu, dong) => {
       });
       return filteredData;
     } else {
-      alert(`API 요청 중 문제가 발생했습니다: ${data.TlEtqkP.RESULT.MESSAGE}`);
+      console.error(
+        `API 요청 중 문제가 발생했습니다: ${data.TlEtqkP.RESULT.MESSAGE}`
+      );
       return [];
     }
   } catch (error) {
-    console.error(error.message);
-    alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
+    console.error(`API 요청 중 문제가 발생했습니다: ${error.message}`);
     return [];
   }
 };
@@ -150,14 +147,13 @@ export const fetchRecordTableData = async (si, startDate, endDate) => {
       });
       return filteredData;
     } else {
-      alert(
+      console.error(
         `API 요청 중 문제가 발생했습니다: ${data.TbEqkKenvinfo.RESULT.MESSAGE}`
       );
       return [];
     }
   } catch (error) {
-    console.error(error.message);
-    alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
+    console.error(`API 요청 중 에러가 발생했습니다: ${error.message}`);
     return [];
   }
 };
