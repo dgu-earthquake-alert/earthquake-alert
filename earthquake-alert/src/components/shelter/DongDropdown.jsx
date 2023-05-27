@@ -368,11 +368,13 @@ const DongDropdown = ({ gu, dong, setDong, handlePageChange }) => {
 
   const selectedValue = options.find((option) => option.value === dong);
   const dropdownStyles = {
-    control: (provided) => ({
+    control: (provided, state) => ({
       ...provided,
-      backgroundColor: "#084298",
+      backgroundColor: state.isFocused || state.isHover ? "#052c65" : "#084298",
+      border: state.isFocused ? "none" : null,
       width: "110px",
-      borderRadius: "20px",
+      borderRadius: "10px",
+      cursor: "pointer",
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -380,7 +382,9 @@ const DongDropdown = ({ gu, dong, setDong, handlePageChange }) => {
     }),
     option: (provided) => ({
       ...provided,
-      color: "black",
+      backgroundColor: "#052c65",
+      color: "white",
+      cursor: "pointer",
     }),
   };
   return (

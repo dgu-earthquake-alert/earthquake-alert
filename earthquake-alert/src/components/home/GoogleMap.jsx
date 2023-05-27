@@ -3,10 +3,17 @@ import DistrictSelector from "./DistrictSelector";
 import { fetchMapPlaceData } from "../../utils/api";
 import styles from "../../styles/home/home.module.css";
 
-//InfoWindow를 하나만 띄우게 하기 위한 전역변수
 let currentInfoWindow = null;
 
-const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
+const GoogleMap = ({
+  lat,
+  lng,
+  map,
+  setMap,
+  shelterMemo,
+  toggleShelterClicked,
+  handleMapClick,
+}) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -51,7 +58,7 @@ const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
         zoom: 16,
       });
 
-      shelterData.forEach((shelter) => {
+      shelterData.forEach((shelter, index) => {
         const marker = new window.google.maps.Marker({
           position: { lat: shelter.lat, lng: shelter.lng },
           map: newMap,
@@ -64,7 +71,12 @@ const GoogleMap = ({ lat, lng, map, setMap, handleMapClick }) => {
           },
         });
         createInfoWindow(shelter, marker, newMap);
+
+        marker.addListener("click", () => {
+          toggleShelterClicked(index, shelter.name);
+        });
       });
+
       if (newMap instanceof window.google.maps.Map) {
         setMap(newMap);
         newMap.addListener("click", handleMapClick);
