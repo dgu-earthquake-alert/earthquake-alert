@@ -13,6 +13,7 @@ const GoogleMap = ({
   shelterMemo,
   toggleShelterClicked,
   handleMapClick,
+  recenterMap,
 }) => {
   const ref = useRef();
 

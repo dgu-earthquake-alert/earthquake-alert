@@ -5,6 +5,8 @@ const EarthquakeModal = ({
   showEarthquakeModal,
   closeEarthquakeModal,
   earthquakeData,
+  recenterMap,
+  getMyLocation,
 }) => {
   return (
     <Modal show={showEarthquakeModal} onHide={closeEarthquakeModal}>
@@ -40,10 +42,22 @@ const EarthquakeModal = ({
           )}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={closeEarthquakeModal}>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            getMyLocation();
+            closeEarthquakeModal();
+          }}
+        >
           내 주변 대피소 찾기
         </Button>
-        <Button variant="primary" onClick={closeEarthquakeModal}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            closeEarthquakeModal();
+            recenterMap(earthquakeData.lat, earthquakeData.lng); // 버튼 클릭 시 진앙지 위치를 중심으로 지도 업데이트
+          }}
+        >
           진앙지 주변 대피소 찾기
         </Button>
       </Modal.Footer>

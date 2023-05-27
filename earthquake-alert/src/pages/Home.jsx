@@ -30,6 +30,11 @@ function Home() {
 
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
+  function recenterMap(lat, lng) {
+    const newCenter = new window.google.maps.LatLng(lat, lng);
+    map.setCenter(newCenter);
+  }
+
   const saveLocation = () => {
     localStorage.setItem("location", location);
   };
@@ -79,7 +84,7 @@ function Home() {
     });
   }, []);
 
-  const getMyLocation = () => {
+  function getMyLocation() {
     function onGeoOK(position) {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
@@ -97,7 +102,7 @@ function Home() {
     }
 
     navigator.geolocation.getCurrentPosition(onGeoOK, onGeoError);
-  };
+  }
 
   // 지도에서 클릭한 곳의 주소를 가져오는 함수
   const handleMapClick = (event) => {
@@ -115,11 +120,6 @@ function Home() {
     });
   };
 
-  // 지도 중심 이동
-  const updateMapCenter = (newLat, newLng) => {
-    map.setCenter({ lat: newLat, lng: newLng });
-  };
-
   useEffect(() => {
     if (localStorage.getItem("location") !== null) {
       setLocation(localStorage.getItem("location"));
@@ -128,7 +128,7 @@ function Home() {
 
     setInterval(() => {
       getMyLocation();
-    }, 10000); // 10초마다 위치 정보를 받아옴
+    }, 180000); // 10초 -> 3분마다 위치 정보를 받아옴
   }, []);
 
   // location이 바뀌면 localStorage에 새로 저장
@@ -179,10 +179,7 @@ function Home() {
         location={location}
         getMyLocation={getMyLocation}
         clickedLocation={clickedLocation}
-        updateMapCenter={updateMapCenter}
       />
-
-      <button onClick={handleTestModalOpen}>테스트 시작하기</button>
 
       <EarthquakeTestModal
         showEarthquakeTestModal={showTestModal}
@@ -193,6 +190,8 @@ function Home() {
         showEarthquakeModal={showEarthquakeModal}
         closeEarthquakeModal={handleEarthquakeModalClose}
         earthquakeData={earthquakeData}
+        recenterMap={recenterMap}
+        getMyLocation={getMyLocation}
       />
 
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
@@ -243,10 +242,14 @@ function Home() {
             shelterMemo={shelterMemo}
             toggleShelterClicked={toggleShelterClicked}
             handleMapClick={handleMapClick}
+            recenterMap={recenterMap}
           />
         </div>
       </main>
-      <Footer isSidebarOpen={isSidebarOpen} />
+      <Footer
+        isSidebarOpen={isSidebarOpen}
+        handleTestModalOpen={handleTestModalOpen}
+      />
     </div>
   );
 }
