@@ -6,6 +6,7 @@ importScripts(
 );
 importScripts("env.js");
 
+const firebase = self.firebase;
 firebase.initializeApp({
   apiKey: self.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "earthquake-alert-fcm.firebaseapp.com",
@@ -24,11 +25,17 @@ messaging.onBackgroundMessage((payload) => {
   );
 
   // payload에서 알림 타이틀과 내용 추출
-  const notificationTitle = payload.notification.title; // 변경된 부분
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body, // 변경된 부분
-    //icon: "/firebase-logo.png",
+    body: payload.data.body,
+    icon: "/logo192.png",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close();
+
+  event.waitUntil(self.clients.openWindow("/"));
 });
