@@ -3,12 +3,10 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 //const BASE_URL = "http://openapi.seoul.go.kr:8088/";
-const GO_API_KEY = process.env.REACT_APP_GO_API_KEY; // 공공데이터포털 API 키
-const GO_BASE_URL = "http://apis.data.go.kr/1360000/EqkInfoService/getEqkMsg";
 
 //배포
-// //const BASE_URL = "https://server.earthquake-alert.site/api/";
-const BASE_URL = "http://localhost:8081/api/";
+const BASE_URL = "https://server.earthquake-alert.site/api/";
+//const BASE_URL = "http://localhost:8081/api/";
 // 옥외대피소 API: outdoorResponse, 실내구호소 API: indoorResponse
 
 const apiClient = axios.create({

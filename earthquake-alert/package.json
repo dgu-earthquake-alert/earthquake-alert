@@ -12,7 +12,6 @@
     "date-fns": "^2.30.0",
     "dotenv": "^16.0.3",
     "firebase": "^9.22.1",
-
     "http-proxy-middleware": "^2.0.6",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
@@ -56,5 +55,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8081/"
+  "proxy": "https://server.earthquake-alert.site"
 }

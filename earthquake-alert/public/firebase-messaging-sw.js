@@ -28,7 +28,7 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.data.title;
   const notificationOptions = {
     body: payload.data.body,
-    icon: "/logo192.png",
+    icon: "/logo.png",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

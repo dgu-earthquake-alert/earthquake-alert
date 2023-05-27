@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
 //                배포시 로컬호스트 삭제, localhost:3000 : 로컬(docker x), localhost:3001 : 로컬(docker o)
-                .allowedOrigins("http:localhost:3000", "http://localhost:3001", "https://www.earthquake-alert.site", "https://earthquake-alert.site")
+                .allowedOrigins("https://www.earthquake-alert.site", "https://earthquake-alert.site")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)

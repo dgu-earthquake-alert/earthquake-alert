@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         //배포시 로컬호스트 삭제
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3001", "http://localhost:3000", "https://earthquake-alert.site", "https://www.earthquake-alert.site"));
+        configuration.setAllowedOrigins(Arrays.asList("https://earthquake-alert.site", "https://www.earthquake-alert.site"));
         //configuration.setAllowedOrigins(Arrays.asList("https://earthquake-alert.site"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
