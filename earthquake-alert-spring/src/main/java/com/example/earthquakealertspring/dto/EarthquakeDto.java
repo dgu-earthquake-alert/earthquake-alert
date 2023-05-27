@@ -18,8 +18,8 @@ public class EarthquakeDto {
     private Double mt;
     private String rem;
     private Integer stnId;
-    private Long tmEqk;
-    private Long tmFc;
+    private String tmEqk; //지진 실제 발생 시각
+    private String tmFc; //통보문 발생 시각
     private Integer tmSeq;
     private Integer dep;
 }

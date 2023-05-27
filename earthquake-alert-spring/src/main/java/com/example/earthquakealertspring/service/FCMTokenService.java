@@ -29,20 +29,30 @@ public class FCMTokenService {
         this.fcmServerKey = fcmServerKey;
         this.fcmTokenRepository = fcmTokenRepository;
     }
-    
-    public void sendMessage(String to, String title, String body) {
+
+    public void sendMessage(String to, String title, String body, double mt, String loc, double lat, double lon, String time) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "key=" + fcmServerKey);
-
+    
         Map<String, Object> notification = new HashMap<>();
         notification.put("title", title);
         notification.put("body", body);
+    
+        // 위치 데이터를 추가합니다.
+        Map<String, Object> data = new HashMap<>();
+        data.put("title", title);
+        data.put("body", body);
+        data.put("mt", mt);
+        data.put("loc", loc);
+        data.put("lat", lat);
+        data.put("lon", lon);
+        data.put("time", time);
 
         Map<String, Object> message = new HashMap<>();
         message.put("to", to);
-        message.put("notification", notification);
-
+        message.put("data", data);
+    
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(message, headers);
         restTemplate.postForEntity(FCM_API_URL, request, Void.class);
     }

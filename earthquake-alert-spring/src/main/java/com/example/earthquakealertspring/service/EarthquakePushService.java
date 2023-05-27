@@ -37,7 +37,7 @@ public class EarthquakePushService {
         this.fcmTokenRepository = fcmTokenRepository;
     }
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 60000)
     public void sendPushNotification() {
         try {
             String currentDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
@@ -90,9 +90,9 @@ public class EarthquakePushService {
         List<FCMTokenEntity> tokens = fcmTokenRepository.findAll();
 
         for (FCMTokenEntity fcmTokenEntity : tokens) {
-            String title = "지진 알림";
-            String body = String.format("규모 %s 지진이 발생했습니다. 위치: %s \n인근에 계신 분들은 빠르게 대피하십시오.", earthquakeDto.getMt(), earthquakeDto.getLoc());
-            fcmTokenService.sendMessage(fcmTokenEntity.getFCMToken(), title, body);
+            String title = "지진알리미";
+            String body = String.format("규모 %s 지진이 발생했습니다. 위치: %s\n인근에 계신 분들은 빠르게 대피하십시오.", earthquakeDto.getMt(), earthquakeDto.getLoc(), earthquakeDto.getLat(), earthquakeDto.getLon());
+            fcmTokenService.sendMessage(fcmTokenEntity.getFCMToken(), title, body, earthquakeDto.getMt(), earthquakeDto.getLoc(), earthquakeDto.getLat(), earthquakeDto.getLon(), earthquakeDto.getTmEqk());
             logger.info("FCM message sent to {}", fcmTokenEntity.getFCMToken());
         }
     }
