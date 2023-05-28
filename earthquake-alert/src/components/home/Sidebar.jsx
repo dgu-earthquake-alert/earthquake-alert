@@ -2,8 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 import remove from "../../assets/icon/remove-filled.svg";
-import { Mobile, PC } from "../../utils/MediaQuery";
-import { is } from "date-fns/locale";
 import { useMediaQuery } from "react-responsive";
 
 const Sidebar = ({
@@ -88,6 +86,7 @@ const Sidebar = ({
       setBookmarks((prev) => [...prev, newBookmark]);
       setIsModalOpen(false);
       setBookmarkName("");
+      isMobile && toggleSidebar();
     }
   };
 
@@ -158,6 +157,7 @@ const Sidebar = ({
             type="text"
             className={styles.modal_input}
             value={clickedLocation?.address}
+            onChange={(e) => setBookmarkName(e.target.value)}
             placeholder="저장할 위치를 클릭하세요."
             title="저장할 위치를 지도에서 클릭하세요."
           />
@@ -188,7 +188,10 @@ const Sidebar = ({
         ></div>
         <div
           className={styles.bookmark_add}
-          onClick={() => setIsModalOpen((prev) => !prev)}
+          onClick={() => {
+            setIsModalOpen((prev) => !prev);
+            isMobile && toggleSidebar();
+          }}
         ></div>
         <div
           className={styles.bookmark_remove}
@@ -209,6 +212,7 @@ const Sidebar = ({
           {nearbyShelterRef.current?.length !== 0 ? (
             nearbyShelterRef.current.map((item, idx) => (
               <div
+                key={`${item?.name}_${idx}`}
                 className={`${styles.my_location_item} ${styles.displayed}`}
                 style={{ top: `${70 + 50 * idx}px` }}
                 onClick={() => {
@@ -244,13 +248,12 @@ const Sidebar = ({
               }
 
               return (
-                <>
+                <div key={`${bookmark.name}_${bookmark.location.lat}`}>
                   <div
                     className={styles.my_location}
                     style={{
                       top: `${topValue + 70 * index + additionalOffset}px`,
                     }}
-                    key={`${bookmark.name}_${bookmark.location.lat}`}
                     onClick={() => {
                       updateMapCenter(
                         bookmark.location.lat,
@@ -282,6 +285,7 @@ const Sidebar = ({
                   {bookmark.shelter.length > 0 ? (
                     bookmark.shelter.map((item, idx) => (
                       <div
+                        key={`${item.name}_${idx}`}
                         className={`${styles.my_location_item} ${styles.displayed}`}
                         style={{
                           top: `${
@@ -292,7 +296,6 @@ const Sidebar = ({
                             50 * idx
                           }px`,
                         }}
-                        key={`${item.name}_${idx}`}
                         onClick={() => {
                           updateMapCenter(item.lat, item.lng);
                           isMobile && toggleSidebar();
@@ -314,7 +317,7 @@ const Sidebar = ({
                       주변 대피소 조회 불가
                     </div>
                   )}
-                </>
+                </div>
               );
             })}
 

@@ -28,8 +28,8 @@ const DistrictSelector = ({ map }) => {
         style={{ marginRight: "5px" }}
         onChange={handleDistrictChange}
       >
-        {districtData.map((d) => (
-          <option key={d.name} value={d.name}>
+        {districtData.map((d, index) => (
+          <option key={`${d.name}_${index}`} value={d.name}>
             {d.name}
           </option>
         ))}
@@ -38,8 +38,8 @@ const DistrictSelector = ({ map }) => {
         className={`${styles.map_select_button} color_blue`}
         onChange={handleDongChange}
       >
-        {selectedDistrict.dong.map((d) => (
-          <option key={d.name} value={d.name}>
+        {selectedDistrict.dong.map((d, index) => (
+          <option key={`${d.name}_${index}`} value={d.name}>
             {d.name}
           </option>
         ))}
