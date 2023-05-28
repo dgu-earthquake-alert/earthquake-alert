@@ -6,13 +6,13 @@ import Profile from "./login/Profile";
  */
 import menu from "../assets/icon/menu.svg";
 import { PC, Mobile } from "../utils/MediaQuery";
+import SocialLogin from "./login/SocialLogin";
 
 const Header = ({ isSidebarOpen, toggleHeader, username }) => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+
   useEffect(() => {
     setSelectedItem(location.pathname);
   }, [location]);
@@ -71,6 +71,7 @@ const Header = ({ isSidebarOpen, toggleHeader, username }) => {
           <Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />
         )}
       </div> */}
+          <SocialLogin />
         </nav>
       </PC>
       <Mobile>
@@ -114,6 +115,7 @@ const Header = ({ isSidebarOpen, toggleHeader, username }) => {
           <Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />
         )}
       </div> */}
+          <SocialLogin />
         </nav>
       </Mobile>
     </>
