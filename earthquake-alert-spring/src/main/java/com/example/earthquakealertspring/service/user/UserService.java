@@ -57,6 +57,21 @@ public class UserService {
         }
     }
 
+    public ResponseEntity deleteUserInfo(String userId) {
+        try {
+            User user = userRepository.findByUserId(Long.parseLong(userId));
+            if (user == null) {
+                log.info("Delete user info: User {} does not exist", userId);
+                return ResponseEntity.badRequest().body("Delete user info: User does not exist");
+            }
+            userRepository.delete(user);
+            return ResponseEntity.ok("Delete user info: User deleted successfully");
+        } catch (Exception e) {
+            log.error("Delete user info: Error while deleting user info", e);
+            return ResponseEntity.badRequest().body("Delete user info: Error while deleting user info");
+        }
+    }
+
     public ResponseEntity getFavoritePlaces(String userId) {
         try {
             User user = userRepository.findByUserId(Long.parseLong(userId));
@@ -143,7 +158,6 @@ public class UserService {
             return ResponseEntity.badRequest().body("Add favorite place: Error while adding favorite places");
         }
     }
-
 
     public ResponseEntity deleteFavoritePlace(String userId, String favoritePlaceId) {
         try {

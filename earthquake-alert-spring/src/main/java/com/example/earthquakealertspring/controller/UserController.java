@@ -18,6 +18,11 @@ public class UserController {
         return userService.getUserInfo(userId);
     }
 
+    @DeleteMapping
+    public ResponseEntity deleteUser(@AuthenticationPrincipal String userId) {
+        return userService.deleteUserInfo(userId);
+    }
+
     @PostMapping("/favorite")
     public ResponseEntity addFavoritePlace(@AuthenticationPrincipal String userId, @RequestBody FavoritePlaceDto favoritePlaceDto) {
         return userService.addFavoritePlace(userId, favoritePlaceDto);
