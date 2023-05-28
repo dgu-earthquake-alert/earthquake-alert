@@ -425,7 +425,7 @@
     width: 40vw;
     min-width: 250px;
     height: fit-content;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     z-index: 901;
   }
 

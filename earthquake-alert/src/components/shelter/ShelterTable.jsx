@@ -78,14 +78,18 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
   return (
     <div className="table_wrapper" style={{ marginBottom: "80px" }}>
       <Table
-        style={{ width: "85vw", maxWidth: "900px", textAlign: "center" }}
+        style={{
+          width: "85vw",
+          maxWidth: "900px",
+          textAlign: "center",
+        }}
         striped
         bordered
         hover
         responsive
       >
         <thead>
-          <tr className="bg_color_blue">
+          <tr className="bg_color_blue" style={{ verticalAlign: "middle" }}>
             <th
               className="thead_th"
               style={{
@@ -99,7 +103,7 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
             <th style={{ width: "235px" }} className="thead_th" scope="col">
               시설명
             </th>
-            <th style={{ width: "330px" }} className="thead_th" scope="col">
+            <th style={{ width: "300px" }} className="thead_th" scope="col">
               상세주소
             </th>
             <th style={{ width: "95px" }} className="thead_th" scope="col">
@@ -110,6 +114,7 @@ const ShelterTable = ({ shelterData, activePage, handlePageChange }) => {
               scope="col"
               style={{
                 borderTopRightRadius: "10px",
+                width: "180px",
               }}
             >
               예상대피가능인원
