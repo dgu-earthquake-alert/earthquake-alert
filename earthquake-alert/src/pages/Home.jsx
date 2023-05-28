@@ -17,32 +17,6 @@ function Home() {
   const [lat, setLat] = useState(0); // 위도
   const [lng, setLng] = useState(0); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-  const [username, setUsername] = useState("");
-
-  const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTI2MTIyNCwiZXhwIjoxNjg3ODUzMjI0fQ.YIZlGTdxeSluU-6VPp94TRJNmi7y2pH9YW5DgqPv-1k";
-
-  const fetchUserInfo = () => {
-    fetch("http://localhost:8081/api/user", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUsername(data.name);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useState(() => {
-    fetchUserInfo();
-  }, [token]);
 
   const saveLocation = () => {
     localStorage.setItem("location", location);
@@ -165,7 +139,7 @@ function Home() {
 
   return (
     <div className="root">
-      <Header isSidebarOpen={isSidebarOpen} username={username} />
+      <Header isSidebarOpen={isSidebarOpen} />
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
