@@ -22,7 +22,11 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
     <>
       <PC>
         <nav className={`${styles.nav} ${isSidebarOpen ? styles.open : ""}`}>
-          <Link to="/" className={styles.nav_title}>
+          <Link
+            to="/"
+            className={styles.nav_title}
+            onClick={() => window.location.reload()}
+          >
             지진알리미
           </Link>
           <Link
@@ -53,6 +57,7 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
           >
             행동요령
           </Link>
+          <></>
           {/*       <div className={`${styles.nav_login}`}>
         {isLogin ? (
           <Profile userInfo={userInfo} />
@@ -64,7 +69,11 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
       </PC>
       <Mobile>
         <nav className={`${styles.nav} ${isSidebarOpen ? styles.open : ""}`}>
-          <Link to="/" className={styles.nav_title}>
+          <Link
+            to="/"
+            className={styles.nav_title}
+            onClick={() => window.location.reload()}
+          >
             지진알리미
           </Link>
           <div className={styles.nav_toggle} onClick={toggleHeader}>

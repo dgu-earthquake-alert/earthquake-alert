@@ -2,8 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 import remove from "../../assets/icon/remove-filled.svg";
-import { Mobile, PC } from "../../utils/MediaQuery";
-import { is } from "date-fns/locale";
 import { useMediaQuery } from "react-responsive";
 
 const Sidebar = ({
@@ -159,6 +157,7 @@ const Sidebar = ({
             type="text"
             className={styles.modal_input}
             value={clickedLocation?.address}
+            onChange={(e) => setBookmarkName(e.target.value)}
             placeholder="저장할 위치를 클릭하세요."
             title="저장할 위치를 지도에서 클릭하세요."
           />
@@ -249,9 +248,8 @@ const Sidebar = ({
               }
 
               return (
-                <>
+                <div key={`${bookmark.name}_${bookmark.location.lat}`}>
                   <div
-                    key={`${bookmark.name}_${bookmark.location.lat}`}
                     className={styles.my_location}
                     style={{
                       top: `${topValue + 70 * index + additionalOffset}px`,
@@ -319,7 +317,7 @@ const Sidebar = ({
                       주변 대피소 조회 불가
                     </div>
                   )}
-                </>
+                </div>
               );
             })}
 

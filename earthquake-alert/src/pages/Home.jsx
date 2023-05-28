@@ -4,7 +4,7 @@ import GoogleMap from "../components/home/GoogleMap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "../styles/home/home.module.css";
-import Draggable from "react-draggable"; // The default
+import Draggable, { DraggableCore } from "react-draggable"; // The default
 import { set } from "date-fns";
 
 function Home() {
@@ -22,6 +22,7 @@ function Home() {
   const [favoriteShelter, setFavoriteShelter] = useState([]); // 즐겨찾기 대피소 */
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const MemoDescriptionRef = useRef();
+  const draggableCoreRef = useRef();
 
   const token =
     "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTA2NDQ3NSwiZXhwIjoxNjg3NjU2NDc1fQ._8IyzWTlcCs8GgEk6huQLtCso8SV1gH41MKJdUcX7LM";
@@ -69,23 +70,6 @@ function Home() {
     setShelterMemo((prevMemo) =>
       prevMemo.filter((shelter) => shelter.id !== memoId)
     );
-  };
-
-  const handleFocus = () => {
-    setDragEnabled(false);
-  };
-
-  const handleBlur = () => {
-    setDragEnabled(true);
-  };
-
-  const handleSelect = (e) => {
-    const selection = window.getSelection().toString();
-    if (selection && e.target === document.activeElement) {
-      setDragEnabled(false);
-    } else {
-      setDragEnabled(true);
-    }
   };
 
   const toggleSidebar = () => {
