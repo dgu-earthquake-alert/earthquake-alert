@@ -45,7 +45,10 @@ const Sidebar = ({
     query: "(max-width:819px)"
   });
 
+  const token = localStorage.getItem("token");
+
   const checkLogin = () => {
+    if (localStorage.getItem("token") === null) return;
     if (localStorage.getItem("token")) {
       fetch("http://localhost:8081/api/user", {
         method: "GET",
@@ -66,7 +69,9 @@ const Sidebar = ({
     }
   };
 
-  const token = localStorage.getItem("token");
+  useState(() => {
+    checkLogin();
+  }, []);
 
   const getFavoritePlaces = () => {
     fetch("http://localhost:8081/api/user/favorite", {
@@ -91,6 +96,14 @@ const Sidebar = ({
   useEffect(() => {
     getFavoritePlaces();
   }, []);
+
+  useEffect(() => {
+    if (isLogin === false) {
+      setBookmarks([]);
+      return;
+    }
+    getFavoritePlaces();
+  }, [isLogin]);
 
   const postFavoritePlace = (shelterList) => {
     if (isLogin === false) {
@@ -142,14 +155,6 @@ const Sidebar = ({
         }
       );
   };
-
-  // const removeBookmark = (index) => {
-  //   setBookmarks((prev) => {
-  //     const updatedBookmarks = [...prev];
-  //     updatedBookmarks.splice(index, 1);
-  //     return updatedBookmarks;
-  //   });
-  // };
 
   const refresh = () => {
     setIsRotated(true);
@@ -218,10 +223,6 @@ const Sidebar = ({
 
     findNearestShelter();
   }, [location, lat, lng]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  // }, [bookmarks]);
 
   return (
     <>

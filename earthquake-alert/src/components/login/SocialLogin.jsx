@@ -55,7 +55,7 @@ const SocialLogin = () => {
           if (response.ok) {
             localStorage.removeItem("token");
             setUserInfo(null);
-            navigate("/");
+            window.location.reload();
           } else {
             console.log(response.text);
           }
@@ -69,6 +69,7 @@ const SocialLogin = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUserInfo(null);
+    window.location.reload();
   };
 
   return (
