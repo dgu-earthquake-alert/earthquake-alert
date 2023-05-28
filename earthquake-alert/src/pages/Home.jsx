@@ -54,6 +54,10 @@ function Home() {
     }
   }, [isFavoritePlacesChanged]);
 
+  const hadleIsFavoritePlacesChanged = () => {
+    setIsFavoritePlacesChanged(true);
+  };
+
   const saveLocation = () => {
     localStorage.setItem("location", location);
   };
@@ -186,6 +190,8 @@ function Home() {
         getMyLocation={getMyLocation}
         clickedLocation={clickedLocation}
         updateMapCenter={updateMapCenter}
+        favoritePlaces={favoritePlaces}
+        hadleIsFavoritePlacesChanged={hadleIsFavoritePlacesChanged}
       />
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         {shelterMemo.map((shelter) =>

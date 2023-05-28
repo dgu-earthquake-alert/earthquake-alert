@@ -16,14 +16,16 @@ const Sidebar = ({
   getMyLocation,
   clickedLocation,
   updateMapCenter,
+  favoritePlaces,
+  hadleIsFavoritePlacesChanged
 }) => {
   const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전 여부
   const [isModalOpen, setIsModalOpen] = useState(false); // 북마크 모달창 여부
   const [bookmarkName, setBookmarkName] = useState(""); // 북마크 이름
   // const [isDisplayed, setIsDisplayed] = useState(true); // 대피소 정보 표시 여부
-  const [bookmarks, setBookmarks] = useState(
-    JSON.parse(localStorage.getItem("bookmarks")) ?? []
-  ); // Store bookmarks
+  // const [bookmarks, setBookmarks] = useState(
+  //   JSON.parse(localStorage.getItem("bookmarks")) ?? []
+  // ); // Store bookmarks
   const nearbyShelterRef = useRef([]); // 주변 대피소 정보
   const [isRemoveToggle, setIsRemoveToggle] = useState(false); // 북마크 삭제버튼 클릭 여부
   const [showToast, setShowToast] = useState(false); // State variable to track toast visibility
@@ -36,20 +38,72 @@ const Sidebar = ({
         : nearbyShelterRef.current?.length);
 
   const isPC = useMediaQuery({
-    query: "(min-width:820px)",
+    query: "(min-width:820px)"
   });
 
   const isMobile = useMediaQuery({
-    query: "(max-width:819px)",
+    query: "(max-width:819px)"
   });
 
-  const removeBookmark = (index) => {
-    setBookmarks((prev) => {
-      const updatedBookmarks = [...prev];
-      updatedBookmarks.splice(index, 1);
-      return updatedBookmarks;
-    });
+  const token =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTA4OTA4OCwiZXhwIjoxNjg3NjgxMDg4fQ.T-aXt52aP6Xtwt2AO5vzwQxpGgahFpgJxXNx4dL2SkA";
+
+  const postFavoritePlace = () => {
+    fetch("http://localhost:8081/api/user/favorite", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        placeName: bookmarkName,
+        placeAddress: clickedLocation.address,
+        placeLat: clickedLocation.lat,
+        placeLng: clickedLocation.lng
+      })
+    })
+      .then((res) => res.json())
+      .then(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
+
+  const deleteFavoritePlace = (placeId) => {
+    fetch(`http://localhost:8081/api/user/favorite/${placeId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((res) => res.json())
+      .then(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  const handleDelete = (placeId) => {
+    deleteFavoritePlace(placeId);
+    hadleIsFavoritePlacesChanged();
+  };
+
+  // const removeBookmark = (index) => {
+  //   setBookmarks((prev) => {
+  //     const updatedBookmarks = [...prev];
+  //     updatedBookmarks.splice(index, 1);
+  //     return updatedBookmarks;
+  //   });
+  // };
 
   const refresh = () => {
     setIsRotated(true);
@@ -62,7 +116,7 @@ const Sidebar = ({
   // 저장한 위치의 1km 반경 이내 대피소 3개
   const handleBookmarkSave = async () => {
     if (bookmarkName !== "") {
-      if (bookmarks.length >= 5) {
+      if (favoritePlaces.length >= 5) {
         setShowToast((prev) => !prev); // Display toast when the number of bookmarks exceeds 5
         return;
       }
@@ -79,13 +133,10 @@ const Sidebar = ({
           .slice(0, 3)
       );
 
-      const newBookmark = {
-        name: bookmarkName,
-        location: clickedLocation,
-        shelter: filteredShelter,
-      };
+      postFavoritePlace();
 
-      setBookmarks((prev) => [...prev, newBookmark]);
+      hadleIsFavoritePlacesChanged();
+
       setIsModalOpen(false);
       setBookmarkName("");
     }
@@ -119,9 +170,9 @@ const Sidebar = ({
     findNearestShelter();
   }, [location, lat, lng]);
 
-  useEffect(() => {
-    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  }, [bookmarks]);
+  // useEffect(() => {
+  //   localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  // }, [bookmarks]);
 
   return (
     <>
@@ -229,17 +280,17 @@ const Sidebar = ({
           )}
 
           {/* Display Bookmarks */}
-          {bookmarks?.length > 0 &&
-            bookmarks.map((bookmark, index) => {
+          {favoritePlaces?.length > 0 &&
+            favoritePlaces.map((favorite, index) => {
               let additionalOffset = 0;
 
               if (index > 0) {
                 for (let i = index - 1; i >= 0; i--) {
                   additionalOffset +=
                     50 *
-                    (bookmarks[i]?.shelter?.length === 0
+                    (favoritePlaces[i]?.shelter?.length === 0
                       ? 1
-                      : bookmarks[i]?.shelter?.length);
+                      : favoritePlaces[i]?.shelter?.length);
                 }
               }
 
@@ -248,19 +299,16 @@ const Sidebar = ({
                   <div
                     className={styles.my_location}
                     style={{
-                      top: `${topValue + 70 * index + additionalOffset}px`,
+                      top: `${topValue + 70 * index + additionalOffset}px`
                     }}
-                    key={`${bookmark.name}_${bookmark.location.lat}`}
+                    key={`${favorite.placeName}_${favorite.placeLat}`}
                     onClick={() => {
-                      updateMapCenter(
-                        bookmark.location.lat,
-                        bookmark.location.lng
-                      );
+                      updateMapCenter(favorite.placeLat, favorite.placeLng);
                       isMobile && toggleSidebar();
                     }}
                   >
                     <div className={styles.my_location_title}>
-                      {bookmark.name}
+                      {favorite.placeName}
                       {isRemoveToggle && (
                         <img
                           src={remove}
@@ -270,17 +318,17 @@ const Sidebar = ({
                           className={styles.bookmark_remove_item}
                           onClick={(e) => {
                             e.stopPropagation();
-                            removeBookmark(index);
+                            handleDelete(favorite.placeId);
                           }}
                         />
                       )}
                     </div>
                     <div className={styles.my_location_name}>
-                      {bookmark.location?.address}
+                      {favorite.placeAddress}
                     </div>
                   </div>
-                  {bookmark.shelter.length > 0 ? (
-                    bookmark.shelter.map((item, idx) => (
+                  {/* {favorite.shelter.length > 0 ? (
+                    favorite.shelter.map((item, idx) => (
                       <div
                         className={`${styles.my_location_item} ${styles.displayed}`}
                         style={{
@@ -290,7 +338,7 @@ const Sidebar = ({
                             additionalOffset +
                             70 +
                             50 * idx
-                          }px`,
+                          }px`
                         }}
                         key={`${item.name}_${idx}`}
                         onClick={() => {
@@ -308,12 +356,12 @@ const Sidebar = ({
                         top: `${
                           topValue + 70 * index + additionalOffset + 70
                         }px`,
-                        cursor: "default",
+                        cursor: "default"
                       }}
                     >
                       주변 대피소 조회 불가
                     </div>
-                  )}
+                  )} */}
                 </>
               );
             })}
