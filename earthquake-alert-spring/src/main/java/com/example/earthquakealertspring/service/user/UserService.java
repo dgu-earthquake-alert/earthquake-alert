@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,6 +74,7 @@ public class UserService {
                             .shelterDtoList(favoritePlace.getShelters().stream()
                                     .map(shelter -> ShelterDto.builder()
                                             .shelterId(Long.toString(shelter.getShelterId()))
+                                            .favoritePlaceId(favoritePlace.getFavoritePlaceId().toString())
                                             .shelterAddress(shelter.getAddress())
                                             .shelterLat(shelter.getLatitude())
                                             .shelterLng(shelter.getLongitude())
@@ -80,7 +82,7 @@ public class UserService {
                                     .collect(Collectors.toList()))
                             .build())
                     .collect(Collectors.toList());
-            return ResponseEntity.ok(favoritePlaces);
+            return ResponseEntity.ok(Collections.singletonMap("favoritePlaces", favoritePlaces));
         } catch (Exception e) {
             log.error("Get favorite places: Error while getting user info", e);
             return ResponseEntity.badRequest().body("Get favorite places: Error while getting user info");
@@ -107,6 +109,7 @@ public class UserService {
             favoritePlace.setUser(user);
             favoritePlaceRepository.save(favoritePlace);
             List<ShelterDto> shelterDtoList = favoritePlaceDto.getShelterDtoList();
+            List<Shelter> shelters = new ArrayList<>();
             for (ShelterDto shelterDto : shelterDtoList) {
                 Shelter shelter = Shelter.builder()
                         .address(shelterDto.getShelterAddress())
@@ -115,20 +118,32 @@ public class UserService {
                         .build();
                 shelter.setFavoritePlace(favoritePlace);
                 shelterRepository.save(shelter);
+                shelters.add(shelter);
             }
+            favoritePlace.setShelters(shelters);
+            favoritePlace = favoritePlaceRepository.save(favoritePlace);
             FavoritePlaceDto favoritePlaceResponseDto = FavoritePlaceDto.builder()
                     .placeId(Long.toString(favoritePlace.getFavoritePlaceId()))
                     .placeName(favoritePlace.getName())
                     .placeAddress(favoritePlace.getAddress())
                     .placeLat(favoritePlace.getLatitude())
                     .placeLng(favoritePlace.getLongitude())
+                    .shelterDtoList(favoritePlace.getShelters().stream()
+                            .map(shelter -> ShelterDto.builder()
+                                    .shelterId(Long.toString(shelter.getShelterId()))
+                                    .shelterAddress(shelter.getAddress())
+                                    .shelterLat(shelter.getLatitude())
+                                    .shelterLng(shelter.getLongitude())
+                                    .build())
+                            .collect(Collectors.toList()))
                     .build();
             return ResponseEntity.ok().body(favoritePlaceResponseDto);
         } catch (Exception e) {
-            log.error("Add favorite place: Error while getting user info", e);
-            return ResponseEntity.badRequest().body("Add favorite place: Error while getting user info");
+            log.error("Add favorite place: Error while adding favorite places", e);
+            return ResponseEntity.badRequest().body("Add favorite place: Error while adding favorite places");
         }
     }
+
 
     public ResponseEntity deleteFavoritePlace(String userId, String favoritePlaceId) {
         try {
