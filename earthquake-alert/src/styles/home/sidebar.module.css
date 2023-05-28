@@ -411,7 +411,7 @@
 
   /* 모달 */
   .modal_content {
-    position: absolute;
+    position: fixed;
     top: 60px;
     left: auto;
     right: 10px;

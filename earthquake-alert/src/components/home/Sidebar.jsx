@@ -88,6 +88,7 @@ const Sidebar = ({
       setBookmarks((prev) => [...prev, newBookmark]);
       setIsModalOpen(false);
       setBookmarkName("");
+      isMobile && toggleSidebar();
     }
   };
 
@@ -188,7 +189,10 @@ const Sidebar = ({
         ></div>
         <div
           className={styles.bookmark_add}
-          onClick={() => setIsModalOpen((prev) => !prev)}
+          onClick={() => {
+            setIsModalOpen((prev) => !prev);
+            isMobile && toggleSidebar();
+          }}
         ></div>
         <div
           className={styles.bookmark_remove}
@@ -209,6 +213,7 @@ const Sidebar = ({
           {nearbyShelterRef.current?.length !== 0 ? (
             nearbyShelterRef.current.map((item, idx) => (
               <div
+                key={`${item?.name}_${idx}`}
                 className={`${styles.my_location_item} ${styles.displayed}`}
                 style={{ top: `${70 + 50 * idx}px` }}
                 onClick={() => {
@@ -246,11 +251,11 @@ const Sidebar = ({
               return (
                 <>
                   <div
+                    key={`${bookmark.name}_${bookmark.location.lat}`}
                     className={styles.my_location}
                     style={{
                       top: `${topValue + 70 * index + additionalOffset}px`,
                     }}
-                    key={`${bookmark.name}_${bookmark.location.lat}`}
                     onClick={() => {
                       updateMapCenter(
                         bookmark.location.lat,
@@ -282,6 +287,7 @@ const Sidebar = ({
                   {bookmark.shelter.length > 0 ? (
                     bookmark.shelter.map((item, idx) => (
                       <div
+                        key={`${item.name}_${idx}`}
                         className={`${styles.my_location_item} ${styles.displayed}`}
                         style={{
                           top: `${
@@ -292,7 +298,6 @@ const Sidebar = ({
                             50 * idx
                           }px`,
                         }}
-                        key={`${item.name}_${idx}`}
                         onClick={() => {
                           updateMapCenter(item.lat, item.lng);
                           isMobile && toggleSidebar();
