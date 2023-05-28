@@ -52,13 +52,6 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
           >
             행동요령
           </Link>
-          {/*       <div className={`${styles.nav_login}`}>
-        {isLogin ? (
-          <Profile userInfo={userInfo} />
-        ) : (
-          <Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />
-        )}
-      </div> */}
           <SocialLogin />
         </nav>
       </PC>

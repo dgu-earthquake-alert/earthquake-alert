@@ -60,8 +60,8 @@ function Home() {
             id: shelterId,
             name: shelterName,
             description: `${shelterName}에 대한 메모를 해보세요! 작성한 내용은 자동 저장되며, 삭제 버튼을 누르면 메모가 삭제됩니다.`,
-            open: true,
-          },
+            open: true
+          }
         ];
       }
     });
