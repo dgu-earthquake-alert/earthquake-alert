@@ -18,11 +18,9 @@ function Home() {
   const [lng, setLng] = useState(0); // 경도
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const [username, setUsername] = useState("");
-  const [favoritePlaces, setFavoritePlaces] = useState([]);
-  const [isFavoritePlacesChanged, setIsFavoritePlacesChanged] = useState(false);
 
   const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTA4OTA4OCwiZXhwIjoxNjg3NjgxMDg4fQ.T-aXt52aP6Xtwt2AO5vzwQxpGgahFpgJxXNx4dL2SkA";
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTI2MTIyNCwiZXhwIjoxNjg3ODUzMjI0fQ.YIZlGTdxeSluU-6VPp94TRJNmi7y2pH9YW5DgqPv-1k";
 
   const fetchUserInfo = () => {
     fetch("http://localhost:8081/api/user", {
@@ -36,7 +34,6 @@ function Home() {
       .then((data) => {
         console.log(data);
         setUsername(data.name);
-        setFavoritePlaces(data.favoritePlaces);
       })
       .catch((err) => {
         console.log(err);
@@ -46,17 +43,6 @@ function Home() {
   useState(() => {
     fetchUserInfo();
   }, [token]);
-
-  useState(() => {
-    if (isFavoritePlacesChanged) {
-      fetchUserInfo();
-      setIsFavoritePlacesChanged(false);
-    }
-  }, [isFavoritePlacesChanged]);
-
-  const hadleIsFavoritePlacesChanged = () => {
-    setIsFavoritePlacesChanged(true);
-  };
 
   const saveLocation = () => {
     localStorage.setItem("location", location);
@@ -190,8 +176,6 @@ function Home() {
         getMyLocation={getMyLocation}
         clickedLocation={clickedLocation}
         updateMapCenter={updateMapCenter}
-        favoritePlaces={favoritePlaces}
-        hadleIsFavoritePlacesChanged={hadleIsFavoritePlacesChanged}
       />
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         {shelterMemo.map((shelter) =>
