@@ -44,8 +44,7 @@ const Sidebar = ({
     query: "(max-width:819px)"
   });
 
-  const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTI2MTIyNCwiZXhwIjoxNjg3ODUzMjI0fQ.YIZlGTdxeSluU-6VPp94TRJNmi7y2pH9YW5DgqPv-1k";
+  const token = localStorage.getItem("token");
 
   const getFavoritePlaces = () => {
     fetch("http://localhost:8081/api/user/favorite", {
