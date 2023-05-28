@@ -1,0 +1,6 @@
+.dropdown_container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding-top: 30px;
+}

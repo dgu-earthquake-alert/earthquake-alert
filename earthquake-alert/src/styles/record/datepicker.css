@@ -1,0 +1,61 @@
+.datepicker_button {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 18px;
+  max-width: 150px;
+  height: 40px;
+  background-color: #084298;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.datepicker_button:focus,
+.datepicker_button:hover {
+  outline: none;
+  background-color: #052c65;
+}
+
+.datepicker_container {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 819px) {
+  .datepicker_container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .datepicker_wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .datepicker_wrapper > label {
+    width: 60px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+  }
+  .datepicker_button {
+    font-size: 15px;
+    padding: 3px;
+    margin-bottom: 5px;
+  }
+  .thead_th {
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .tbody_black > td {
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .pagenation {
+    width: 150px;
+  }
+}

@@ -1,0 +1,461 @@
+.bookmark_button {
+  all: unset;
+  position: fixed;
+  left: 0;
+  top: 134px;
+  width: 50px;
+  height: 50px;
+  background-color: #084298;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  text-align: center;
+  font-size: 22px;
+  z-index: 10;
+  transform: translateX(0);
+  transition: all 0.3s ease-in-out;
+}
+
+.bookmark_button.open {
+  background-color: #084298;
+  transform: translateX(249px);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #084298;
+  border-bottom-right-radius: 20px;
+  transform: translateX(-250px);
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  /* height: 30%; /* 스크롤바의 길이 */
+  background: #e9ecef35; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent; /*스크롤바 뒷 배경 색상*/
+}
+
+.sidebar.open {
+  transform: translateX(0);
+  background-color: #084298;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.bookmark_refresh {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 32px;
+  height: 32px;
+  background-image: url("../../assets/icon/refresh.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+  cursor: pointer;
+}
+
+.bookmark_refresh.rotate {
+  animation: clockwise-rotation 0.5s linear infinite;
+}
+
+@keyframes clockwise-rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bookmark_add {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 32px;
+  height: 32px;
+  background-image: url("../../assets/icon/add.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.bookmark_remove {
+  position: absolute;
+  top: 15px;
+  right: 45px;
+  width: 32px;
+  height: 32px;
+  background-image: url("../../assets/icon/remove.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.bookmark_remove_item {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.my_location_container {
+  position: relative;
+  top: 64px;
+  left: 0;
+  width: 250px;
+  color: #fff;
+}
+
+.my_location {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  padding: 0 20px;
+  border-top: #084298 1px solid;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+  background-color: #052c65;
+  cursor: pointer;
+}
+
+.my_location_title {
+  font-size: 16px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.my_location_name {
+  font-size: 14px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.my_location_item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  text-align: center;
+  width: 250px;
+  height: 50px;
+  padding: 0 20px;
+  font-size: 16px;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #052c65;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+}
+
+.my_location_item.displayed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* .sticky_note {
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: 15vw;
+  background-color: #ffda6a;
+  border-bottom-right-radius: 20px;
+  transform: translateX(0px);
+  transition: transform 0.3s ease-in-out;
+} */
+
+/* 모달 */
+.modal_content {
+  position: fixed;
+  top: 60px;
+  left: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 10px 10px 5px 10px;
+  border-radius: 8px;
+  width: 238px;
+  height: fit-content;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 901;
+}
+
+.modal_input {
+  width: 95%;
+  font-size: 14px;
+  margin-bottom: 2px;
+  border-radius: 8px;
+  border: none;
+  padding: 5px;
+  background-color: #e9ecef;
+}
+
+.modal_input:focus {
+  outline: none;
+}
+
+.modal_button_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal_button {
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  font-size: 14px;
+  background-color: #084298;
+  color: white;
+  padding: 5px 10px;
+  margin: 5px 1px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.move {
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background-color: rgb(196, 11, 11);
+  color: white;
+  font-size: 20px;
+  padding: 15px 25px;
+  border-radius: 15px;
+  opacity: 0;
+  animation-name: fade;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 819px) {
+  .bookmark_button {
+    all: unset;
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    text-align: center;
+    font-size: 25px;
+    z-index: 10;
+    transform: translateX(0);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .bookmark_button.open {
+    background-color: transparent;
+    transform: none;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100vw;
+    height: 100%;
+    background-color: #084298;
+    transform: none;
+    transition: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .sidebar.open {
+    display: block;
+    background-color: #084298;
+    box-shadow: none;
+  }
+
+  .bookmark_refresh {
+    right: 75px;
+    left: auto;
+    transition: none;
+    transform: none;
+  }
+
+  .bookmark_add {
+    transform: none;
+    transition: none;
+  }
+
+  .bookmark_remove {
+    transform: none;
+    transition: none;
+  }
+
+  .my_location_container {
+    position: relative;
+    top: 64px;
+    left: 0;
+    width: 100vw;
+    color: #fff;
+  }
+
+  .my_location {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+    padding: 0 20px;
+    border-top: #084298 1px solid;
+    transform: translateX(0px);
+    transition: transform 0.3s ease-in-out;
+    background-color: #052c65;
+    cursor: pointer;
+  }
+
+  .my_location:active {
+    background-color: #084298;
+  }
+
+  .my_location_title {
+    font-size: 16px;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .my_location_name {
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .my_location_item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    text-align: center;
+    width: 100vw;
+    height: 50px;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #052c65;
+    transform: translateX(0px);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .my_location_item:active {
+    background-color: #052c65;
+  }
+
+  /* 모달 */
+  .modal_content {
+    position: absolute;
+    top: 60px;
+    left: auto;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 10px 10px 5px 10px;
+    border-radius: 8px;
+    width: 40vw;
+    min-width: 250px;
+    height: fit-content;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 901;
+  }
+
+  .modal_button {
+    font-size: 14px;
+  }
+
+  .modal_button:active {
+    background-color: #052c65;
+  }
+
+  .move {
+    display: inline-block;
+    margin-left: 2px;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    background-color: rgb(196, 11, 11);
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    opacity: 0;
+    animation-name: fade;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+  }
+}
