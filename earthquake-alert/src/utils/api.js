@@ -172,6 +172,10 @@ export const fetchEarthquakeData = async () => {
 
     const filteredItems = items.filter(item => item.fcTp === 3); // 국내지진만 필터링
 
+    if (filteredItems.length === 0) {
+      return { message: "저장된 데이터가 없습니다." };
+    }
+
     const earthquakeInfo = {
       loc: filteredItems[0].loc,
       lat: parseFloat(filteredItems[0].lat),
@@ -183,7 +187,7 @@ export const fetchEarthquakeData = async () => {
 
   } catch (error) {
     console.error(error.message);
-    alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
+    //alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
   }
   
 };
