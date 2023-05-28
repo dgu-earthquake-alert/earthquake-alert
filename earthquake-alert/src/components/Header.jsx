@@ -8,7 +8,7 @@ import menu from "../assets/icon/menu.svg";
 import { PC, Mobile } from "../utils/MediaQuery";
 import SocialLogin from "./login/SocialLogin";
 
-const Header = ({ isSidebarOpen, toggleHeader, username }) => {
+const Header = ({ isSidebarOpen, toggleHeader }) => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,25 +52,6 @@ const Header = ({ isSidebarOpen, toggleHeader, username }) => {
           >
             행동요령
           </Link>
-          <Link
-            to="/rule"
-            className={`${styles.nav_item} ${
-              selectedItem === "/rule" ||
-              selectedItem === "/rule/subpage1" ||
-              selectedItem === "/rule/subpage2"
-                ? styles.nav_item_select
-                : ""
-            }`}
-          >
-            {username} 님 환영합니다
-          </Link>
-          {/*       <div className={`${styles.nav_login}`}>
-        {isLogin ? (
-          <Profile userInfo={userInfo} />
-        ) : (
-          <Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />
-        )}
-      </div> */}
           <SocialLogin />
         </nav>
       </PC>
