@@ -28,5 +28,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.getWriter().write(token);
         log.info("token {}", token);
         response.sendRedirect("https://earthquake-alert.site/social-login?token=" + token);
+//        response.sendRedirect("http://localhost:3000/social-login?token=" + token);
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -43,5 +44,7 @@ public class FavoritePlace {
         this.user = user;
     }
 
-    public void setName(String name) { this.name = name; }
+    public void setShelters(List<Shelter> shelters) {
+        this.shelters = shelters;
+    }
 }
