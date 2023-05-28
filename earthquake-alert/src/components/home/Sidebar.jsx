@@ -28,6 +28,7 @@ const Sidebar = ({
   const [isRemoveToggle, setIsRemoveToggle] = useState(false); // 북마크 삭제버튼 클릭 여부
   const [showToast, setShowToast] = useState(false); // State variable to track toast visibility
   const [bookmarks, setBookmarks] = useState([]); // 북마크 정보
+  const [isLogin, setIsLogin] = useState(false); // 로그인 여부
 
   let topValue =
     70 +
@@ -43,6 +44,27 @@ const Sidebar = ({
   const isMobile = useMediaQuery({
     query: "(max-width:819px)"
   });
+
+  const checkLogin = () => {
+    if (localStorage.getItem("token")) {
+      fetch("http://localhost:8081/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+        .then((res) => res.json())
+        .then(
+          (res) => {
+            console.log(res);
+            setIsLogin(true);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  };
 
   const token = localStorage.getItem("token");
 
@@ -71,6 +93,10 @@ const Sidebar = ({
   }, []);
 
   const postFavoritePlace = (shelterList) => {
+    if (isLogin === false) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
     fetch("http://localhost:8081/api/user/favorite", {
       method: "POST",
       headers: {
