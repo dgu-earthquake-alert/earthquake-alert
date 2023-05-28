@@ -1,0 +1,11 @@
+.login_text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    color: white;
+}
+
+.login_box{
+    padding-left: 30px;
+}

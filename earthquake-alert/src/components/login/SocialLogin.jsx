@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "react-bootstrap";
+import "../../styles/login/login.css"
 
 const SocialLogin = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
 
   const handleSocialLogin = () => {
-    window.location.href = 'http://localhost:8081/auth/authorize/google';
+    window.location.href = "http://localhost:8081/auth/authorize/google";
     //window.location.href = 'http://earthquake-alert.site/auth/authorize/google';
   };
 
@@ -36,10 +37,10 @@ const SocialLogin = () => {
   }, []);
 
   return (
-    <div>
+    <div className='login_box'>
       {userInfo ? (
-        <div>
-          <p>{userInfo.name}님 환영합니다!</p>
+        <div className='login_text'>
+          {userInfo.name}님 환영합니다!
         </div>
       ) : (
         <Button variant="light" onClick={handleSocialLogin}>소셜 로그인</Button>
