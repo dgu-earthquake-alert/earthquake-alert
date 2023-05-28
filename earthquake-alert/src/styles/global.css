@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+body::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #cdcfd2; /* 스크롤바의 색상 */
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent; /*스크롤바 뒷 배경 색상*/
+}
+
+/* 드래그 제한 */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.font_color_blue {
+  color: #084298;
+}
+
+.bg_color_blue {
+  background-color: #084298;
+}
+
+.color_blue {
+  background-color: #084298;
+  color: #fff;
+  border: none;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
+}
+
+.color_blue:hover,
+.color_blue_select {
+  background-color: #052c65;
+  border: none;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
+}
+
+.color_white {
+  background-color: #fff;
+  color: #084298;
+  border: none;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
+}
+
+/* .color_white:hover {
+  background-color: #e9ecef;
+  color: #052c65;
+  border: none;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
+} */
+
+a:link {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 819px) {
+  * {
+    font-size: 15px;
+  }
+}
