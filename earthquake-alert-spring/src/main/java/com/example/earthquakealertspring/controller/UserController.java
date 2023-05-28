@@ -28,44 +28,8 @@ public class UserController {
         return userService.deleteFavoritePlace(userId, favoritePlaceId);
     }
 
-    @PutMapping("/favorite/{favoritePlaceId}")
-    public ResponseEntity updateFavoritePlace(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @RequestBody FavoritePlaceDto favoritePlaceDto) {
-        return userService.updateFavoritePlace(userId, favoritePlaceId, favoritePlaceDto);
+    @GetMapping("/favorite")
+    public ResponseEntity getFavoritePlaces(@AuthenticationPrincipal String userId) {
+        return userService.getFavoritePlaces(userId);
     }
-
-    @PostMapping("/favorite/{favoritePlaceId}/shelter")
-    public ResponseEntity addShelter(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @RequestBody ShelterDto shelterDto) {
-        return userService.addShelter(userId, favoritePlaceId, shelterDto);
-    }
-
-    @GetMapping("/favorite/{favoritePlaceId}/shelter")
-    public ResponseEntity getShelter(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId) {
-        return userService.getShelter(userId, favoritePlaceId);
-    }
-
-    @PutMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}")
-    public ResponseEntity updateShelter(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId, @RequestBody ShelterDto shelterDto) {
-        return userService.updateShelter(userId, favoritePlaceId, shelterId, shelterDto);
-    }
-
-    @DeleteMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}")
-    public ResponseEntity deleteShelter(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId) {
-        return userService.deleteShelter(userId, favoritePlaceId, shelterId);
-    }
-
-    @PostMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}/memo")
-    public ResponseEntity addShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId, @RequestBody ShelterDto shelterDto) {
-        return userService.addShelterMemo(userId, favoritePlaceId, shelterId, shelterDto.getShelterMemo());
-    }
-
-    @PutMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}/memo")
-    public ResponseEntity updateShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId, @RequestBody ShelterDto shelterDto) {
-        return userService.updateShelterMemo(userId, favoritePlaceId, shelterId, shelterDto.getShelterMemo());
-    }
-
-    @DeleteMapping("/favorite/{favoritePlaceId}/shelter/{shelterId}/memo")
-    public ResponseEntity deleteShelterMemo(@AuthenticationPrincipal String userId, @PathVariable String favoritePlaceId, @PathVariable String shelterId) {
-        return userService.deleteShelterMemo(userId, favoritePlaceId, shelterId);
-    }
-
 }
