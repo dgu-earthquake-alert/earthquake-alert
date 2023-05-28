@@ -197,19 +197,6 @@ function Home() {
                   ref={MemoDescriptionRef}
                   className={styles.sticky_note_textarea}
                   defaultValue={shelter.description}
-                  /* onFocus={() => setDragEnabled((prev) => !prev)} */
-                  /* onChange={(e) => {
-                    const updatedShelterMemo = shelterMemo.map((s) => {
-                      if (s.id === shelter.id) {
-                        return { ...s, description: e.target.value };
-                      }
-                      return s;
-                    });
-                    setShelterMemo(updatedShelterMemo);
-                  }} */
-                  /* onSelect={handleSelect}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur} */
                   maxLength={100}
                 />
                 <div className={styles.sticky_note_button_container}>

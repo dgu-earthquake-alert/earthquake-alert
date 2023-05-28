@@ -21,11 +21,7 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
     <>
       <PC>
         <nav className={`${styles.nav} ${isSidebarOpen ? styles.open : ""}`}>
-          <Link
-            to="/"
-            className={styles.nav_title}
-            onClick={() => window.location.reload()}
-          >
+          <Link to="/" className={styles.nav_title}>
             지진알리미
           </Link>
           <Link
@@ -61,11 +57,7 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
       </PC>
       <Mobile>
         <nav className={`${styles.nav} ${isSidebarOpen ? styles.open : ""}`}>
-          <Link
-            to="/"
-            className={styles.nav_title}
-            onClick={() => window.location.reload()}
-          >
+          <Link to="/" className={styles.nav_title}>
             지진알리미
           </Link>
           <div className={styles.nav_toggle} onClick={toggleHeader}>
