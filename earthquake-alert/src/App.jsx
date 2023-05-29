@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
   useLocation,
-  useNavigate
+  useNavigate,
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Shelter from "./pages/Shelter";
@@ -76,7 +76,7 @@ const App = () => {
           lat: payload.data.lat,
           lng: payload.data.lon,
           magnitude: payload.data.mt,
-          tmEqk: payload.data.time
+          tmEqk: payload.data.time,
         };
 
         setEarthquakeData(data);

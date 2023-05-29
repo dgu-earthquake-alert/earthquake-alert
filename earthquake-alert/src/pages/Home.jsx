@@ -28,7 +28,7 @@ function Home() {
     lng: null,
     magnitude: null,
     location: null,
-    tmEqk: null // 지진 발생 시각을 저장할 상태도 추가
+    tmEqk: null, // 지진 발생 시각을 저장할 상태도 추가
   });
 
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -106,8 +106,8 @@ function Home() {
             id: shelterId,
             name: shelterName,
             description: `${shelterName}에 대한 메모를 작성해보세요! 편집 버튼을 눌러 내용을 수정한 후, 저장 버튼을 눌러주세요.`,
-            open: true
-          }
+            open: true,
+          },
         ];
       }
     });
@@ -197,7 +197,7 @@ function Home() {
   };
   const buttonStyle = {
     position: "fixed",
-    right: "5px",
+    right: "20px",
     bottom: "20px",
     width: "80px",
     height: "50px",
