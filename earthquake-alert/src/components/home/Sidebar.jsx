@@ -354,6 +354,7 @@ const Sidebar = ({
                     style={{
                       top: `${topValue + 70 * index + additionalOffset}px`
                     }}
+
                     onClick={() => {
                       updateMapCenter(
                         parseFloat(bookmark.placeLat),
@@ -396,6 +397,7 @@ const Sidebar = ({
                             50 * idx
                           }px`
                         }}
+
                         onClick={() => {
                           updateMapCenter(
                             parseFloat(item.shelterLat),

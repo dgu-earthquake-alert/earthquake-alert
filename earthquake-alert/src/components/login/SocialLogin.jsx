@@ -7,9 +7,11 @@ import SocialLoginModal from "../modal/SocialLoginModal";
 import styles from "../../styles/login/login.module.css";
 import login from "../../assets/icon/login.png";
 
+let globalUserInfo = null;
+
 const SocialLogin = () => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState(null);
+  /*   const [userInfo, setUserInfo] = useState(null); */
   const [showModal, setShowModal] = useState(false);
   const [clickGreeting, setClickGreeting] = useState(false);
 
@@ -41,7 +43,8 @@ const SocialLogin = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setUserInfo(data);
+          /* setUserInfo(data); */
+          globalUserInfo = data;
         } else {
           console.log("Error fetching user information");
         }
@@ -66,7 +69,8 @@ const SocialLogin = () => {
         .then((response) => {
           if (response.ok) {
             localStorage.removeItem("token");
-            setUserInfo(null);
+            /* setUserInfo(null); */
+            globalUserInfo = null;
             window.location.reload();
           } else {
             console.log(response.text);
@@ -80,13 +84,14 @@ const SocialLogin = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setUserInfo(null);
+    /* setUserInfo(null); */
+    globalUserInfo = null;
     window.location.reload();
   };
 
   return (
-    <div>
-      {userInfo ? (
+    <div className="login_box">
+      {globalUserInfo ? (
         <div>
           <div
             className={styles.nav_greeting}
@@ -95,13 +100,13 @@ const SocialLogin = () => {
             {isMobile ? (
               <img src={login} alt="login" width="35px" />
             ) : (
-              `${userInfo.name}님`
+              `${globalUserInfo?.name}님`
             )}
           </div>
           {clickGreeting && (
             <div className={styles.modal_content}>
               <div className={styles.nav_modal_greeting}>
-                {userInfo.name}님 환영합니다!
+                {globalUserInfo?.name}님 환영합니다!
               </div>
               <div className={styles.nav_button_container}>
                 <div className={styles.nav_logout} onClick={handleLogout}>
