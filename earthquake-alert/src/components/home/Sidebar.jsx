@@ -13,7 +13,7 @@ const Sidebar = ({
   location,
   getMyLocation,
   clickedLocation,
-  updateMapCenter
+  updateMapCenter,
 }) => {
   const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전 여부
   const [isModalOpen, setIsModalOpen] = useState(false); // 북마크 모달창 여부
@@ -36,11 +36,11 @@ const Sidebar = ({
         : nearbyShelterRef.current?.length);
 
   const isPC = useMediaQuery({
-    query: "(min-width:820px)"
+    query: "(min-width:820px)",
   });
 
   const isMobile = useMediaQuery({
-    query: "(max-width:819px)"
+    query: "(max-width:819px)",
   });
 
   const token = localStorage.getItem("token");
@@ -51,8 +51,8 @@ const Sidebar = ({
       fetch("http://localhost:8081/api/user", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       })
         .then((res) => res.json())
         .then(
@@ -76,8 +76,8 @@ const Sidebar = ({
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => res.json())
       .then(
@@ -112,15 +112,15 @@ const Sidebar = ({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         placeName: bookmarkName,
         placeAddress: clickedLocation.address,
         placeLat: clickedLocation.lat,
         placeLng: clickedLocation.lng,
-        shelterDtoList: shelterList
-      })
+        shelterDtoList: shelterList,
+      }),
     })
       .then((res) => res.json())
       .then(
@@ -139,8 +139,8 @@ const Sidebar = ({
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => res.text())
       .then(
@@ -185,7 +185,7 @@ const Sidebar = ({
         return {
           shelterAddress: item.name,
           shelterLat: item.lat,
-          shelterLng: item.lng
+          shelterLng: item.lng,
         };
       });
       postFavoritePlace(shelterList);
@@ -352,9 +352,8 @@ const Sidebar = ({
                   <div
                     className={styles.my_location}
                     style={{
-                      top: `${topValue + 70 * index + additionalOffset}px`
+                      top: `${topValue + 70 * index + additionalOffset}px`,
                     }}
-
                     onClick={() => {
                       updateMapCenter(
                         parseFloat(bookmark.placeLat),
@@ -395,9 +394,8 @@ const Sidebar = ({
                             additionalOffset +
                             70 +
                             50 * idx
-                          }px`
+                          }px`,
                         }}
-
                         onClick={() => {
                           updateMapCenter(
                             parseFloat(item.shelterLat),
@@ -416,7 +414,7 @@ const Sidebar = ({
                         top: `${
                           topValue + 70 * index + additionalOffset + 70
                         }px`,
-                        cursor: "default"
+                        cursor: "default",
                       }}
                     >
                       주변 대피소 조회 불가

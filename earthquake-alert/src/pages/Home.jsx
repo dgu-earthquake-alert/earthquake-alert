@@ -8,6 +8,7 @@ import { set } from "date-fns";
 import EarthquakeTestModal from "../components/modal/EarthquakeTestModal";
 import EarthquakeModal from "../components/modal/EarthquakeModal";
 import Draggable from "react-draggable"; // The default
+import { Button } from "react-bootstrap";
 
 function Home() {
   const [map, setMap] = useState(null);
@@ -197,7 +198,14 @@ function Home() {
   const handleEarthquakeModalClose = () => {
     setShowEarthquakeModal(false);
   };
-
+  const buttonStyle = {
+    position: "fixed",
+    right: "5px",
+    bottom: "20px",
+    width: "80px",
+    height: "50px",
+    backgroundColor: "#084298",
+  };
   return (
     <div className="root">
       <Header isSidebarOpen={isSidebarOpen} />
@@ -210,6 +218,7 @@ function Home() {
         location={location}
         getMyLocation={getMyLocation}
         clickedLocation={clickedLocation}
+        updateMapCenter={recenterMap}
       />
 
       <EarthquakeTestModal
@@ -284,6 +293,14 @@ function Home() {
             handleMapClick={handleMapClick}
             recenterMap={recenterMap}
           />
+          <Button
+            size="lg"
+            className="mb-2"
+            onClick={handleTestModalOpen}
+            style={buttonStyle}
+          >
+            Test
+          </Button>
         </div>
       </main>
       <Footer
