@@ -30,4 +30,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FavoritePlace> favoritePlaces;
+
+    public void setAuthProvider(String authProvider) {
+        this.authProvider = authProvider;
+    }
 }

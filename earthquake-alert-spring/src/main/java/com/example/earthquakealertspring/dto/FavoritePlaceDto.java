@@ -3,6 +3,8 @@ package com.example.earthquakealertspring.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @Builder
 public class FavoritePlaceDto {
@@ -12,4 +14,5 @@ public class FavoritePlaceDto {
     private String placeLat;
     private String placeLng;
 
+    private List<ShelterDto> shelterDtoList;
 }
