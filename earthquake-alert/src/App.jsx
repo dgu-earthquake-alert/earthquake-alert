@@ -1,9 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+
+import {  BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Shelter from "./pages/Shelter";
 import Record from "./pages/Record";
@@ -17,9 +13,27 @@ import "firebase/compat/messaging";
 import { sendTokenToServer } from "./utils/api";
 
 const App = () => {
+
+  const location = useLocation();
   const navigate = useNavigate();
   const [showEarthquakeModal, setShowEarthquakeModal] = useState(false);
   const [earthquakeData, setEarthquakeData] = useState(null);
+  
+  useEffect(() => {
+    const saveToken = () => {
+      const urlParams = new URLSearchParams(location.search);
+      const token = urlParams.get("token");
+
+      if (token) {
+        localStorage.setItem("token", token);
+        console.log("토큰 값:", token);
+        // Redirect to the Home page
+        navigate("/");
+      }
+    };
+
+    saveToken();
+  }, [location.search]);
 
   useEffect(() => {
     const messaging = firebase.messaging();

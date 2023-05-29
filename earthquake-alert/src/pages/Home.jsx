@@ -1,9 +1,10 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useRef, memo } from "react";
 import Sidebar from "../components/home/Sidebar";
 import GoogleMap from "../components/home/GoogleMap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "../styles/home/home.module.css";
+import { set } from "date-fns";
 import EarthquakeTestModal from "../components/modal/EarthquakeTestModal";
 import EarthquakeModal from "../components/modal/EarthquakeModal";
 import Draggable from "react-draggable"; // The default
@@ -18,6 +19,7 @@ function Home() {
   const [clickedLocation, setClickedLocation] = useState(); // 지도 클릭시 위치정보 저장
   const [lat, setLat] = useState(0); // 위도
   const [lng, setLng] = useState(0); // 경도
+  const [dragEnabled, setDragEnabled] = useState(true); // 메모 드래그 가능 여부
   const [showTestModal, setShowTestModal] = useState(false);
   const [showEarthquakeModal, setShowEarthquakeModal] = useState(false);
   const [earthquakeData, setEarthquakeData] = useState({
@@ -29,6 +31,24 @@ function Home() {
   });
 
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+  const MemoDescriptionRef = useRef();
+  const draggableCoreRef = useRef();
+
+  const token =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTA2NDQ3NSwiZXhwIjoxNjg3NjU2NDc1fQ._8IyzWTlcCs8GgEk6huQLtCso8SV1gH41MKJdUcX7LM";
+
+  /*   const getUserInfo = () => {
+    fetch("http://localhost:8081/user", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      console.log(res);
+      return res.json();
+    });
+  };
+ */
 
   function recenterMap(lat, lng) {
     const newCenter = new window.google.maps.LatLng(lat, lng);
@@ -37,6 +57,17 @@ function Home() {
 
   const saveLocation = () => {
     localStorage.setItem("location", location);
+  };
+
+  const saveMemo = (memoId) => {
+    setShelterMemo((prevMemo) =>
+      prevMemo?.map((shelter) => {
+        if (shelter?.id === memoId) {
+          return { ...shelter, description: MemoDescriptionRef.current.value };
+        }
+        return shelter; // 추가: return 문을 추가하여 기본적으로 shelter를 반환하도록 함
+      })
+    );
   };
 
   const closeMemo = (memoId) => {
@@ -76,7 +107,7 @@ function Home() {
           {
             id: shelterId,
             name: shelterName,
-            description: `${shelterName}에 대한 메모를 해보세요! 작성한 내용은 자동 저장되며, 삭제 버튼을 누르면 메모가 삭제됩니다.`,
+            description: `${shelterName}에 대한 메모를 작성해보세요! 편집 버튼을 눌러 내용을 수정한 후, 저장 버튼을 눌러주세요.`,
             open: true,
           },
         ];
@@ -197,23 +228,32 @@ function Home() {
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         {shelterMemo.map((shelter) =>
           shelter.open ? (
-            <Draggable key={shelter.id}>
+            <Draggable
+              handle={!dragEnabled ? styles.sticky_note_textarea : null}
+              /* cancel={styles.sticky_note_textarea} */
+              key={shelter.id}
+            >
               <div className={styles.sticky_note}>
                 <textarea
+                  ref={MemoDescriptionRef}
                   className={styles.sticky_note_textarea}
-                  value={shelter.description}
-                  onChange={(e) => {
-                    const updatedShelterMemo = shelterMemo.map((s) => {
-                      if (s.id === shelter.id) {
-                        return { ...s, description: e.target.value };
-                      }
-                      return s;
-                    });
-                    setShelterMemo(updatedShelterMemo);
-                  }}
+                  defaultValue={shelter.description}
                   maxLength={100}
                 />
                 <div className={styles.sticky_note_button_container}>
+                  <span
+                    onClick={() => {
+                      if (dragEnabled) {
+                        setDragEnabled(false);
+                      } else {
+                        saveMemo(shelter.id);
+                        setDragEnabled(true);
+                      }
+                    }}
+                    className={styles.sticky_note_save}
+                  >
+                    {dragEnabled ? "편집" : "저장"}
+                  </span>
                   <span
                     onClick={() => closeMemo(shelter.id)}
                     className={styles.sticky_note_close}
