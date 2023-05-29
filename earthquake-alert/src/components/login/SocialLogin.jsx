@@ -29,6 +29,14 @@ const SocialLogin = () => {
     setShowModal(true);
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -85,7 +93,7 @@ const SocialLogin = () => {
   };
 
   return (
-    <div>
+    <div className="login_box">
       {userInfo ? (
         <div>
           <div
