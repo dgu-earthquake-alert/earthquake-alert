@@ -4,8 +4,10 @@ import GoogleMap from "../components/home/GoogleMap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styles from "../styles/home/home.module.css";
-import Draggable, { DraggableCore } from "react-draggable"; // The default
 import { set } from "date-fns";
+import EarthquakeTestModal from "../components/modal/EarthquakeTestModal";
+import EarthquakeModal from "../components/modal/EarthquakeModal";
+import Draggable from "react-draggable"; // The default
 
 function Home() {
   const [map, setMap] = useState(null);
@@ -18,8 +20,16 @@ function Home() {
   const [lat, setLat] = useState(0); // 위도
   const [lng, setLng] = useState(0); // 경도
   const [dragEnabled, setDragEnabled] = useState(true); // 메모 드래그 가능 여부
-  /* const [username, setUsername] = useState(""); // 유저 이름
-  const [favoriteShelter, setFavoriteShelter] = useState([]); // 즐겨찾기 대피소 */
+  const [showTestModal, setShowTestModal] = useState(false);
+  const [showEarthquakeModal, setShowEarthquakeModal] = useState(false);
+  const [earthquakeData, setEarthquakeData] = useState({
+    lat: null,
+    lng: null,
+    magnitude: null,
+    location: null,
+    tmEqk: null, // 지진 발생 시각을 저장할 상태도 추가
+  });
+
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const MemoDescriptionRef = useRef();
   const draggableCoreRef = useRef();
@@ -39,6 +49,11 @@ function Home() {
     });
   };
  */
+
+  function recenterMap(lat, lng) {
+    const newCenter = new window.google.maps.LatLng(lat, lng);
+    map.setCenter(newCenter);
+  }
 
   const saveLocation = () => {
     localStorage.setItem("location", location);
@@ -100,7 +115,7 @@ function Home() {
     });
   }, []);
 
-  const getMyLocation = () => {
+  function getMyLocation() {
     function onGeoOK(position) {
       setLat(position.coords.latitude);
       setLng(position.coords.longitude);
@@ -118,7 +133,7 @@ function Home() {
     }
 
     navigator.geolocation.getCurrentPosition(onGeoOK, onGeoError);
-  };
+  }
 
   // 지도에서 클릭한 곳의 주소를 가져오는 함수
   const handleMapClick = (event) => {
@@ -136,11 +151,6 @@ function Home() {
     });
   };
 
-  // 지도 중심 이동
-  const updateMapCenter = (newLat, newLng) => {
-    map.setCenter({ lat: newLat, lng: newLng });
-  };
-
   useEffect(() => {
     if (localStorage.getItem("location") !== null) {
       setLocation(localStorage.getItem("location"));
@@ -149,7 +159,7 @@ function Home() {
 
     setInterval(() => {
       getMyLocation();
-    }, 10000); // 10초마다 위치 정보를 받아옴
+    }, 180000); // 10초 -> 3분마다 위치 정보를 받아옴
   }, []);
 
   // location이 바뀌면 localStorage에 새로 저장
@@ -170,6 +180,24 @@ function Home() {
     }
   }, [map, lat, lng]);
 
+  const handleTestModalOpen = () => {
+    setShowTestModal(true);
+  };
+
+  const handleTestModalClose = () => {
+    setShowTestModal(false);
+  };
+
+  const handleEarthquakeModalOpen = (data) => {
+    // 수정
+    setEarthquakeData(data); // 수정
+    setShowEarthquakeModal(true);
+  };
+
+  const handleEarthquakeModalClose = () => {
+    setShowEarthquakeModal(false);
+  };
+
   return (
     <div className="root">
       <Header isSidebarOpen={isSidebarOpen} />
@@ -182,8 +210,21 @@ function Home() {
         location={location}
         getMyLocation={getMyLocation}
         clickedLocation={clickedLocation}
-        updateMapCenter={updateMapCenter}
       />
+
+      <EarthquakeTestModal
+        showEarthquakeTestModal={showTestModal}
+        closeEarthquakeTestModal={handleTestModalClose}
+        handleEarthquakeModalOpen={handleEarthquakeModalOpen}
+      />
+      <EarthquakeModal
+        showEarthquakeModal={showEarthquakeModal}
+        closeEarthquakeModal={handleEarthquakeModalClose}
+        earthquakeData={earthquakeData}
+        recenterMap={recenterMap}
+        getMyLocation={getMyLocation}
+      />
+
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         {shelterMemo.map((shelter) =>
           shelter.open ? (
@@ -241,10 +282,14 @@ function Home() {
             shelterMemo={shelterMemo}
             toggleShelterClicked={toggleShelterClicked}
             handleMapClick={handleMapClick}
+            recenterMap={recenterMap}
           />
         </div>
       </main>
-      <Footer isSidebarOpen={isSidebarOpen} />
+      <Footer
+        isSidebarOpen={isSidebarOpen}
+        handleTestModalOpen={handleTestModalOpen}
+      />
     </div>
   );
 }

@@ -1,26 +1,49 @@
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const BASE_URL = "http://openapi.seoul.go.kr:8088/";
+
+//const BASE_URL = "http://openapi.seoul.go.kr:8088/";
 const GO_API_KEY = process.env.REACT_APP_GO_API_KEY; // 공공데이터포털 API 키
 const GO_BASE_URL = "http://apis.data.go.kr/1360000/EqkInfoService/getEqkMsg";
-/*
- * 브라우저 렌더링 성능상 fetch 다 나누는게 좋을것 같아 이름 변경 했습니다.
- * 별 fetchShelterData -> fetchMapPlaceData
- * 수빈 fetchShelterData -> fetchShelterTableData, fetchRecordData -> fetchRecordTableData
- * 제 생각에 소연님의 map에서는 indoorData는 가져오지 않는 것이 좋아보입니다. 왜냐하면 지진이 실제 발생했을 때 사람들을 실내구호소로 대피시킬 수는 없을 것 같아요.
- * 옥외대피소만 표시해주시면 될 것 같고 이를 새로 api.js에 추가해주시면 될것같습니다.
- */
+
+//배포
+// //const BASE_URL = "https://server.earthquake-alert.site/api/";
+const BASE_URL = "http://localhost:8081/api/";
 // 옥외대피소 API: outdoorResponse, 실내구호소 API: indoorResponse
+
+const apiClient = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true, // 쿠키를 요청에 포함합니다.
+});
+
+export const sendTokenToServer = (token) => {
+  apiClient
+    .post("register-token", {
+      fcmtoken: token,
+    })
+    //.then((response) => {
+    //  alert(JSON.stringify(response.data));
+    //})
+    .catch((error) => {
+      console.error("Error:", error);
+      if (error.response) {
+        // 요청이 이루어졌으나 서버가 2xx의 범위를 벗어나는 상태 코드를 반환
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      }
+    });
+};
+
 export const fetchMapPlaceData = async () => {
   try {
-    const outdoorResponse = await axios.get(
-      `${BASE_URL}${API_KEY}/json/TlEtqkP/1/1000/`
+    const outdoorResponse = await apiClient.get(
+      `${API_KEY}/json/TlEtqkP/1/1000/`
     );
     const outdoorData = outdoorResponse.data;
 
-    const indoorResponse = await axios.get(
-      `${BASE_URL}${API_KEY}/json/TlInetqkP/1/1000/`
+    const indoorResponse = await apiClient.get(
+      `${API_KEY}/json/TlInetqkP/1/1000/`
     );
     const indoorData = indoorResponse.data;
 
@@ -58,21 +81,20 @@ export const fetchMapPlaceData = async () => {
 
       return combinedShelterData;
     } else {
-      alert(
+      console.error(
         `API 요청 중 문제가 발생했습니다: ${outdoorData.TlEtqkP.RESULT.MESSAGE}`
       );
     }
   } catch (error) {
-    console.error(error.message);
-    alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
+    console.error(`API 요청 중 문제가 발생했습니다: ${error.message}`);
   }
 };
 
 export const fetchShelterTableData = async (gu, dong) => {
   try {
-    const response = await axios.get(
+    const response = await apiClient.get(
       //"http://openapi.seoul.go.kr:8088/66524245416c736239334a75697446/json/TlEtqkP/1/1000/"
-      `${BASE_URL}${API_KEY}/json/TlEtqkP/1/1000/`
+      `${API_KEY}/json/TlEtqkP/1/1000/`
     );
     const data = response.data;
 
@@ -87,20 +109,21 @@ export const fetchShelterTableData = async (gu, dong) => {
       });
       return filteredData;
     } else {
-      alert(`API 요청 중 문제가 발생했습니다: ${data.TlEtqkP.RESULT.MESSAGE}`);
+      console.error(
+        `API 요청 중 문제가 발생했습니다: ${data.TlEtqkP.RESULT.MESSAGE}`
+      );
       return [];
     }
   } catch (error) {
-    console.error(error.message);
-    alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
+    console.error(`API 요청 중 문제가 발생했습니다: ${error.message}`);
     return [];
   }
 };
 
 export const fetchRecordTableData = async (si, startDate, endDate) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}${API_KEY}/json/TbEqkKenvinfo/1/1000/`
+    const response = await apiClient.get(
+      `${API_KEY}/json/TbEqkKenvinfo/1/1000/`
     );
     const data = response.data;
     if (
@@ -130,69 +153,13 @@ export const fetchRecordTableData = async (si, startDate, endDate) => {
       });
       return filteredData;
     } else {
-      alert(
+      console.error(
         `API 요청 중 문제가 발생했습니다: ${data.TbEqkKenvinfo.RESULT.MESSAGE}`
       );
       return [];
     }
   } catch (error) {
-    console.error(error.message);
-    alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
+    console.error(`API 요청 중 에러가 발생했습니다: ${error.message}`);
     return [];
-  }
-};
-
-export const fetchEarthquakeData = async () => {
-  try {
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const formatDate = (date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}${month}${day}`;
-    };
-
-    const toTmFc = formatDate(today);
-    const fromTmFc = formatDate(yesterday);
-
-    const encodedApiKey = encodeURIComponent(GO_API_KEY);
-    const url = `${GO_BASE_URL}?serviceKey=${encodedApiKey}&dataType=JSON&fromTmFc=${fromTmFc}&toTmFc=${toTmFc}`;
-
-    const earthquakeResponse = await axios.get(url);
-    const earthquakeData = earthquakeResponse.data;
-
-    if (
-      !earthquakeData ||
-      !earthquakeData.response ||
-      !earthquakeData.response.body ||
-      !earthquakeData.response.body.items ||
-      !earthquakeData.response.body.items.item
-    ) {
-      return { message: "저장된 데이터가 없습니다." };
-    }
-
-    const items = earthquakeData.response.body.items.item;
-
-    const filteredItems = items.filter((item) => item.fcTp === 3); // 국내지진만 필터링
-
-    if (filteredItems.length === 0) {
-      return { message: "저장된 데이터가 없습니다." };
-    }
-
-    const earthquakeInfo = {
-      loc: filteredItems[0].loc,
-      lat: parseFloat(filteredItems[0].lat),
-      lng: parseFloat(filteredItems[0].lon),
-      mt: filteredItems[0].mt,
-    };
-
-    return earthquakeInfo;
-  } catch (error) {
-    console.error(error.message);
-    
-    //alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
   }
 };
