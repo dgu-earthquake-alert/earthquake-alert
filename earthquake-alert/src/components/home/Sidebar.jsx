@@ -43,27 +43,29 @@ const Sidebar = ({
     query: "(max-width:819px)",
   });
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const checkLogin = () => {
-    if (localStorage.getItem("token") === null) return;
-    if (localStorage.getItem("token")) {
+    if (token === null) return;
+    if (token) {
       fetch("http://localhost:8081/api/user", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       })
-        .then((res) => res.json())
-        .then(
-          (res) => {
-            console.log(res);
+        .then((res) => {
+          if (res.ok) {
             setIsLogin(true);
-          },
-          (error) => {
-            console.log(error);
+          } else {
+            setIsLogin(false);
+            window.alert("로그인이 만료되었습니다.");
+            window.location.reload();
           }
-        );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

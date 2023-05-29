@@ -1,5 +1,6 @@
 package com.example.earthquakealertspring.entity;
 
+import com.example.earthquakealertspring.service.security.EncryptionConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,15 +18,18 @@ public class User {
     private long userId;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String name;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String email;
 
     @Column(nullable = true)
     private String password;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String authProvider;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

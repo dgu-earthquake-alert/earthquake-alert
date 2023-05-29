@@ -1,6 +1,7 @@
 package com.example.earthquakealertspring.entity;
 
 
+import com.example.earthquakealertspring.service.security.EncryptionConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,15 +27,19 @@ public class FavoritePlace {
     private User user;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String name;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String address;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String latitude;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String longitude;
 
     @OneToMany(mappedBy = "favoritePlace", cascade = CascadeType.ALL)
