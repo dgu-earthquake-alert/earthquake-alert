@@ -164,13 +164,19 @@ export const fetchEarthquakeData = async () => {
     const earthquakeResponse = await axios.get(url);
     const earthquakeData = earthquakeResponse.data;
 
-    if (!earthquakeData || !earthquakeData.response || !earthquakeData.response.body || !earthquakeData.response.body.items || !earthquakeData.response.body.items.item) {
+    if (
+      !earthquakeData ||
+      !earthquakeData.response ||
+      !earthquakeData.response.body ||
+      !earthquakeData.response.body.items ||
+      !earthquakeData.response.body.items.item
+    ) {
       return { message: "저장된 데이터가 없습니다." };
     }
 
     const items = earthquakeData.response.body.items.item;
 
-    const filteredItems = items.filter(item => item.fcTp === 3); // 국내지진만 필터링
+    const filteredItems = items.filter((item) => item.fcTp === 3); // 국내지진만 필터링
 
     if (filteredItems.length === 0) {
       return { message: "저장된 데이터가 없습니다." };
@@ -184,10 +190,9 @@ export const fetchEarthquakeData = async () => {
     };
 
     return earthquakeInfo;
-
   } catch (error) {
     console.error(error.message);
+    
     //alert(`API 요청 중 에러가 발생했습니다: ${error.message}`);
   }
-  
 };
