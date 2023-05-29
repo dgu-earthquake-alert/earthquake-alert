@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { sendTokenToServer } from "./utils/api";
 import App from "./App";
 import firebase from "firebase/compat/app";
 import "firebase/compat/messaging";

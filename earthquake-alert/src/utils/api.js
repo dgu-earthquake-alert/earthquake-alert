@@ -6,6 +6,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 //배포
 const BASE_URL = "https://server.earthquake-alert.site/api/";
+// 로컬
 //const BASE_URL = "http://localhost:8081/api/";
 // 옥외대피소 API: outdoorResponse, 실내구호소 API: indoorResponse
 

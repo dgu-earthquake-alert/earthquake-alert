@@ -1,6 +1,7 @@
 package com.example.earthquakealertspring.entity;
 
 
+import com.example.earthquakealertspring.service.security.EncryptionConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,29 +24,19 @@ public class Shelter {
     private FavoritePlace favoritePlace;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String address;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String latitude;
 
     @Column(nullable = false)
+    @Convert(converter = EncryptionConverter.class)
     private String longitude;
-
-    @Column(nullable = true)
-    private String memo;
 
     public void setFavoritePlace(FavoritePlace favoritePlace) {
         this.favoritePlace = favoritePlace;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setMemo(String memo) {
-        this.memo = memo;
-    }
 }
+

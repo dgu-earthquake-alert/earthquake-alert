@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 
 const EarthquakeModal = ({
@@ -8,6 +8,13 @@ const EarthquakeModal = ({
   recenterMap,
   getMyLocation,
 }) => {
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  useEffect(() => {
+    if (lat !== null && lng !== null) {
+      recenterMap(lat, lng);
+    }
+  }, [lat, lng]);
   return (
     <Modal show={showEarthquakeModal} onHide={closeEarthquakeModal}>
       <Modal.Header closeButton>
@@ -46,6 +53,7 @@ const EarthquakeModal = ({
           variant="secondary"
           onClick={() => {
             getMyLocation();
+            recenterMap(lat, lng);
             closeEarthquakeModal();
           }}
         >
