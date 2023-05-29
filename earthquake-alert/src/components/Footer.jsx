@@ -11,16 +11,6 @@ const Footer = ({ isSidebarOpen, handleTestModalOpen }) => {
             <span className={styles.footer_item_title}>지진알리미</span>
             <div>&copy;2023</div>
           </div>
-          <div className={styles.footer_item}>
-            <Button
-              size="lg"
-              className="mb-2"
-              variant="dark"
-              onClick={handleTestModalOpen}
-            >
-              Test Modal
-            </Button>
-          </div>
         </div>
       </footer>
     </>
