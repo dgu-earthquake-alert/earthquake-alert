@@ -29,14 +29,6 @@ const SocialLogin = () => {
     setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
