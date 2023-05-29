@@ -1,4 +1,5 @@
 .nav {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -6,7 +7,6 @@
   width: 100vw;
   height: 64px;
   background-color: #084298;
-  position: relative;
   transition: width 0.3s ease-in-out;
   float: right;
 }
@@ -49,11 +49,11 @@
   margin: 0 5px;
 }
 
-.nav_item:nth-child(2) {
+.nav_item:nth-of-type(2) {
   flex-basis: 140px;
 }
 
-.nav_item:last-child {
+.nav_item:last-of-type {
   flex-basis: 95px;
 }
 
@@ -113,6 +113,7 @@
     font-size: 21px;
     letter-spacing: 1.5px;
   }
+
   .nav_item {
     position: absolute;
     top: 60px;
@@ -134,7 +135,7 @@
     top: 110px;
   }
 
-  .nav_item:last-child {
+  .nav_item:last-of-type {
     top: 160px;
     box-shadow: 0 5px 6px -3px rgba(0, 0, 0, 0.15);
     border-bottom-left-radius: 10px;

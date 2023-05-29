@@ -98,10 +98,10 @@
   height: 180px;
   border: none;
   line-height: 1.2;
-  -webkit-user-select: auto;
-  -moz-user-select: auto;
-  -ms-user-select: auto;
-  user-select: auto;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 .sticky_note_textarea:focus {
@@ -112,17 +112,18 @@
   align-self: end;
 }
 
-.sticky_note_close {
+.sticky_note_save {
   font-family: "Nanum Pen Script", cursive;
-
   display: inline-block;
+  font-size: 20px;
   cursor: pointer;
 }
 
+.sticky_note_close,
 .sticky_note_remove {
   font-family: "Nanum Pen Script", cursive;
-
   display: inline-block;
+  font-size: 20px;
   margin-left: 10px;
   cursor: pointer;
 }
@@ -153,7 +154,17 @@
     padding: 8px 12px;
   }
   .sticky_note_textarea {
-    width: 150px;
-    height: 130px;
+    width: 155px;
+    height: 135px;
+  }
+  .sticky_note_save,
+  .sticky_note_close,
+  .sticky_note_remove {
+    font-size: 16px;
+  }
+  .sticky_note_save:active,
+  .sticky_note_close:active,
+  .sticky_note_remove:active {
+    transform: translateY(2px);
   }
 }
