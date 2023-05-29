@@ -16,11 +16,11 @@ const SocialLogin = () => {
   const [clickGreeting, setClickGreeting] = useState(false);
 
   const isPC = useMediaQuery({
-    query: "(min-width:820px)",
+    query: "(min-width:820px)"
   });
 
   const isMobile = useMediaQuery({
-    query: "(max-width:819px)",
+    query: "(max-width:819px)"
   });
 
   const handleCloseModal = () => {
@@ -37,8 +37,8 @@ const SocialLogin = () => {
         const response = await fetch("http://localhost:8081/api/user", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`
+          }
         });
 
         if (response.ok) {
@@ -63,12 +63,12 @@ const SocialLogin = () => {
       fetch("http://localhost:8081/api/user", {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`
+        }
       })
         .then((response) => {
           if (response.ok) {
-            localStorage.removeItem("token");
+            sessionStorage.removeItem("token");
             /* setUserInfo(null); */
             globalUserInfo = null;
             window.location.reload();
@@ -83,7 +83,7 @@ const SocialLogin = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     /* setUserInfo(null); */
     globalUserInfo = null;
     window.location.reload();
