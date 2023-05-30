@@ -96,7 +96,7 @@ const Sidebar = ({
       })
       .then(
         (res) => {
-          setBookmarks(res);
+          setBookmarks(res.favoritePlaces);
         },
         (error) => {
           console.log(error);
