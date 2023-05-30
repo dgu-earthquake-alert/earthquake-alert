@@ -25,10 +25,16 @@
 }
 
 .footer_item {
+  display: flex;
+  flex-direction: column;
   flex-basis: 25%;
   height: 100%;
   padding: 35px 0;
   color: #64748b;
+}
+
+.footer_item:last-child {
+  align-items: end;
 }
 
 .footer_item_title {
@@ -36,6 +42,10 @@
   font-weight: bold;
   letter-spacing: 1px;
   color: #64748b;
+}
+
+.footer_item_desc {
+  font-size: 15px;
 }
 
 @media screen and (max-width: 819px) {
@@ -53,6 +63,9 @@
   }
   .footer_item_title {
     font-size: 15px;
+  }
+  .footer_item_desc {
+    font-size: 12px;
   }
   .footer_item {
     flex-basis: 50%;
