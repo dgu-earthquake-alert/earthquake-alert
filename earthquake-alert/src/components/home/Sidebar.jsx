@@ -88,6 +88,7 @@ const Sidebar = ({
           return res.json();
         } else {
           // setIsLogin(false);
+          sessionStorage.removeItem("token");
           window.alert("로그인이 만료되었습니다.");
           window.location.reload();
         }
@@ -138,6 +139,7 @@ const Sidebar = ({
         if (res.ok) {
           getFavoritePlaces();
         } else {
+          sessionStorage.removeItem("token");
           window.alert("로그인이 만료되었습니다.");
           window.location.reload();
         }
@@ -165,6 +167,7 @@ const Sidebar = ({
         if (res.ok) {
           getFavoritePlaces();
         } else {
+          sessionStorage.removeItem("token");
           window.alert("로그인이 만료되었습니다.");
           window.location.reload();
         }
