@@ -32,24 +32,29 @@ const SocialLogin = () => {
   };
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token === null) {
+      return;
+    }
     const fetchUserInfo = async () => {
       try {
         const response = await fetch("http://localhost:8081/api/user", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`
+            Authorization: `Bearer ${token}`
           }
         });
-
         if (response.ok) {
           const data = await response.json();
-          /* setUserInfo(data); */
           globalUserInfo = data;
         } else {
-          console.log("Error fetching user information");
+          sessionStorage.removeItem("token");
+          globalUserInfo = null;
+          window.alert("로그인이 만료되었습니다.");
+          window.location.reload();
         }
       } catch (error) {
-        console.log("Error fetching user information", error);
+        console.log(error);
       }
     };
 
@@ -69,22 +74,23 @@ const SocialLogin = () => {
         .then((response) => {
           if (response.ok) {
             sessionStorage.removeItem("token");
-            /* setUserInfo(null); */
             globalUserInfo = null;
             window.location.reload();
           } else {
-            console.log(response.text);
+            sessionStorage.removeItem("token");
+            globalUserInfo = null;
+            window.alert("로그인이 만료되었습니다.");
+            window.location.reload();
           }
         })
         .catch((error) => {
-          console.log("Error deleting user information", error);
+          console.log(error);
         });
     }
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
-    /* setUserInfo(null); */
     globalUserInfo = null;
     window.location.reload();
   };
