@@ -69,7 +69,7 @@ const SocialLogin = () => {
         .then((response) => {
           if (response.ok) {
             sessionStorage.removeItem("token");
-            /* setUserInfo(null); */
+            setUserInfo(null);
             globalUserInfo = null;
             window.location.reload();
           } else {
@@ -84,7 +84,7 @@ const SocialLogin = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
-    /* setUserInfo(null); */
+    setUserInfo(null);
     globalUserInfo = null;
     window.location.reload();
   };
