@@ -117,7 +117,7 @@
 
   .nav_item {
     position: absolute;
-    top: 59px;
+    top: 58.5px;
     left: 0;
     width: 100vw;
     height: 50px;
@@ -133,17 +133,19 @@
   }
 
   .nav_item:nth-of-type(2) {
-    top: 108px;
+    top: 107.5px;
   }
 
   .nav_item:last-of-type {
-    top: 157px;
+    top: 156.5px;
     box-shadow: 0 5px 6px -3px rgba(0, 0, 0, 0.15);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
   }
   .nav_item:hover,
   .nav_item:active {
+    color: #fff;
+    background-color: #052c65;
     border-radius: 0;
     cursor: pointer;
   }

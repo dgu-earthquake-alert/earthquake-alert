@@ -3,6 +3,7 @@ import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 import remove from "../../assets/icon/remove-filled.svg";
 import { useMediaQuery } from "react-responsive";
+import { set } from "date-fns";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -119,6 +120,7 @@ const Sidebar = ({
     const token = sessionStorage.getItem("token");
     if (token === null) {
       window.alert("로그인이 필요합니다.");
+      toggleSidebar();
       return;
     }
     fetch("http://localhost:8081/api/user/favorite", {
@@ -132,8 +134,8 @@ const Sidebar = ({
         placeAddress: clickedLocation.address,
         placeLat: clickedLocation.lat,
         placeLng: clickedLocation.lng,
-        shelterDtoList: shelterList
-      })
+        shelterDtoList: shelterList,
+      }),
     }).then(
       (res) => {
         if (res.ok) {
@@ -160,8 +162,8 @@ const Sidebar = ({
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }).then(
       (res) => {
         if (res.ok) {
@@ -305,7 +307,6 @@ const Sidebar = ({
             type="text"
             className={styles.modal_input}
             value={clickedLocation?.address}
-            onChange={(e) => setBookmarkName(e.target.value)}
             placeholder="저장할 위치를 클릭하세요."
             title="저장할 위치를 지도에서 클릭하세요."
           />
