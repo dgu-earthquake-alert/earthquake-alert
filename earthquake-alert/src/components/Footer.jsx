@@ -12,14 +12,12 @@ const Footer = ({ isSidebarOpen, handleTestModalOpen }) => {
             <div className={styles.footer_item_desc}>&copy;2023</div>
             <Link
               to="/privacy"
-              className={`${styles.footer_item_desc} mt-1`}
+              className={`${styles.footer_item_desc} mt-1 text-muted`}
               target="_blank"
             >
               개인정보처리방침
             </Link>
           </div>
-          <div className={styles.footer_item}></div>
-          <div className={styles.footer_item}></div>
           <div className={styles.footer_item}></div>
         </div>
       </footer>

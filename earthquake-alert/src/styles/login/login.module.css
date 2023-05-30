@@ -115,6 +115,7 @@
     right: 55px;
   }
   .modal_content {
+    top: 58px;
     padding: 8px 10px;
   }
 }
