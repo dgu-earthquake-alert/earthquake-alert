@@ -7,6 +7,7 @@ const EarthquakeModal = ({
   earthquakeData,
   recenterMap,
   getMyLocation,
+  map,
 }) => {
   useEffect(() => {
     if (earthquakeData.lat !== null && earthquakeData.lng !== null) {
