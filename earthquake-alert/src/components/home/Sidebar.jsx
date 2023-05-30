@@ -307,7 +307,6 @@ const Sidebar = ({
             type="text"
             className={styles.modal_input}
             value={clickedLocation?.address}
-            onChange={(e) => setBookmarkName(e.target.value)}
             placeholder="저장할 위치를 클릭하세요."
             title="저장할 위치를 지도에서 클릭하세요."
           />
