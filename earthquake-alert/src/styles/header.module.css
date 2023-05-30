@@ -38,7 +38,7 @@
 .nav_item {
   all: unset;
   flex-basis: 135px;
-  height: 75%;
+  height: 70%;
   display: flex;
   justify-content: space-around;
   align-items: center;

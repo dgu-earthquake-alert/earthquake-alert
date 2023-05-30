@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useRef, memo } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import Sidebar from "../components/home/Sidebar";
 import GoogleMap from "../components/home/GoogleMap";
 import Header from "../components/Header";
@@ -9,6 +9,7 @@ import EarthquakeTestModal from "../components/modal/EarthquakeTestModal";
 import EarthquakeModal from "../components/modal/EarthquakeModal";
 import Draggable from "react-draggable"; // The default
 import { Button } from "react-bootstrap";
+import { useMediaQuery } from "react-responsive";
 
 function Home() {
   const [map, setMap] = useState(null);
@@ -35,18 +36,9 @@ function Home() {
   const MemoDescriptionRef = useRef();
   const draggableCoreRef = useRef();
 
-  /*   const getUserInfo = () => {
-    fetch("http://localhost:8081/user", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      console.log(res);
-      return res.json();
-    });
-  };
- */
+  const isPC = useMediaQuery({
+    query: "(min-width:820px)",
+  });
 
   function recenterMap(lat, lng) {
     const newCenter = new window.google.maps.LatLng(lat, lng);
@@ -232,51 +224,52 @@ function Home() {
       />
 
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
-        {shelterMemo.map((shelter) =>
-          shelter.open ? (
-            <Draggable
-              handle={!dragEnabled ? styles.sticky_note_textarea : null}
-              /* cancel={styles.sticky_note_textarea} */
-              key={shelter.id}
-            >
-              <div className={styles.sticky_note}>
-                <textarea
-                  ref={MemoDescriptionRef}
-                  className={styles.sticky_note_textarea}
-                  defaultValue={shelter.description}
-                  maxLength={100}
-                />
-                <div className={styles.sticky_note_button_container}>
-                  <span
-                    onClick={() => {
-                      if (dragEnabled) {
-                        setDragEnabled(false);
-                      } else {
-                        saveMemo(shelter.id);
-                        setDragEnabled(true);
-                      }
-                    }}
-                    className={styles.sticky_note_save}
-                  >
-                    {dragEnabled ? "편집" : "저장"}
-                  </span>
-                  <span
-                    onClick={() => closeMemo(shelter.id)}
-                    className={styles.sticky_note_close}
-                  >
-                    닫기
-                  </span>
-                  <span
-                    onClick={() => removeMemo(shelter.id)}
-                    className={styles.sticky_note_remove}
-                  >
-                    삭제
-                  </span>
+        {isPC &&
+          shelterMemo.map((shelter) =>
+            shelter.open ? (
+              <Draggable
+                handle={!dragEnabled ? styles.sticky_note_textarea : null}
+                /* cancel={styles.sticky_note_textarea} */
+                key={shelter.id}
+              >
+                <div className={styles.sticky_note}>
+                  <textarea
+                    ref={MemoDescriptionRef}
+                    className={styles.sticky_note_textarea}
+                    defaultValue={shelter.description}
+                    maxLength={100}
+                  />
+                  <div className={styles.sticky_note_button_container}>
+                    <span
+                      onClick={() => {
+                        if (dragEnabled) {
+                          setDragEnabled(false);
+                        } else {
+                          saveMemo(shelter.id);
+                          setDragEnabled(true);
+                        }
+                      }}
+                      className={styles.sticky_note_save}
+                    >
+                      {dragEnabled ? "편집" : "저장"}
+                    </span>
+                    <span
+                      onClick={() => closeMemo(shelter.id)}
+                      className={styles.sticky_note_close}
+                    >
+                      닫기
+                    </span>
+                    <span
+                      onClick={() => removeMemo(shelter.id)}
+                      className={styles.sticky_note_remove}
+                    >
+                      삭제
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Draggable>
-          ) : null
-        )}
+              </Draggable>
+            ) : null
+          )}
 
         <div className={styles.map_title}>내 주변 대피소를 찾아보세요.</div>
         <div className={styles.map}>
