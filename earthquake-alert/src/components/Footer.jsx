@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/footer.module.css";
-import { Button } from "react-bootstrap";
 
 const Footer = ({ isSidebarOpen, handleTestModalOpen }) => {
   return (
