@@ -78,7 +78,7 @@ function Home() {
   };
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen((prev) => !prev);
   };
 
   // 마커 클릭시 이벤트
