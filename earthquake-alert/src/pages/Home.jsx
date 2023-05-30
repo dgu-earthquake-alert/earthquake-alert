@@ -41,6 +41,7 @@ function Home() {
   });
 
   function recenterMap(lat, lng) {
+    if (!map) return;
     const newCenter = new window.google.maps.LatLng(lat, lng);
     map.setCenter(newCenter);
   }
@@ -221,6 +222,7 @@ function Home() {
         earthquakeData={earthquakeData}
         recenterMap={recenterMap}
         getMyLocation={getMyLocation}
+        map={map}
       />
 
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
