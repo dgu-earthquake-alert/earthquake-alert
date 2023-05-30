@@ -50,6 +50,7 @@
 
 @media screen and (max-width: 819px) {
   .footer {
+    height: 200px;
     transition: none;
     float: none;
   }

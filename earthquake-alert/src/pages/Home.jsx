@@ -36,6 +36,22 @@ function Home() {
   const MemoDescriptionRef = useRef();
   const draggableCoreRef = useRef();
 
+  const isTabletOrPC = useCallback(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isTablet = /ipad|android(?!.*mobile)|tablet/.test(userAgent);
+    const isPC =
+      !isTablet &&
+      !/mobile|android|iphone|ipod|blackberry|opera mini|iemobile|wpdesktop/.test(
+        userAgent
+      );
+    return {
+      isTablet,
+      isPC,
+    };
+  }, []);
+
+  const device = isTabletOrPC();
+
   const isPC = useMediaQuery({
     query: "(min-width:820px)",
   });
@@ -227,6 +243,7 @@ function Home() {
 
       <main className={`${styles.main} ${isSidebarOpen ? styles.open : ""}`}>
         {isPC &&
+          device.isPC &&
           shelterMemo.map((shelter) =>
             shelter.open ? (
               <Draggable
