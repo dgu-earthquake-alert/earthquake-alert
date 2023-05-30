@@ -26,7 +26,7 @@ const Sidebar = ({
   const [isRemoveToggle, setIsRemoveToggle] = useState(false); // 북마크 삭제버튼 클릭 여부
   const [showToast, setShowToast] = useState(false); // State variable to track toast visibility
   const [bookmarks, setBookmarks] = useState([]); // 북마크 정보
-  const [isLogin, setIsLogin] = useState(false); // 로그인 여부
+  // const [isLogin, setIsLogin] = useState(false); // 로그인 여부
 
   let topValue =
     70 +
@@ -43,51 +43,61 @@ const Sidebar = ({
     query: "(max-width:819px)",
   });
 
-  const token = sessionStorage.getItem("token");
+  // const token = sessionStorage.getItem("token");
 
-  const checkLogin = () => {
-    if (token === null) return;
-    if (token) {
-      //fetch("http://localhost:8081/api/user", {
-      fetch("https://server.earthquake-alert.site/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => {
-          if (res.ok) {
-            setIsLogin(true);
-          } else {
-            setIsLogin(false);
-            window.alert("로그인이 만료되었습니다.");
-            window.location.reload();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
+  // const checkLogin = () => {
+  //   if (token === null) return;
+  //   if (token) {
+  //     fetch("http://localhost:8081/api/user", {
+  //      fetch("https://server.earthquake-alert.site/api/user", {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     })
+  //       .then((res) => {
+  //         if (res.ok) {
+  //           setIsLogin(true);
+  //         } else {
+  //           setIsLogin(false);
+  //           window.alert("로그인이 만료되었습니다.");
+  //           window.location.reload();
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // };
 
-  useState(() => {
-    checkLogin();
-  }, []);
+  // useState(() => {
+  //   checkLogin();
+  // }, []);
 
   const getFavoritePlaces = () => {
-    //fetch("http://localhost:8081/api/user/favorite", {
+    const token = sessionStorage.getItem("token");
+    if (token === null) return;
     fetch("https://server.earthquake-alert.site/api/user/favorite", {
+      //fetch("http://localhost:8081/api/user/favorite", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          // setIsLogin(false);
+          sessionStorage.removeItem("token");
+          window.alert("로그인이 만료되었습니다.");
+          window.location.reload();
+        }
+      })
       .then(
         (res) => {
-          console.log(res);
-          setBookmarks(res.favoritePlaces);
+          setBookmarks(res);
         },
         (error) => {
           console.log(error);
@@ -99,17 +109,18 @@ const Sidebar = ({
     getFavoritePlaces();
   }, []);
 
-  useEffect(() => {
-    if (isLogin === false) {
-      setBookmarks([]);
-      return;
-    }
-    getFavoritePlaces();
-  }, [isLogin]);
+  // useEffect(() => {
+  //   if (isLogin === false) {
+  //     setBookmarks([]);
+  //     return;
+  //   }
+  //   getFavoritePlaces();
+  // }, [isLogin]);
 
   const postFavoritePlace = (shelterList) => {
-    if (isLogin === false) {
-      alert("로그인 후 이용해주세요.");
+    const token = sessionStorage.getItem("token");
+    if (token === null) {
+      window.alert("로그인이 필요합니다.");
       return;
     }
     //fetch("http://localhost:8081/api/user/favorite", {
@@ -126,38 +137,49 @@ const Sidebar = ({
         placeLng: clickedLocation.lng,
         shelterDtoList: shelterList,
       }),
-    })
-      .then((res) => res.json())
-      .then(
-        (res) => {
-          console.log(res);
+    }).then(
+      (res) => {
+        if (res.ok) {
           getFavoritePlaces();
-        },
-        (error) => {
-          console.log(error);
+        } else {
+          sessionStorage.removeItem("token");
+          window.alert("로그인이 만료되었습니다.");
+          window.location.reload();
         }
-      );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   const deleteFavoritePlace = (placeId) => {
-    //fetch(`http://localhost:8081/api/user/favorite/${placeId}`, {
+    const token = sessionStorage.getItem("token");
+    if (token === null) {
+      window.alert("로그인이 필요합니다.");
+      return;
+    }
     fetch(`https://server.earthquake-alert.site/api/user/favorite/${placeId}`, {
+      //fetch(`http://localhost:8081/api/user/favorite/${placeId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    })
-      .then((res) => res.text())
-      .then(
-        (res) => {
-          console.log(res);
+    }).then(
+      (res) => {
+        if (res.ok) {
           getFavoritePlaces();
-        },
-        (error) => {
-          console.log(error);
+        } else {
+          sessionStorage.removeItem("token");
+          window.alert("로그인이 만료되었습니다.");
+          window.location.reload();
         }
-      );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   const refresh = () => {
