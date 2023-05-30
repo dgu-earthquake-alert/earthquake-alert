@@ -5,6 +5,8 @@ const EarthquakeModal = ({
   showEarthquakeModal,
   closeEarthquakeModal,
   earthquakeData,
+  lat,
+  lng,
   recenterMap,
   getMyLocation,
   map,
@@ -56,7 +58,7 @@ const EarthquakeModal = ({
         <Button
           variant="secondary"
           onClick={() => {
-            getMyLocation();
+            if (lat !== 0 && lng !== 0) recenterMap(lat, lng);
             closeEarthquakeModal();
           }}
         >
