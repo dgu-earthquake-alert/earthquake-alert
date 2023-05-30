@@ -38,7 +38,7 @@
 .nav_item {
   all: unset;
   flex-basis: 135px;
-  height: 75%;
+  height: 70%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -132,11 +132,11 @@
   }
 
   .nav_item:nth-of-type(2) {
-    top: 110px;
+    top: 109px;
   }
 
   .nav_item:last-of-type {
-    top: 160px;
+    top: 158px;
     box-shadow: 0 5px 6px -3px rgba(0, 0, 0, 0.15);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;

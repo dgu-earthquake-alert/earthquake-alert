@@ -11,16 +11,16 @@ let globalUserInfo = null;
 
 const SocialLogin = () => {
   const navigate = useNavigate();
-  /*   const [userInfo, setUserInfo] = useState(null); */
+  const [userInfo, setUserInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [clickGreeting, setClickGreeting] = useState(false);
 
   const isPC = useMediaQuery({
-    query: "(min-width:820px)"
+    query: "(min-width:820px)",
   });
 
   const isMobile = useMediaQuery({
-    query: "(max-width:819px)"
+    query: "(max-width:819px)",
   });
 
   const handleCloseModal = () => {
@@ -46,6 +46,7 @@ const SocialLogin = () => {
         });
         if (response.ok) {
           const data = await response.json();
+          setUserInfo(data);
           globalUserInfo = data;
         } else {
           sessionStorage.removeItem("token");
@@ -68,12 +69,13 @@ const SocialLogin = () => {
       fetch("http://localhost:8081/api/user", {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`
-        }
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
       })
         .then((response) => {
           if (response.ok) {
             sessionStorage.removeItem("token");
+            setUserInfo(null);
             globalUserInfo = null;
             window.location.reload();
           } else {
@@ -91,13 +93,14 @@ const SocialLogin = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
+    setUserInfo(null);
     globalUserInfo = null;
     window.location.reload();
   };
 
   return (
     <div className="login_box">
-      {globalUserInfo ? (
+      {globalUserInfo || userInfo ? (
         <div>
           <div
             className={styles.nav_greeting}
@@ -106,7 +109,7 @@ const SocialLogin = () => {
             {isMobile ? (
               <img src={login} alt="login" width="35px" />
             ) : (
-              `${globalUserInfo?.name}님`
+              `${globalUserInfo ? globalUserInfo?.name : userInfo.name}님`
             )}
           </div>
           {clickGreeting && (
