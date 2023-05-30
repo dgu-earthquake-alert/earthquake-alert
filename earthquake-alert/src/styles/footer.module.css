@@ -30,7 +30,7 @@
   flex-basis: 25%;
   height: 100%;
   padding: 35px 0;
-  color: #64748b;
+  color: #6c757d;
 }
 
 .footer_item:last-child {
@@ -41,7 +41,7 @@
   font-size: 18px;
   font-weight: bold;
   letter-spacing: 1px;
-  color: #64748b;
+  color: #6c757d;
 }
 
 .footer_item_desc {

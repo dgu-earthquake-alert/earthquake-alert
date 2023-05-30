@@ -318,6 +318,7 @@
     transition: none;
     overflow-y: auto;
     overflow-x: hidden;
+    border-bottom-right-radius: 0;
   }
 
   .sidebar.open {
@@ -412,16 +413,16 @@
   /* 모달 */
   .modal_content {
     position: fixed;
-    top: 58px;
-    left: auto;
-    right: 10px;
+    top: 21px;
+    left: 50%;
+    transform: translate(-48%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: white;
     padding: 10px 10px 5px 10px;
-    border-radius: 8px;
+    border-radius: 15px;
     width: 40vw;
     min-width: 250px;
     height: fit-content;
@@ -429,8 +430,15 @@
     z-index: 901;
   }
 
+  .modal_input {
+    padding: 8px;
+    border-radius: 10px;
+  }
+
   .modal_button {
     font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 10px;
   }
 
   .modal_button:active {

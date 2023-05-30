@@ -37,7 +37,7 @@
 
 .nav_item {
   all: unset;
-  flex-basis: 135px;
+  flex-basis: 130px;
   height: 70%;
   display: flex;
   justify-content: space-around;
@@ -46,7 +46,7 @@
   border-radius: 10px;
   color: #fff;
   transition: all 0.1s ease-in-out;
-  margin: 0 5px;
+  margin: 0 4px;
 }
 
 .nav_item:nth-of-type(2) {
@@ -54,17 +54,10 @@
 }
 
 .nav_item:last-of-type {
-  flex-basis: 95px;
+  flex-basis: 90px;
 }
 
 .nav_item:hover {
-  color: #fff;
-  background-color: #052c65;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.nav_item_select {
   font-weight: bold;
   color: #084298;
   background-color: #fff;
@@ -72,9 +65,17 @@
   cursor: pointer;
 }
 
+.nav_item_select {
+  color: #fff;
+  background-color: #052c65;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .nav_item_select:hover {
-  color: #084298;
-  background-color: #fff;
+  font-weight: 500;
+  color: #fff;
+  background-color: #052c65;
 }
 
 .nav_toggle {
@@ -107,7 +108,7 @@
     text-align: center;
     justify-content: end;
     margin-left: auto;
-    margin-right: -18px;
+    margin-right: -24px;
     color: #fff;
     font-weight: bold;
     font-size: 21px;

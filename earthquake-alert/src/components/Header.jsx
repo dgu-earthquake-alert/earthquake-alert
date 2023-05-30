@@ -8,7 +8,7 @@ import menu from "../assets/icon/menu.svg";
 import { PC, Mobile } from "../utils/MediaQuery";
 import SocialLogin from "./login/SocialLogin";
 
-const Header = ({ isSidebarOpen, toggleHeader }) => {
+const Header = ({ isSidebarOpen }) => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,7 +60,7 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
           <Link to="/" className={styles.nav_title}>
             지진알리미
           </Link>
-          <div className={styles.nav_toggle} onClick={toggleHeader}>
+          <div className={styles.nav_toggle}>
             <img
               src={menu}
               alt="menu"
@@ -89,7 +89,7 @@ const Header = ({ isSidebarOpen, toggleHeader }) => {
           >
             행동요령
           </Link>
-          <SocialLogin />
+          <SocialLogin isMenuOpen={isMenuOpen} />
         </nav>
       </Mobile>
     </>
