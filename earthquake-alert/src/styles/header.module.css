@@ -144,6 +144,8 @@
   }
   .nav_item:hover,
   .nav_item:active {
+    color: #fff;
+    background-color: #052c65;
     border-radius: 0;
     cursor: pointer;
   }
