@@ -37,8 +37,8 @@ public class EarthquakePushService {
         this.fcmTokenRepository = fcmTokenRepository;
         this.lastSentData = null; // 초기화
     }
-    //테스트용, 20초
-    @Scheduled(fixedRate = 20000)
+
+    @Scheduled(fixedRate = 60000)
     public void sendPushNotification() {
         try {
             String currentDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
@@ -82,15 +82,15 @@ public class EarthquakePushService {
             EarthquakeDto newEarthquakeDto = earthquakeDtos.get(0);
             logger.info("newEarthquakeDto: " + newEarthquakeDto.toString());
             //테스트용, 조건X
-            sendFCMPushNotification(newEarthquakeDto);
+            //sendFCMPushNotification(newEarthquakeDto);
 
             //배포용, 조건O
             // null 검사를 실시합니다.
-            /*if (newEarthquakeDto != null && isNewAndSignificantEarthquake(newEarthquakeDto)) {
+            if (newEarthquakeDto != null && isNewAndSignificantEarthquake(newEarthquakeDto)) {
                 sendFCMPushNotification(newEarthquakeDto);
             } else {
                 logger.info("No new significant earthquake data found.");
-            }*/
+            }
         }
     }
     private boolean isNewAndSignificantEarthquake(EarthquakeDto newEarthquakeDto) {
