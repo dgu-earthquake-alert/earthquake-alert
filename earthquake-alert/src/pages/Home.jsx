@@ -28,12 +28,15 @@ function Home() {
     lng: null,
     magnitude: null,
     location: null,
-    tmEqk: null // 지진 발생 시각을 저장할 상태도 추가
+    tmEqk: null, // 지진 발생 시각을 저장할 상태도 추가
   });
 
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const MemoDescriptionRef = useRef();
   const draggableCoreRef = useRef();
+
+  const token =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoiZWFydGhxdWFrZS1hbGVydCIsImlhdCI6MTY4NTA2NDQ3NSwiZXhwIjoxNjg3NjU2NDc1fQ._8IyzWTlcCs8GgEk6huQLtCso8SV1gH41MKJdUcX7LM";
 
   /*   const getUserInfo = () => {
     fetch("http://localhost:8081/user", {
@@ -106,8 +109,8 @@ function Home() {
             id: shelterId,
             name: shelterName,
             description: `${shelterName}에 대한 메모를 작성해보세요! 편집 버튼을 눌러 내용을 수정한 후, 저장 버튼을 눌러주세요.`,
-            open: true
-          }
+            open: true,
+          },
         ];
       }
     });

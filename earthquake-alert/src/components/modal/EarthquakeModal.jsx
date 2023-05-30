@@ -8,13 +8,12 @@ const EarthquakeModal = ({
   recenterMap,
   getMyLocation,
 }) => {
-  const [lat, setLat] = useState(null);
-  const [lng, setLng] = useState(null);
   useEffect(() => {
-    if (lat !== null && lng !== null) {
-      recenterMap(lat, lng);
+    if (earthquakeData.lat !== null && earthquakeData.lng !== null) {
+      recenterMap(earthquakeData.lat, earthquakeData.lng);
     }
-  }, [lat, lng]);
+  }, [earthquakeData.lat, earthquakeData.lng]);
+
   return (
     <Modal show={showEarthquakeModal} onHide={closeEarthquakeModal}>
       <Modal.Header closeButton>
@@ -34,15 +33,15 @@ const EarthquakeModal = ({
                 시간:{" "}
                 {earthquakeData.tmEqk.substring(2, 4) +
                   "년 " +
-                  parseInt(earthquakeData.tmEqk.substring(4, 6)) +
+                  parseInt(earthquakeData.tmEqk.substring(5, 7)) +
                   "월 " +
-                  parseInt(earthquakeData.tmEqk.substring(6, 8)) +
+                  parseInt(earthquakeData.tmEqk.substring(8, 10)) +
                   "일 " +
-                  earthquakeData.tmEqk.substring(8, 10) +
+                  earthquakeData.tmEqk.substring(11, 13) +
                   "시 " +
-                  earthquakeData.tmEqk.substring(10, 12) +
+                  earthquakeData.tmEqk.substring(14, 16) +
                   "분 " +
-                  earthquakeData.tmEqk.substring(12, 14) +
+                  earthquakeData.tmEqk.substring(17, 19) +
                   "초"}
               </p>
             </>
@@ -53,7 +52,6 @@ const EarthquakeModal = ({
           variant="secondary"
           onClick={() => {
             getMyLocation();
-            recenterMap(lat, lng);
             closeEarthquakeModal();
           }}
         >

@@ -55,11 +55,13 @@ const EarthquakeTestModal = ({
 
   const handleTestSend = () => {
     const now = new Date();
+    now.setHours(now.getHours() + 9);
+    const koreanTime = now.toISOString();
     const data = {
       ...coordinatesMap[selectedLocation],
       magnitude,
       location: selectedLocation,
-      tmEqk: now.toISOString(),
+      tmEqk: koreanTime,
     };
     handleEarthquakeModalOpen(data);
     closeEarthquakeTestModal();
@@ -101,10 +103,10 @@ const EarthquakeTestModal = ({
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCancel}>
-          Cancel
+          취소
         </Button>
         <Button variant="primary" onClick={handleTestSend}>
-          Test Send
+          테스트 전송
         </Button>
       </Modal.Footer>
     </Modal>
