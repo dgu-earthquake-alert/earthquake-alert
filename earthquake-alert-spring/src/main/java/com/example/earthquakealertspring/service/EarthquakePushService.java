@@ -37,20 +37,20 @@ public class EarthquakePushService {
         this.fcmTokenRepository = fcmTokenRepository;
         this.lastSentData = null; // 초기화
     }
-
-    @Scheduled(fixedRate = 60000)
+    //테스트용, 20초
+    @Scheduled(fixedRate = 20000)
     public void sendPushNotification() {
         try {
             String currentDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-            String yesterdayDate = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 24)));
-
+            //String yesterdayDate = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 24)));
+            String minusThreeDate = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 3)));
             UriComponents uriComponents = UriComponentsBuilder
                     .fromHttpUrl("https://apis.data.go.kr/1360000/EqkInfoService/getEqkMsg")
                     .queryParam("serviceKey", serviceKey)
                     .queryParam("dataType", "JSON")
                     .queryParam("numOfRows", "10")
                     .queryParam("pageNo", "1")
-                    .queryParam("fromTmFc", yesterdayDate)
+                    .queryParam("fromTmFc", minusThreeDate)
                     .queryParam("toTmFc", currentDate)
                     .build(true);
 
@@ -66,10 +66,13 @@ public class EarthquakePushService {
 
     private void processResponse(EarthquakeResponse response) {
         // resultCode 조건을 추가합니다.
+        /* 
         if (!"00".equals(response.getResponse().getHeader().getResultCode())) {
             logger.info("resultCode is not 00. resultCode: " + response.getResponse().getHeader().getResultCode());
             return;
         }
+        test 조건 x
+        */
         
         List<EarthquakeDto> earthquakeDtos = response.getResponse().getBody().getItems().getItem();
         logger.info("earthquakeDtos: " + earthquakeDtos.toString());
@@ -78,12 +81,16 @@ public class EarthquakePushService {
         if (!earthquakeDtos.isEmpty()) {
             EarthquakeDto newEarthquakeDto = earthquakeDtos.get(0);
             logger.info("newEarthquakeDto: " + newEarthquakeDto.toString());
+            //테스트용, 조건X
+            sendFCMPushNotification(newEarthquakeDto);
+
+            //배포용, 조건O
             // null 검사를 실시합니다.
-            if (newEarthquakeDto != null && isNewAndSignificantEarthquake(newEarthquakeDto)) {
+            /*if (newEarthquakeDto != null && isNewAndSignificantEarthquake(newEarthquakeDto)) {
                 sendFCMPushNotification(newEarthquakeDto);
             } else {
                 logger.info("No new significant earthquake data found.");
-            }
+            }*/
         }
     }
     private boolean isNewAndSignificantEarthquake(EarthquakeDto newEarthquakeDto) {
