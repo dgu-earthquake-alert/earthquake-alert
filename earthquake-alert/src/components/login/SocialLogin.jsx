@@ -110,7 +110,9 @@ const SocialLogin = ({ isMenuOpen }) => {
         <div>
           <div
             className={styles.nav_greeting}
-            onClick={() => setClickGreeting((prev) => !prev)}
+            onClick={() => {
+              if (!isMenuOpen) setClickGreeting((prev) => !prev);
+            }}
           >
             {isMobile ? (
               <img src={login} alt="login" width="35px" className="mb-1" />
