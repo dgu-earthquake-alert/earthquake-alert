@@ -3,6 +3,7 @@ import styles from "../../styles/home/sidebar.module.css";
 import { fetchMapPlaceData } from "../../utils/api";
 import remove from "../../assets/icon/remove-filled.svg";
 import { useMediaQuery } from "react-responsive";
+import { set } from "date-fns";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -121,6 +122,7 @@ const Sidebar = ({
     const token = sessionStorage.getItem("token");
     if (token === null) {
       window.alert("로그인이 필요합니다.");
+      toggleSidebar();
       return;
     }
     //fetch("http://localhost:8081/api/user/favorite", {
@@ -199,17 +201,29 @@ const Sidebar = ({
       }
 
       const filteredShelter = await fetchMapPlaceData().then((data) =>
-        data
-          .filter(
-            (item) =>
-              item.lat > clickedLocation.lat - 0.01 &&
-              item.lat < clickedLocation.lat + 0.01 &&
-              item.lng > clickedLocation.lng - 0.01 &&
-              item.lng < clickedLocation.lng + 0.01
-          )
-          .slice(0, 3)
+        data.filter(
+          (item) =>
+            item.lat > clickedLocation.lat - 0.01 &&
+            item.lat < clickedLocation.lat + 0.01 &&
+            item.lng > clickedLocation.lng - 0.01 &&
+            item.lng < clickedLocation.lng + 0.01
+        )
       );
-      const shelterList = filteredShelter.map((item) => {
+
+      // 가까운 순으로 정렬
+      const sortedFilteredShelter = filteredShelter.sort((a, b) => {
+        const aDistance = Math.sqrt(
+          Math.pow(a.lat - clickedLocation.lat, 2) +
+            Math.pow(a.lng - clickedLocation.lng, 2)
+        );
+        const bDistance = Math.sqrt(
+          Math.pow(b.lat - clickedLocation.lat, 2) +
+            Math.pow(b.lng - clickedLocation.lng, 2)
+        );
+        return aDistance - bDistance;
+      });
+
+      const shelterList = sortedFilteredShelter.slice(0, 3).map((item) => {
         return {
           shelterAddress: item.name,
           shelterLat: item.lat,
@@ -240,7 +254,18 @@ const Sidebar = ({
             );
           });
 
-          nearbyShelterRef.current = filteredShelter.slice(0, 3);
+          // 가까운 순으로 정렬
+          const sortedFilteredShelter = filteredShelter.sort((a, b) => {
+            const aDistance = Math.sqrt(
+              Math.pow(a.lat - lat, 2) + Math.pow(a.lng - lng, 2)
+            );
+            const bDistance = Math.sqrt(
+              Math.pow(b.lat - lat, 2) + Math.pow(b.lng - lng, 2)
+            );
+            return aDistance - bDistance;
+          });
+
+          nearbyShelterRef.current = sortedFilteredShelter.slice(0, 3);
 
           /* console.log(nearbyShelterRef.current);
           console.log(lat, lng, location); */
@@ -286,7 +311,6 @@ const Sidebar = ({
             type="text"
             className={styles.modal_input}
             value={clickedLocation?.address}
-            onChange={(e) => setBookmarkName(e.target.value)}
             placeholder="저장할 위치를 클릭하세요."
             title="저장할 위치를 지도에서 클릭하세요."
           />

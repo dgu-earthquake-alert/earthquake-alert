@@ -9,7 +9,7 @@ import login from "../../assets/icon/login.png";
 
 let globalUserInfo = null;
 
-const SocialLogin = () => {
+const SocialLogin = ({ isMenuOpen }) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -105,16 +105,22 @@ const SocialLogin = () => {
     window.location.reload();
   };
 
+  useEffect(() => {
+    if (isMenuOpen) setClickGreeting(false);
+  }, [isMenuOpen]);
+
   return (
     <div className="login_box">
       {globalUserInfo || userInfo ? (
         <div>
           <div
             className={styles.nav_greeting}
-            onClick={() => setClickGreeting((prev) => !prev)}
+            onClick={() => {
+              if (!isMenuOpen) setClickGreeting((prev) => !prev);
+            }}
           >
             {isMobile ? (
-              <img src={login} alt="login" width="35px" />
+              <img src={login} alt="login" width="35px" className="mb-1" />
             ) : (
               `${globalUserInfo ? globalUserInfo?.name : userInfo.name}님`
             )}
