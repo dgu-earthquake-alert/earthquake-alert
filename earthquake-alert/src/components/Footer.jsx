@@ -19,8 +19,6 @@ const Footer = ({ isSidebarOpen, handleTestModalOpen }) => {
             </Link>
           </div>
           <div className={styles.footer_item}></div>
-          <div className={styles.footer_item}></div>
-          <div className={styles.footer_item}></div>
         </div>
       </footer>
     </>

@@ -27,7 +27,7 @@
 .footer_item {
   display: flex;
   flex-direction: column;
-  flex-basis: 25%;
+  flex-basis: 50%;
   height: 100%;
   padding: 35px 0;
   color: #6c757d;
