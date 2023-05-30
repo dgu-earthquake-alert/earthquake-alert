@@ -41,8 +41,8 @@ const SocialLogin = () => {
         const response = await fetch("http://localhost:8081/api/user", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         if (response.ok) {
           const data = await response.json();
@@ -50,6 +50,7 @@ const SocialLogin = () => {
           globalUserInfo = data;
         } else {
           sessionStorage.removeItem("token");
+          setUserInfo(null);
           globalUserInfo = null;
           window.alert("로그인이 만료되었습니다.");
           window.location.reload();
@@ -80,6 +81,7 @@ const SocialLogin = () => {
             window.location.reload();
           } else {
             sessionStorage.removeItem("token");
+            setUserInfo(null);
             globalUserInfo = null;
             window.alert("로그인이 만료되었습니다.");
             window.location.reload();
