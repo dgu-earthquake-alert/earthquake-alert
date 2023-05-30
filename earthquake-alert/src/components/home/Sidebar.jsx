@@ -195,17 +195,29 @@ const Sidebar = ({
       }
 
       const filteredShelter = await fetchMapPlaceData().then((data) =>
-        data
-          .filter(
-            (item) =>
-              item.lat > clickedLocation.lat - 0.01 &&
-              item.lat < clickedLocation.lat + 0.01 &&
-              item.lng > clickedLocation.lng - 0.01 &&
-              item.lng < clickedLocation.lng + 0.01
-          )
-          .slice(0, 3)
+        data.filter(
+          (item) =>
+            item.lat > clickedLocation.lat - 0.01 &&
+            item.lat < clickedLocation.lat + 0.01 &&
+            item.lng > clickedLocation.lng - 0.01 &&
+            item.lng < clickedLocation.lng + 0.01
+        )
       );
-      const shelterList = filteredShelter.map((item) => {
+
+      // 가까운 순으로 정렬
+      const sortedFilteredShelter = filteredShelter.sort((a, b) => {
+        const aDistance = Math.sqrt(
+          Math.pow(a.lat - clickedLocation.lat, 2) +
+            Math.pow(a.lng - clickedLocation.lng, 2)
+        );
+        const bDistance = Math.sqrt(
+          Math.pow(b.lat - clickedLocation.lat, 2) +
+            Math.pow(b.lng - clickedLocation.lng, 2)
+        );
+        return aDistance - bDistance;
+      });
+
+      const shelterList = sortedFilteredShelter.slice(0, 3).map((item) => {
         return {
           shelterAddress: item.name,
           shelterLat: item.lat,
@@ -236,7 +248,18 @@ const Sidebar = ({
             );
           });
 
-          nearbyShelterRef.current = filteredShelter.slice(0, 3);
+          // 가까운 순으로 정렬
+          const sortedFilteredShelter = filteredShelter.sort((a, b) => {
+            const aDistance = Math.sqrt(
+              Math.pow(a.lat - lat, 2) + Math.pow(a.lng - lng, 2)
+            );
+            const bDistance = Math.sqrt(
+              Math.pow(b.lat - lat, 2) + Math.pow(b.lng - lng, 2)
+            );
+            return aDistance - bDistance;
+          });
+
+          nearbyShelterRef.current = sortedFilteredShelter.slice(0, 3);
 
           /* console.log(nearbyShelterRef.current);
           console.log(lat, lng, location); */
