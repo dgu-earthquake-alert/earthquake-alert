@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
   useLocation,
-  useNavigate
+  useNavigate,
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Shelter from "./pages/Shelter";
@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Rule from "./pages/Rule/Rule";
 import SubPage1 from "./pages/Rule/SubPage1";
 import SubPage2 from "./pages/Rule/SubPage2";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import EarthquakeModal from "./components/modal/EarthquakeModal";
 import firebase from "firebase/compat/app";
 import "firebase/compat/messaging";
@@ -76,7 +77,7 @@ const App = () => {
           lat: payload.data.lat,
           lng: payload.data.lon,
           magnitude: payload.data.mt,
-          tmEqk: payload.data.time
+          tmEqk: payload.data.time,
         };
 
         setEarthquakeData(data);
@@ -102,6 +103,7 @@ const App = () => {
           <Route path="subpage2" element={<SubPage2 />} />
         </Route>
         <Route path="/" element={<Home />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
       </Routes>
       {showEarthquakeModal && (
         <EarthquakeModal
