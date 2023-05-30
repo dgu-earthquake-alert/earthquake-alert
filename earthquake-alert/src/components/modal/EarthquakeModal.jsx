@@ -5,6 +5,8 @@ const EarthquakeModal = ({
   showEarthquakeModal,
   closeEarthquakeModal,
   earthquakeData,
+  lat,
+  lng,
   recenterMap,
   getMyLocation,
   map,
@@ -56,8 +58,7 @@ const EarthquakeModal = ({
         <Button
           variant="secondary"
           onClick={() => {
-            getMyLocation();
-            recenterMap(earthquakeData.lat, earthquakeData.lng); // 버튼 클릭 시 내 위치를 중심으로 지도 업데이트
+            if (lat !== 0 && lng !== 0) recenterMap(lat, lng);
             closeEarthquakeModal();
           }}
         >
