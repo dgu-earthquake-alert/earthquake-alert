@@ -68,7 +68,7 @@ const App = () => {
       } else {
         console.log("지진 조기경보 시 푸시 알람을 받아보실 수 없습니다.");
       }
-
+      /*
       // 메시지 핸들러 등록
       messaging.onMessage((payload) => {
         console.log("Message received. ", payload);
@@ -79,10 +79,11 @@ const App = () => {
           magnitude: payload.data.mt,
           tmEqk: payload.data.time,
         };
-
+          
         setEarthquakeData(data);
         setShowEarthquakeModal(true);
       });
+      */
     };
 
     // 비동기 함수 호출

@@ -10,10 +10,14 @@ const EarthquakeModal = ({
   map,
 }) => {
   useEffect(() => {
-    if (earthquakeData.lat !== null && earthquakeData.lng !== null) {
+    if (
+      earthquakeData.lat !== null &&
+      earthquakeData.lng !== null &&
+      map !== null
+    ) {
       recenterMap(earthquakeData.lat, earthquakeData.lng);
     }
-  }, [earthquakeData.lat, earthquakeData.lng]);
+  }, [earthquakeData.lat, earthquakeData.lng, map]);
 
   return (
     <Modal show={showEarthquakeModal} onHide={closeEarthquakeModal}>
