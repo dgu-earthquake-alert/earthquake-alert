@@ -71,28 +71,34 @@ const RecordTable = ({ recordData = [], activePage, handlePageChange }) => {
       />
     );
 
-    return <Pagination className="font_color_blue">{items}</Pagination>;
+    return <Pagination>{items}</Pagination>;
   };
 
   return (
-    <div className="table_wrapper">
-      <Table style={{ width: "100%" }} striped bordered hover responsive>
+    <div className="table_wrapper" style={{ marginBottom: "80px" }}>
+      <Table
+        style={{ width: "85vw", maxWidth: "900px", textAlign: "center" }}
+        striped
+        bordered
+        hover
+        responsive
+      >
         <thead>
           <tr className="bg_color_blue">
             <th
               className="thead_th"
-              style={{ borderTopLeftRadius: "10px" }}
+              style={{ borderTopLeftRadius: "10px", width: "60px" }}
               scope="col"
             >
               연번
             </th>
-            <th className="thead_th" scope="col">
+            <th style={{ width: "130px" }} className="thead_th" scope="col">
               발생일자
             </th>
-            <th className="thead_th" scope="col">
+            <th style={{ width: "150px" }} className="thead_th" scope="col">
               위치
             </th>
-            <th className="thead_th" scope="col">
+            <th style={{ width: "60px" }} className="thead_th" scope="col">
               규모
             </th>
             <th

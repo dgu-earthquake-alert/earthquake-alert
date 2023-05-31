@@ -1,0 +1,121 @@
+.nav_login {
+  position: absolute;
+  top: 11px;
+  right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  font-size: 15px;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.nav_greeting {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 40px;
+  color: #fff;
+  font-size: 15px;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.nav_login:hover,
+.nav_greeting:hover {
+  text-decoration: underline;
+}
+
+/* 모달 */
+.modal_content {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  width: fit-content;
+  height: fit-content;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  z-index: 901;
+}
+
+.nav_button_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.nav_modal_greeting {
+  display: block;
+  color: #084298;
+  font-size: 16px;
+}
+
+.nav_logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  background-color: #084298;
+  color: #e9ecef;
+  font-size: 15px;
+  margin-right: 5px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.nav_withdrawal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  background-color: #e9ecef;
+  color: #084298;
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+/* .nav_logout:hover {
+  background-color: #052c65;
+}
+
+.nav_withdrawal:hover,
+.nav_withdrawal:active {
+  background-color: #d5d8dc;
+}
+ */
+
+@media screen and (max-width: 819px) {
+  .nav_login {
+    width: fit-content;
+    right: 55px;
+  }
+  .nav_greeting {
+    width: fit-content;
+    right: 55px;
+  }
+  .modal_content {
+    top: 58px;
+    padding: 8px 10px;
+  }
+}

@@ -1,0 +1,100 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql:3306/earthquake?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true #url: jdbc:mysql://localhost:3307/earthquake?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      #배포
+      ddl-auto: update
+      #로컬
+      #ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 364301501502-m5cst7hpa06dr7kqqlh5hlvg10rrhrna.apps.googleusercontent.com
+            client-secret: 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
+            #배포
+            redirect-uri: https://server.earthquake-alert.site/oauth2/callback/google
+            #도커
+            #            redirect-uri: http://localhost:8081/oauth2/callback/google
+            #로컬
+            #            redirect-uri: http://localhost:8080/oauth2/callback/google
+            scope: https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/userinfo.profile
+            authorization-grant-type: authorization_code
+          kakao:
+            provider: kakao
+            client-id: 54ad5901c8d6533e745f87f47232527f
+            client-secret: eZLwJl3rPCS57DSR7CwhibxfqTBga3t9
+            #배포
+            redirect-uri: https://server.earthquake-alert.site/oauth2/callback/kakao
+            #도커
+            #            redirect-uri: http://localhost:8081/oauth2/callback/kakao
+            #로컬
+            #            redirect-uri: http://localhost:8080/oauth2/callback/kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: kakao
+            scope:
+              - profile_nickname
+              - account_email
+          naver:
+            provider: naver
+            client-id: AHTg0D8YysCEaEGxql6z
+            client-secret: l3KPFHPBB2
+            #배포
+            redirect-uri: https://server.earthquake-alert.site/oauth2/callback/naver
+            #도커
+            #           redirect-uri: http://localhost:8081/oauth2/callback/naver
+            #로컬
+            #            redirect-uri: http://localhost:8080/oauth2/callback/naver
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            scope: name, email
+            client-name: naver
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+          naver:
+            authorization_uri: https://nid.naver.com/oauth2.0/authorize
+            token_uri: https://nid.naver.com/oauth2.0/token
+            user-info-uri: https://openapi.naver.com/v1/nid/me
+            user_name_attribute: response
+  codec:
+    max-in-memory-size: 1MB
+
+jwt:
+  header: Authorization
+  secret-key: r2U6W5k6DX2w79lA1V7yF68gDvGf32uH9ZL23I0zOiMNtVjCSadfadfwef21343dafaew2142354esdr325efds
+  token-validity-in-seconds: 1800
+
+converter:
+  secret-key: K4Fy74S9JddP6G8W
+
+api:
+  earthquake-api:
+    service-key: kqLMbhaXeBgVbroVYiargGw2821dB6AIGTMqAlYH0Q0H1ISBNNrCMpNg5U1mkh6MSEzS%2Foc%2BwrSObssRcCZU%2FQ%3D%3D
+
+app:
+  fcm:
+    server-key: AAAA0sJlcB4:APA91bFZw4CfAPVbAK4as4Y9DEZWJoDqivYVR5gkCAfUziG2aLQegJe5LJpixeyjgG7moDLPB_2VJGZ9lMBg4ro2pXFunTCUvyq2-8boEo2eweV8ee8pggflzTmCyCJF3B9YmyL6Frlx
+
+#배포시 삭제
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG

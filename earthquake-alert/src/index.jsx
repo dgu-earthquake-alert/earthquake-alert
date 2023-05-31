@@ -1,18 +1,37 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import firebase from "firebase/compat/app";
+import "firebase/compat/messaging";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/firebase-messaging-sw.js").then(
+      function (registration) {
+        console.log("서비스 워커 등록 성공: ", registration.scope);
+      },
+      function (err) {
+        console.log("서비스 워커 등록 실패: ", err);
+      }
+    );
+  });
+}
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: "earthquake-alert-fcm.firebaseapp.com",
+  projectId: "earthquake-alert-fcm",
+  storageBucket: "earthquake-alert-fcm.appspot.com",
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+};
+
+firebase.initializeApp(firebaseConfig);
+
+ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
