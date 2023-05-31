@@ -32,7 +32,6 @@ const Record = () => {
   const getData = async () => {
     const result = await fetchRecordTableData(si, startDate, endDate);
     setRecordData(result);
-    console.log(result);
   };
 
   useEffect(() => {

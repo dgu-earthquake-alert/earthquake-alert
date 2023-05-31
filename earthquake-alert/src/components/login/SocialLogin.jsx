@@ -59,9 +59,7 @@ const SocialLogin = ({ isMenuOpen }) => {
           window.alert("로그인이 만료되었습니다.");
           window.location.reload();
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     fetchUserInfo();
@@ -93,7 +91,7 @@ const SocialLogin = ({ isMenuOpen }) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
   };

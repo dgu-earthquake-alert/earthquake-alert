@@ -20,16 +20,8 @@ export const sendTokenToServer = (token) => {
     .post("register-token", {
       fcmtoken: token,
     })
-    //.then((response) => {
-    //  alert(JSON.stringify(response.data));
-    //})
     .catch((error) => {
-      console.error("Error:", error);
       if (error.response) {
-        // 요청이 이루어졌으나 서버가 2xx의 범위를 벗어나는 상태 코드를 반환
-        console.error(error.response.data);
-        console.error(error.response.status);
-        console.error(error.response.headers);
       }
     });
 };
@@ -46,9 +38,6 @@ export const fetchMapPlaceData = async () => {
     );
     const indoorData = indoorResponse.data;
 
-    // console.log(outdoorData);
-    // console.log(indoorData);
-
     if (
       outdoorData.TlEtqkP.RESULT &&
       outdoorData.TlEtqkP.RESULT.CODE === "INFO-000"
@@ -58,8 +47,6 @@ export const fetchMapPlaceData = async () => {
         lat: parseFloat(shelter.YCORD),
         lng: parseFloat(shelter.XCORD),
       }));
-
-      // console.log(outdoorShelterData);
 
       let combinedShelterData = outdoorShelterData;
 
@@ -72,8 +59,6 @@ export const fetchMapPlaceData = async () => {
           lat: parseFloat(shelter.YCORD),
           lng: parseFloat(shelter.XCORD),
         }));
-
-        // console.log(indoorShelterData);
 
         combinedShelterData = [...combinedShelterData, ...indoorShelterData];
       }
@@ -91,10 +76,7 @@ export const fetchMapPlaceData = async () => {
 
 export const fetchShelterTableData = async (gu, dong) => {
   try {
-    const response = await apiClient.get(
-      //"http://openapi.seoul.go.kr:8088/66524245416c736239334a75697446/json/TlEtqkP/1/1000/"
-      `${API_KEY}/json/TlEtqkP/1/1000/`
-    );
+    const response = await apiClient.get(`${API_KEY}/json/TlEtqkP/1/1000/`);
     const data = response.data;
 
     if (data.TlEtqkP.RESULT && data.TlEtqkP.RESULT.CODE === "INFO-000") {

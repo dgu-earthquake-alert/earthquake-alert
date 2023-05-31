@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "../styles/header.module.css";
-/* import Login from "./login/Login";
-import Profile from "./login/Profile";
- */
 import menu from "../assets/icon/menu.svg";
 import { PC, Mobile } from "../utils/MediaQuery";
 import SocialLogin from "./login/SocialLogin";
