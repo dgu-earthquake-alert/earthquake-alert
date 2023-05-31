@@ -58,19 +58,21 @@ const GoogleMap = ({
         center: { lat, lng },
         zoom: 16,
       });
-
-      const marker = new window.google.maps.Marker({
-        position: { lat, lng },
-        map: newMap,
-        title: "현재 위치",
-        icon: {
-          url: process.env.PUBLIC_URL + "/images/current.svg",
-          scaledSize: new window.google.maps.Size(40, 40),
-          origin: new window.google.maps.Point(0, 0),
-          anchor: new window.google.maps.Point(15, 15),
-        },
-      });
-
+      if (lat && lng) {
+        const marker = new window.google.maps.Marker({
+          position: { lat, lng },
+          map: newMap,
+          title: "현재 위치",
+          icon: {
+            url: process.env.PUBLIC_URL + "/images/current.svg",
+            scaledSize: new window.google.maps.Size(40, 40),
+            origin: new window.google.maps.Point(0, 0),
+            anchor: new window.google.maps.Point(15, 15),
+          },
+        });
+      } else {
+        console.error("현재 위치 정보가 누락되었습니다.");
+      }
       shelterData.forEach((shelter, index) => {
         const marker = new window.google.maps.Marker({
           position: { lat: shelter.lat, lng: shelter.lng },
