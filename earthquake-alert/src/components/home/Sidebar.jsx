@@ -13,7 +13,7 @@ const Sidebar = ({
   location,
   getMyLocation,
   clickedLocation,
-  updateMapCenter
+  updateMapCenter,
 }) => {
   const [isRotated, setIsRotated] = useState(false); // 새로고침버튼 회전 여부
   const [isModalOpen, setIsModalOpen] = useState(false); // 북마크 모달창 여부
@@ -26,7 +26,7 @@ const Sidebar = ({
   const [isRemoveToggle, setIsRemoveToggle] = useState(false); // 북마크 삭제버튼 클릭 여부
   const [showToast, setShowToast] = useState(false); // State variable to track toast visibility
   const [bookmarks, setBookmarks] = useState([]); // 북마크 정보
-  const [isLogin, setIsLogin] = useState(false); // 로그인 여부
+  // const [isLogin, setIsLogin] = useState(false); // 로그인 여부
 
   let topValue =
     70 +
@@ -36,54 +36,66 @@ const Sidebar = ({
         : nearbyShelterRef.current?.length);
 
   const isPC = useMediaQuery({
-    query: "(min-width:820px)"
+    query: "(min-width:820px)",
   });
 
   const isMobile = useMediaQuery({
-    query: "(max-width:819px)"
+    query: "(max-width:819px)",
   });
 
-  const token = localStorage.getItem("token");
+  // const token = sessionStorage.getItem("token");
 
-  const checkLogin = () => {
-    if (localStorage.getItem("token") === null) return;
-    if (localStorage.getItem("token")) {
-      fetch("http://localhost:8081/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      })
-        .then((res) => res.json())
-        .then(
-          (res) => {
-            console.log(res);
-            setIsLogin(true);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-    }
-  };
+  // const checkLogin = () => {
+  //   if (token === null) return;
+  //   if (token) {
+  //     fetch("http://localhost:8081/api/user", {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     })
+  //       .then((res) => {
+  //         if (res.ok) {
+  //           setIsLogin(true);
+  //         } else {
+  //           setIsLogin(false);
+  //           window.alert("로그인이 만료되었습니다.");
+  //           window.location.reload();
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // };
 
-  useState(() => {
-    checkLogin();
-  }, []);
+  // useState(() => {
+  //   checkLogin();
+  // }, []);
 
   const getFavoritePlaces = () => {
+    const token = sessionStorage.getItem("token");
+    if (token === null) return;
     fetch("http://localhost:8081/api/user/favorite", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          // setIsLogin(false);
+          sessionStorage.removeItem("token");
+          window.alert("로그인이 만료되었습니다.");
+          window.location.reload();
+        }
+      })
       .then(
         (res) => {
-          console.log(res);
-          setBookmarks(res.favoritePlaces);
+          setBookmarks(res);
         },
         (error) => {
           console.log(error);
@@ -95,24 +107,25 @@ const Sidebar = ({
     getFavoritePlaces();
   }, []);
 
-  useEffect(() => {
-    if (isLogin === false) {
-      setBookmarks([]);
-      return;
-    }
-    getFavoritePlaces();
-  }, [isLogin]);
+  // useEffect(() => {
+  //   if (isLogin === false) {
+  //     setBookmarks([]);
+  //     return;
+  //   }
+  //   getFavoritePlaces();
+  // }, [isLogin]);
 
   const postFavoritePlace = (shelterList) => {
-    if (isLogin === false) {
-      alert("로그인 후 이용해주세요.");
+    const token = sessionStorage.getItem("token");
+    if (token === null) {
+      window.alert("로그인이 필요합니다.");
       return;
     }
     fetch("http://localhost:8081/api/user/favorite", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         placeName: bookmarkName,
@@ -121,37 +134,48 @@ const Sidebar = ({
         placeLng: clickedLocation.lng,
         shelterDtoList: shelterList
       })
-    })
-      .then((res) => res.json())
-      .then(
-        (res) => {
-          console.log(res);
+    }).then(
+      (res) => {
+        if (res.ok) {
           getFavoritePlaces();
-        },
-        (error) => {
-          console.log(error);
+        } else {
+          sessionStorage.removeItem("token");
+          window.alert("로그인이 만료되었습니다.");
+          window.location.reload();
         }
-      );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   const deleteFavoritePlace = (placeId) => {
+    const token = sessionStorage.getItem("token");
+    if (token === null) {
+      window.alert("로그인이 필요합니다.");
+      return;
+    }
     fetch(`http://localhost:8081/api/user/favorite/${placeId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       }
-    })
-      .then((res) => res.text())
-      .then(
-        (res) => {
-          console.log(res);
+    }).then(
+      (res) => {
+        if (res.ok) {
           getFavoritePlaces();
-        },
-        (error) => {
-          console.log(error);
+        } else {
+          sessionStorage.removeItem("token");
+          window.alert("로그인이 만료되었습니다.");
+          window.location.reload();
         }
-      );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   const refresh = () => {
@@ -171,21 +195,33 @@ const Sidebar = ({
       }
 
       const filteredShelter = await fetchMapPlaceData().then((data) =>
-        data
-          .filter(
-            (item) =>
-              item.lat > clickedLocation.lat - 0.01 &&
-              item.lat < clickedLocation.lat + 0.01 &&
-              item.lng > clickedLocation.lng - 0.01 &&
-              item.lng < clickedLocation.lng + 0.01
-          )
-          .slice(0, 3)
+        data.filter(
+          (item) =>
+            item.lat > clickedLocation.lat - 0.01 &&
+            item.lat < clickedLocation.lat + 0.01 &&
+            item.lng > clickedLocation.lng - 0.01 &&
+            item.lng < clickedLocation.lng + 0.01
+        )
       );
-      const shelterList = filteredShelter.map((item) => {
+
+      // 가까운 순으로 정렬
+      const sortedFilteredShelter = filteredShelter.sort((a, b) => {
+        const aDistance = Math.sqrt(
+          Math.pow(a.lat - clickedLocation.lat, 2) +
+            Math.pow(a.lng - clickedLocation.lng, 2)
+        );
+        const bDistance = Math.sqrt(
+          Math.pow(b.lat - clickedLocation.lat, 2) +
+            Math.pow(b.lng - clickedLocation.lng, 2)
+        );
+        return aDistance - bDistance;
+      });
+
+      const shelterList = sortedFilteredShelter.slice(0, 3).map((item) => {
         return {
           shelterAddress: item.name,
           shelterLat: item.lat,
-          shelterLng: item.lng
+          shelterLng: item.lng,
         };
       });
       postFavoritePlace(shelterList);
@@ -212,7 +248,18 @@ const Sidebar = ({
             );
           });
 
-          nearbyShelterRef.current = filteredShelter.slice(0, 3);
+          // 가까운 순으로 정렬
+          const sortedFilteredShelter = filteredShelter.sort((a, b) => {
+            const aDistance = Math.sqrt(
+              Math.pow(a.lat - lat, 2) + Math.pow(a.lng - lng, 2)
+            );
+            const bDistance = Math.sqrt(
+              Math.pow(b.lat - lat, 2) + Math.pow(b.lng - lng, 2)
+            );
+            return aDistance - bDistance;
+          });
+
+          nearbyShelterRef.current = sortedFilteredShelter.slice(0, 3);
 
           /* console.log(nearbyShelterRef.current);
           console.log(lat, lng, location); */
@@ -352,9 +399,8 @@ const Sidebar = ({
                   <div
                     className={styles.my_location}
                     style={{
-                      top: `${topValue + 70 * index + additionalOffset}px`
+                      top: `${topValue + 70 * index + additionalOffset}px`,
                     }}
-
                     onClick={() => {
                       updateMapCenter(
                         parseFloat(bookmark.placeLat),
@@ -395,9 +441,8 @@ const Sidebar = ({
                             additionalOffset +
                             70 +
                             50 * idx
-                          }px`
+                          }px`,
                         }}
-
                         onClick={() => {
                           updateMapCenter(
                             parseFloat(item.shelterLat),
@@ -416,7 +461,7 @@ const Sidebar = ({
                         top: `${
                           topValue + 70 * index + additionalOffset + 70
                         }px`,
-                        cursor: "default"
+                        cursor: "default",
                       }}
                     >
                       주변 대피소 조회 불가
