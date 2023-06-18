@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Rule from "./pages/Rule/Rule";
 import SubPage1 from "./pages/Rule/SubPage1";
 import SubPage2 from "./pages/Rule/SubPage2";
+import Error from "./pages/Error";
 
 const App = () => {
   const location = useLocation();
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="subpage1" element={<SubPage1 />} />
           <Route path="subpage2" element={<SubPage2 />} />
         </Route>
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );
